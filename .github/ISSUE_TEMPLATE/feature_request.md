@@ -1,3 +1,12 @@
+---
+name: Feature request
+about: ISSUE_TEMPLATE
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## ✅ Feature Request check list
 
 - [x] 이슈 제목: [FEATURE] '기능 내용 상세'
