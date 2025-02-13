@@ -18,7 +18,11 @@ const Home = () => {
       <BottomModal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} />
 
       {/* 중앙 모달 */}
-      <CenterModal isOpen={isCenterOpen} onClose={() => setIsCenterOpen(false)} />
+      <CenterModal isOpen={isCenterOpen} onClose={() => setIsCenterOpen(false)}>
+        <h1>모달 제목</h1>
+        <p>모달 내용입니다.</p>
+        <div>dfdfdfdf</div>
+      </CenterModal>
     </RegisterWrapper>
   );
 };

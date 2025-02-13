@@ -6,9 +6,12 @@ import styled from "styled-components";
 interface ModalProps {
    isOpen: boolean;
    onClose: () => void;
+   title?: string; // 제목을 동적으로 설정
+   content?: string[]; // 여러 줄의 내용을 받을 수 있도록 배열 형태
+   children?: React.ReactNode; // JSX 요소를 직접 받을 수도 있음
 }
 
-const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, content, children }) => {
    useEffect(() => {
       if (isOpen) {
          document.body.style.overflow = "hidden";
@@ -26,11 +29,11 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
    return (
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
-            <ModalTitle>대면 컨설팅을 선택했어요</ModalTitle>
+            {/* 제목이 있으면 렌더링 */}
+            {title && <ModalTitle>{title}</ModalTitle>}
             <ModalContent>
-               <p>대면 컨설팅을 선택하셨습니다.</p>
-               <p>대면 컨설팅은 예약 시간에 방문하셔야 합니다.</p>
-               <p>예약 시간에 방문하지 않을 경우, 예약이 취소될 수 있습니다.</p>
+               {/* content 배열이 있으면 각 줄을 p 태그로 출력 */}
+               {content ? content.map((line, index) => <p key={index}>{line}</p>) : children}
             </ModalContent>
             <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
          </ModalContainer>
@@ -57,6 +60,7 @@ const ModalOverlay = styled.div`
 
 // 모달 박스
 const ModalContainer = styled.div`
+   font-family: "pretendard-regular", sans-serif;
    width: 85%;
    max-width: 320px;
    background: white;
