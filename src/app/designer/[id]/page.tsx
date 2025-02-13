@@ -43,6 +43,18 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
                   </Tag>
                </div>
             </TagsContainer>
+            <PricesContainer>
+               <PriceCard>
+                  <PriceImg />
+                  <span id='price_title'>대면</span>
+                  <span id='price'>30,000원</span>
+               </PriceCard>
+               <PriceCard>
+                  <PriceImg />
+                  <span id='price_title'>커트</span>
+                  <span id='price'>30,000원</span>
+               </PriceCard>
+            </PricesContainer>
          </Content>
       </DesignerPageWrapper>
    )
@@ -130,8 +142,8 @@ const HeartContainer = styled.div`
 `
 
 const HeartImage = styled.img`
-   width: 40px;
-   height: 40px;
+   width: 30px;
+   height: 30px;
 `
 
 const OneLineIntro = styled.div`
@@ -173,4 +185,30 @@ const ScissorImg = styled.img`
    height: 13px;
    margin-right: 5px;
 
+`
+
+const PricesContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+   justify-content: space-between;
+   margin-top: 20px;
+   gap: 10px;
+`
+
+const PriceCard = styled.div`
+   font-size: 13px;
+   width: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border-radius: 6px;
+   padding: 10px;
+   background-color: #f1f1f1;
+`
+
+const PriceImg = styled.img`
+   width: 20px;
+   height: 20px;
 `
