@@ -27,6 +27,22 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
             <OneLineIntro>
                트렌디한 감성, 섬세한 손길로 새로운 감성을
             </OneLineIntro>
+            <TagsContainer>
+               <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
+                  <span>전문분야</span>
+                  <Tag>
+                     <ScissorImg  src='/images/scissors.png'/>
+                     <span>레이어드 컷</span>
+                  </Tag>
+               </div>
+               <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
+                  <span>상담유형</span>
+                  <Tag>
+                     <ScissorImg src='/images/scissors.png'/>
+                     <span>대면/비대면</span>
+                  </Tag>
+               </div>
+            </TagsContainer>
          </Content>
       </DesignerPageWrapper>
    )
@@ -69,9 +85,6 @@ const Content = styled.div`
    justify-content: center;
    margin-top: 20px;
 
-   border-left: 1px solid #747474;
-   border-right: 1px solid #747474;
-
 `
 
 const MainIntroContainer = styled.div`
@@ -100,7 +113,8 @@ const NameAndAddress = styled.div`
 `
 
 const Name = styled.div`
-   font-size: 18px;
+   font-size: 19px;
+   font-weight: bold;   
 `
 
 const Address = styled.div`
@@ -126,5 +140,37 @@ const OneLineIntro = styled.div`
    align-items: center;
    justify-content: flex-start;
    margin-top: 10px;
+   font-size: 15px;
+   font-weight: bold;
+`
+
+const TagsContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: center;
+   margin-top: 20px;
    font-size: 14px;
+   gap: 11px;
+
+
+`
+
+const Tag = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+   background-color: #f0f0f0;
+   color: #565656;
+   font-weight: bold;
+   padding: 6px 8px;
+   border-radius: 6px;
+`
+
+const ScissorImg = styled.img`
+   width: 13px;
+   height: 13px;
+   margin-right: 5px;
+
 `
