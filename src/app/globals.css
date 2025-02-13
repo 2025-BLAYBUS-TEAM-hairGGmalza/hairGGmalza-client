@@ -4,7 +4,6 @@ html {
   height: 100%;
   margin: 0;
   font-size: 62.5%;
-  overflow: scroll;
   scroll-snap-type: y mandatory;
   scroll-padding-top: 65px;
   scrollbar-width: none;
@@ -39,12 +38,21 @@ body {
   }
 }
 
+@media (min-width: 576px) {
+  html {
+    font-size: 10px;
+  }
+  body {
+    width: 433.13px;
+  }
+}
+
 @media (min-width: 1024px) {
   html {
     font-size: 10px;
   }
   body {
-    width: 576px;
+    width: 433.13px;
   }
 }
 
