@@ -15,12 +15,14 @@ const Home = () => {
       <Button onClick={() => setIsCenterOpen(true)}>중앙 모달 열기</Button>
 
       {/* 하단 모달 */}
-      <BottomModal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} />
+      <BottomModal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} title="모달 제목">
+        <p>bottomModal 내용 예시입니다.</p>
+        <div>dfdfdfdf</div>
+      </BottomModal>
 
       {/* 중앙 모달 */}
       <CenterModal isOpen={isCenterOpen} onClose={() => setIsCenterOpen(false)}>
-        <h1>모달 제목</h1>
-        <p>모달 내용입니다.</p>
+        <p>centerModal 내용 예시입니다.</p>
         <div>dfdfdfdf</div>
       </CenterModal>
     </RegisterWrapper>
