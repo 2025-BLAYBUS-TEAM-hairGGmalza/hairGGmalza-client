@@ -16,7 +16,8 @@ const DesignerPage = () => {
 
    return (
       <DesignerPageWrapper>
-         <DesignerPageHeader>디자이너 정보</DesignerPageHeader>
+         {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
+         <Header where='designer' />
          <DesignerMainImage />
          <Content>
             <MainIntroContainer>
@@ -238,6 +239,27 @@ const PriceImg = styled.img`
    width: 30px;
    height: 30px;
 `
+
+
+// 하단 고정 예약 버튼
+const FixedBottomBar = styled.div`
+   position: fixed;
+   bottom: 0;
+   width: inherit; /* ✅ 부모의 너비(모바일 비율)에 맞춤 */
+   max-width: 470px; /* ✅ 모바일 화면 비율 유지 */
+   left: 50%;
+   transform: translateX(-50%); /* ✅ 중앙 정렬 */
+   height: 80px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background-color: black;
+   padding: 0 15px;
+   box-sizing: border-box;
+   z-index: 100;
+`
+
+
 const ShareButton = styled.img`
    height: 30px;
    background: none;
@@ -253,7 +275,7 @@ const ReservationButton = styled.button`
    font-size: 16px;
    font-weight: bold;
    border: none;
-   padding: 12px 24px;
+   padding: 14px 24px;
    cursor: pointer;
    transition: all 0.2s ease-in-out;
 
