@@ -1,12 +1,13 @@
 "use client";
 
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
+import { useParams } from 'next/navigation';
 import styled from 'styled-components'
 
-const DesignerPage = ({ params }: { params: { id: string } }) => {
-   return (
-      // <div>DesignerPage of {params.id}</div>
+const DesignerPage = () => {
+   const params = useParams();
 
+   return (
       <DesignerPageWrapper>
          <DesignerPageHeader>디자이너 정보</DesignerPageHeader>
          <DesignerMainImage />
@@ -14,7 +15,7 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
             <MainIntroContainer>
                <ProfileImage />
                <NameAndAddress>
-                  <Name>박수빈 디자이너</Name>
+                  <Name>박수빈 디자이너({params.id}번)</Name>
                   <Address>
                      <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
                      <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
@@ -59,6 +60,12 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
 
             <ReviewAndPortfolio />
          </Content>
+
+          {/* 하단 고정 예약 버튼 */}
+          <FixedBottomBar>
+            <ShareButton src='/images/shareButton.png'/>
+            <ReservationButton>예약하기</ReservationButton>
+         </FixedBottomBar>
       </DesignerPageWrapper>
    )
 }
@@ -67,12 +74,18 @@ export default DesignerPage
 
 const DesignerPageWrapper = styled.div`
    width: 100%;
+   max-width: 470px; /* ✅ 모바일 화면 비율 고정 */
+   margin: 0 auto; /* ✅ 중앙 정렬 */
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
-   /* height: 100vh; */
+   position: relative;
+
+   /* 하단 고정 예약 버튼을 위한 여백 */
+   padding-bottom: 70px;
 `
+
 
 const DesignerPageHeader = styled.header`
    width: 100%;
@@ -217,3 +230,47 @@ const PriceImg = styled.img`
    width: 30px;
    height: 30px;
 `
+
+
+// 하단 고정 예약 버튼
+const FixedBottomBar = styled.div`
+   position: fixed;
+   bottom: 0;
+   width: inherit; /* ✅ 부모의 너비(모바일 비율)에 맞춤 */
+   max-width: 470px; /* ✅ 모바일 화면 비율 유지 */
+   left: 50%;
+   transform: translateX(-50%); /* ✅ 중앙 정렬 */
+   height: 70px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background-color: black;
+   padding: 0 15px;
+   box-sizing: border-box;
+   z-index: 100;
+`
+
+
+const ShareButton = styled.img`
+   height: 30px;
+   background: none;
+   border: none;
+   cursor: pointer;
+   margin-left: 40px;
+`;
+
+const ReservationButton = styled.button`
+   width: 300px;
+   background: white;
+   color: black;
+   font-size: 16px;
+   font-weight: bold;
+   border: none;
+   padding: 12px 24px;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+
+   &:hover {
+      background: #f0f0f0;
+   }
+`;

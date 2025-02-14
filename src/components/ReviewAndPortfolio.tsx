@@ -1,18 +1,37 @@
 import styled from "styled-components"
 import { IoMdStar } from "react-icons/io";
+import { useState } from "react";
 
 const ReviewAndPortfolio = () => {
+   const [selectedOption, setSelectedOption] = useState<'review' | 'portfolio'>('review');
+
+   const handleOptionClick = (option: 'review' | 'portfolio') => {
+      setSelectedOption(option);
+      console.log(option);
+      console.log(selectedOption);
+   };
+
    return (
       <Wrapper>
          <Title>
-            <Selection>
-               <span style={{borderRight:'1px solid black', paddingRight:'20px'}}>후기</span>
-               <span style={{marginLeft:'20px'}}>포트폴리오</span>
-            </Selection>
+            <Selections>
+               <Selection 
+                  style={{borderRight:'1px solid black', paddingRight:'20px', cursor:'pointer'}}
+                  onClick={() => handleOptionClick("review")}
+                  selected={selectedOption === "review"}>
+                     후기
+               </Selection>
+               <Selection 
+                  style={{paddingLeft:'20px', cursor:'pointer'}}
+                  onClick={() => handleOptionClick("portfolio")}
+                  selected={selectedOption === "portfolio"}>
+                     포트폴리오
+               </Selection>
+            </Selections>
             <span>더보기</span>
          </Title>
          <Contents>
-            <ReviewsContainer>
+            <ContentsContainer selected={selectedOption === "review"}>
                <ReviewCard>
                   {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                   <ReviewBottom>
@@ -58,10 +77,16 @@ const ReviewAndPortfolio = () => {
                      </ReviewText>
                   </ReviewBottom>
                </ReviewCard>
-            </ReviewsContainer>
-            <PortfolioContainer>
-            
-            </PortfolioContainer>
+            </ContentsContainer>
+            <ContentsContainer selected={selectedOption === "portfolio"}>
+               <PortfolioCard>
+
+               </PortfolioCard>
+               <PortfolioCard>
+               </PortfolioCard>
+               <PortfolioCard>
+               </PortfolioCard>
+            </ContentsContainer>
          </Contents>
       </Wrapper>
    )
@@ -75,9 +100,7 @@ const Wrapper = styled.div`
    flex-direction: column;
    align-items: center;
    justify-content: center;
-   margin-top: 30px;
-
-   border: 1px solid #ff8a8a;
+   margin-top: 10px;
 `
 
 const Title = styled.div`
@@ -91,9 +114,14 @@ const Title = styled.div`
    margin-bottom: 15px;
 `
 
-const Selection = styled.div`
+const Selections = styled.div`
    display: flex;
-   
+`
+
+const Selection = styled.span<{ selected: boolean }>`
+   cursor: pointer;
+   color: ${({ selected }) => (selected ? "#000000" : "#d3d3d3")};
+   font-weight: ${({ selected }) => (selected ? "600" : "400")};
 `
 
 const Contents = styled.div`
@@ -105,7 +133,11 @@ const Contents = styled.div`
 `
 
 ////////////////////// Review //////////////////////
-const ReviewsContainer = styled.div`
+const ContentsContainer = styled.div<{ selected: boolean }>`
+   visibility: ${({ selected }) => (selected ? "visible" : "hidden")};
+   position: ${({ selected }) => (selected ? "relative" : "absolute")};
+   opacity: ${({ selected }) => (selected ? 1 : 0)};
+   transition: opacity 0.5s ease-in-out; //애니메이션
    width: 100%;
    display: flex;
    flex-direction: row;
@@ -113,17 +145,13 @@ const ReviewsContainer = styled.div`
    justify-content: flex-start;
    gap: 15px;
    margin-bottom: 20px;
-
-   // 스크롤 가능하도록 설정
    overflow-x: auto;
-   overflow-y: hidden;
    white-space: nowrap;
-   box-sizing: border-box;
    padding-bottom: 5px;
-
-   scroll-snap-type: x mandatory; /* 부드럽게 스크롤 */
-   -webkit-overflow-scrolling: touch; /* 모바일에서 스크롤 부드럽게 */
+   /* scroll-snap-type: x mandatory;
+   -webkit-overflow-scrolling: touch; */
 `;
+
 
 const ReviewCard = styled.div`
    width: 190px;
@@ -181,19 +209,19 @@ const ReviewStars = styled.div`
 `
 
 //////portfolio//////
-const PortfolioContainer = styled.div`
-   width: 100%;
+const PortfolioCard = styled.div`
+      width: 190px;
+   height: 190px;
+   flex-shrink: 0; /* ✅ 카드가 찌그러지지 않도록 설정 */
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
-`
+   justify-content: flex-end;
+   border-radius: 8px;
+   background-image: url('/images/review-example.jpeg');
+   background-size: cover;
+   background-position: center;
+   background-color: #f0f0f0;
 
-const PortfolioCard = styled.div`
-   width: 100%;
-   height: 100px;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
+   scroll-snap-align: start; /* 스크롤 시 카드가 정렬됨 */
 `
