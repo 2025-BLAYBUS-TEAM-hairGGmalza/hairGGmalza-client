@@ -1,5 +1,6 @@
 "use client";
 
+import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import styled from 'styled-components'
 
 const DesignerPage = ({ params }: { params: { id: string } }) => {
@@ -55,6 +56,8 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
                   <span id='price'>30,000원</span>
                </PriceCard>
             </PricesContainer>
+
+            <ReviewAndPortfolio />
          </Content>
       </DesignerPageWrapper>
    )
@@ -110,7 +113,7 @@ const MainIntroContainer = styled.div`
 `
 
 const ProfileImage = styled.div`
-   height: 90%;
+   height: 100%;
    aspect-ratio: 1/1;
    border-radius: 50%;
    background-color: #f0f0f0;
@@ -122,6 +125,8 @@ const NameAndAddress = styled.div`
    flex-direction: column;
    align-items: flex-start;
    justify-content: space-between;
+   
+   margin-left: -50px; //이거 더 좋게 하는 방법 있을까... 너무 바보같아!
 `
 
 const Name = styled.div`
@@ -162,7 +167,7 @@ const TagsContainer = styled.div`
    flex-direction: column;
    align-items: flex-start;
    justify-content: center;
-   margin-top: 20px;
+   margin-top: 30px;
    font-size: 14px;
    gap: 11px;
 
