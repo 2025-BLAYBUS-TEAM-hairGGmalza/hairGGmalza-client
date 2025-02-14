@@ -224,6 +224,8 @@ const ReviewsContainer = styled.div`
    align-items: center;
    justify-content: center;
    background-color: #f0f0f0;
+   
+
 `
 
 const ReviewTitleContainer = styled.div`
