@@ -7,6 +7,12 @@ import styled from 'styled-components'
 const DesignerPage = () => {
    const params = useParams();
 
+   const onHeartClick = () => {
+      console.log('하트 클릭');
+      //todo: 하트 클릭시 좋아요 수 증가
+   }
+
+
    return (
       <DesignerPageWrapper>
          <DesignerPageHeader>디자이너 정보</DesignerPageHeader>
@@ -22,7 +28,7 @@ const DesignerPage = () => {
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
-                  <HeartImage src='/images/heart.png'/>
+                  <HeartImage src='/images/heart.png' onClick={onHeartClick}/>
                   <span>32</span>
                </HeartContainer>
             </MainIntroContainer>
@@ -162,6 +168,7 @@ const HeartContainer = styled.div`
 const HeartImage = styled.img`
    width: 30px;
    height: 30px;
+   cursor: pointer;
 `
 
 const OneLineIntro = styled.div`
