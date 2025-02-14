@@ -40,7 +40,7 @@ const DesignerPage = ({ params }: { params: { id: string } }) => {
                   <span>상담유형</span>
                   <Tag>
                      <ScissorImg src='/images/scissors.png'/>
-                     <span>대면/비대면</span>
+                     <span>대면/화상</span>
                   </Tag>
                </div>
             </TagsContainer>
@@ -203,17 +203,17 @@ const PricesContainer = styled.div`
 `
 
 const PriceCard = styled.div`
-   font-size: 13px;
+   font-size: 14px;
    width: 50%;
    display: flex;
    align-items: center;
    justify-content: space-between;
    border-radius: 6px;
-   padding: 10px;
+   padding: 13px;
    background-color: #f1f1f1;
 `
 
 const PriceImg = styled.img`
-   width: 20px;
-   height: 20px;
+   width: 30px;
+   height: 30px;
 `
