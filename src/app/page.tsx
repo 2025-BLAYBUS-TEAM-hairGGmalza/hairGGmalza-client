@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Navbar from "@/components/common/Navbar/Navbar";
 
 export default function Home() {
   return (
@@ -88,7 +87,6 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
-      <Navbar />
     </div>
   );
 }
