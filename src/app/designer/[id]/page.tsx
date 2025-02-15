@@ -116,6 +116,41 @@ const DesignerPage = () => {
                   formatDay={(locale, date) => date.getDate().toString()}
                   />
             </ChoiceContainer>
+            <ChoiceContainer style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
+               <ChoiceTitle>오전</ChoiceTitle>
+               <TimeContainer>
+                  <TimeButton>10:00</TimeButton>
+                  <TimeButton>10:30</TimeButton>
+                  <TimeButton>11:00</TimeButton>
+                  <TimeButton>11:30</TimeButton>
+
+               </TimeContainer>
+               <ChoiceTitle style={{marginTop:'20px'}}>오후</ChoiceTitle>
+               <TimeContainer>
+                  <TimeButton>12:00</TimeButton>
+                  <TimeButton>12:30</TimeButton>
+                  <TimeButton>1:00</TimeButton>
+                  <TimeButton>1:30</TimeButton>
+                  <TimeButton>2:00</TimeButton>
+                  <TimeButton>2:30</TimeButton>
+                  <TimeButton>3:00</TimeButton>
+                  <TimeButton>3:30</TimeButton>
+                  <TimeButton>4:00</TimeButton>
+                  <TimeButton>4:30</TimeButton>
+                  <TimeButton>5:00</TimeButton>
+                  <TimeButton>5:30</TimeButton>
+                  <TimeButton>6:00</TimeButton>
+                  <TimeButton>6:30</TimeButton>
+                  <TimeButton>7:00</TimeButton>
+                  <TimeButton>7:30</TimeButton>
+                  <TimeButton>8:00</TimeButton>
+                  <TimeButton>8:30</TimeButton>
+                  <TimeButton>9:00</TimeButton>
+                  <TimeButton>9:30</TimeButton>
+                  <TimeButton>10:00</TimeButton>
+                  <TimeButton>10:30</TimeButton>
+               </TimeContainer>
+            </ChoiceContainer>
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}
@@ -169,6 +204,37 @@ const ChoiceButtonContainer = styled.div`
    justify-content: space-between;
    margin-top: 15px;
    gap: 15px;
+`
+
+const TimeContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   margin-top: 15px;
+   gap: 15px;
+
+   //한 줄에 4개씩 정렬
+   flex-wrap: wrap;
+   justify-content: space-between;
+   gap: 10px;
+   
+   
+`
+
+const TimeButton = styled.button`
+   width: 85px;
+   height: 48px;
+   background-color: #f0f0f0;
+   font-size: 16px;
+   border: none;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+
+   &:hover {
+      background: #e0e0e0;
+   }
 `
 
 

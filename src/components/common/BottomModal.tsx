@@ -32,7 +32,7 @@ const BottomModal: React.FC<ModalProps> = ({ isOpen, onClose, title, children })
                <span style={{fontSize:'20px', fontWeight:'bold'}}>{title}</span>
                <CloseButton onClick={onClose}>×</CloseButton>
             </Title>
-            <ModalWrapper>{children}</ModalWrapper>
+            <ModalWrapper id="modal-wrapper">{children}</ModalWrapper>
          </ModalContainer>
       </ModalOverlay>
    );
@@ -46,7 +46,7 @@ const ModalOverlay = styled.div`
    display: flex;
    justify-content: center;
    align-items: flex-end;
-   z-index: 1000;
+   z-index: 100;
 `;
 
 // 모달 컨테이너 (슬라이드 애니메이션 포함)
@@ -85,6 +85,8 @@ const ModalWrapper = styled.div`
    align-items: center;
    overflow-y: auto;
    gap: 10px;
+   padding-bottom: 20px;
+
 `;
 
 // 모달 제목
