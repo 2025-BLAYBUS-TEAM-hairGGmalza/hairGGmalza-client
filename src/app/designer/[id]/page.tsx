@@ -209,25 +209,17 @@ const ChoiceButtonContainer = styled.div`
 const TimeContainer = styled.div`
    width: 100%;
    display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: space-between;
-   margin-top: 15px;
-   gap: 15px;
-
-   //한 줄에 4개씩 정렬
    flex-wrap: wrap;
-   justify-content: space-between;
    gap: 10px;
-   
-   
-`
+   justify-content: flex-start; /* 왼쪽 정렬 유지 */
+`;
 
 const TimeButton = styled.button`
-   width: 85px;
-   height: 48px;
+   flex: 1 1 calc(25% - 10px); /* 4개씩 정렬 (여백 고려) */
+   max-width: calc(25% - 10px); /* 버튼 크기 고정 */
+   aspect-ratio: 2/1;
    background-color: #f0f0f0;
-   font-size: 16px;
+   font-size: 14px;
    border: none;
    cursor: pointer;
    transition: all 0.2s ease-in-out;
@@ -235,7 +227,8 @@ const TimeButton = styled.button`
    &:hover {
       background: #e0e0e0;
    }
-`
+`;
+
 
 
 
