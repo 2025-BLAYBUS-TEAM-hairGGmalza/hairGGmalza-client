@@ -14,9 +14,49 @@ import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 
 const DesignerPage = () => {
-   const [isModalOpen, setIsModalOpen] = useState(true);
-   const [selectedDate, setSelectedDate] = useState(new Date());
    const params = useParams();
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [selectedDate, setSelectedDate] = useState(new Date());
+   const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
+   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
+   const handleConsultingTypeChange = (type: "대면" | "화상") => {
+   setSelectedConsultingType(type);
+   };
+
+   const handleTimeSelection = (time: string) => {
+   setSelectedTime(time);
+   };
+
+   const handleReservationButtonClick = () => {
+      if (!isModalOpen) {
+         setIsModalOpen(true);
+         return;
+      }
+   
+      // 예외 처리: 선택하지 않은 항목이 있으면 alert 표시
+      if (!selectedConsultingType) {
+      alert("상담유형을 선택해주세요.");
+      return;
+      }
+   
+      if (!selectedDate) {
+      alert("일정을 선택해주세요.");
+      return;
+      }
+   
+      if (!selectedTime) {
+      alert("시간을 선택해주세요.");
+      return;
+      }
+   
+      // 모든 값이 선택되었을 때 콘솔 출력
+      console.log("상담유형:", selectedConsultingType);
+      console.log("선택한 날짜:", selectedDate.toLocaleDateString("ko-KR"));
+      console.log("선택한 시간:", selectedTime);
+   };
+   
+
 
    const handleHeartClick = () => {
       console.log('하트 클릭');
@@ -96,16 +136,18 @@ const DesignerPage = () => {
             <ChoiceContainer>
                <ChoiceTitle>상담유형</ChoiceTitle>
                <ChoiceButtonContainer>
-                  <PriceCard>
+                  <ChoiceButton onClick={() => handleConsultingTypeChange("대면")} 
+                                 selected={selectedConsultingType === "대면"}>
                      <PriceImg />
                      <span id='price_title'>대면</span>
                      <span id='price'>30,000원</span>
-                  </PriceCard>
-                  <PriceCard>
+                  </ChoiceButton>
+                  <ChoiceButton onClick={() => handleConsultingTypeChange("화상")} 
+                                 selected={selectedConsultingType === "화상"}>
                      <PriceImg />
                      <span id='price_title'>화상</span>
                      <span id='price'>30,000원</span>
-                  </PriceCard>
+                  </ChoiceButton>
                </ChoiceButtonContainer>
             </ChoiceContainer>
             <ChoiceContainer>
@@ -119,36 +161,31 @@ const DesignerPage = () => {
             <ChoiceContainer style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
                <ChoiceTitle>오전</ChoiceTitle>
                <TimeContainer>
-                  <TimeButton>10:00</TimeButton>
-                  <TimeButton>10:30</TimeButton>
-                  <TimeButton>11:00</TimeButton>
-                  <TimeButton>11:30</TimeButton>
-
+               {["10:00", "10:30", "11:00", "11:30"].map((time) => (
+                  <TimeButton
+                     key={time}
+                     selected={selectedTime === time}
+                     onClick={() => handleTimeSelection(time)}
+                  >
+                     {time}
+                  </TimeButton>
+               ))}
                </TimeContainer>
                <ChoiceTitle style={{marginTop:'20px'}}>오후</ChoiceTitle>
                <TimeContainer>
-                  <TimeButton>12:00</TimeButton>
-                  <TimeButton>12:30</TimeButton>
-                  <TimeButton>1:00</TimeButton>
-                  <TimeButton>1:30</TimeButton>
-                  <TimeButton>2:00</TimeButton>
-                  <TimeButton>2:30</TimeButton>
-                  <TimeButton>3:00</TimeButton>
-                  <TimeButton>3:30</TimeButton>
-                  <TimeButton>4:00</TimeButton>
-                  <TimeButton>4:30</TimeButton>
-                  <TimeButton>5:00</TimeButton>
-                  <TimeButton>5:30</TimeButton>
-                  <TimeButton>6:00</TimeButton>
-                  <TimeButton>6:30</TimeButton>
-                  <TimeButton>7:00</TimeButton>
-                  <TimeButton>7:30</TimeButton>
-                  <TimeButton>8:00</TimeButton>
-                  <TimeButton>8:30</TimeButton>
-                  <TimeButton>9:00</TimeButton>
-                  <TimeButton>9:30</TimeButton>
-                  <TimeButton>10:00</TimeButton>
-                  <TimeButton>10:30</TimeButton>
+                  {["12:00", "12:30", "1:00", "1:30",
+                  "2:00", "2:30", "3:00", "3:30",
+                  "4:00", "4:30", "5:00", "5:30",
+                  "6:00", "6:30", "7:00", "7:30", "8:00"
+                  ].map((time) => (
+                     <TimeButton
+                        key={time}
+                        selected={selectedTime === time}
+                        onClick={() => handleTimeSelection(time)}
+                     >
+                        {time}
+                     </TimeButton>
+                  ))}
                </TimeContainer>
             </ChoiceContainer>
          </BottomModal>
@@ -156,7 +193,10 @@ const DesignerPage = () => {
           {/* 하단 고정 예약 버튼 */}
          <BottomButtonBar>
             <ShareButton src='/images/shareButton.png' />
-            <ReservationButton onClick={() => setIsModalOpen(true)}>예약하기</ReservationButton>
+            <ReservationButton onClick={handleReservationButtonClick}>
+               {/* {isModalOpen ? "예약 확인" : "예약하기"} */}
+               예약하기
+            </ReservationButton>         
          </BottomButtonBar>
       </DesignerPageWrapper>
    )
@@ -194,6 +234,7 @@ const ChoiceTitle = styled.div`
    width: 100%;
    font-size: 16px;
    font-weight: bold;
+   margin-bottom: 10px;
 `
 
 const ChoiceButtonContainer = styled.div`
@@ -206,6 +247,20 @@ const ChoiceButtonContainer = styled.div`
    gap: 15px;
 `
 
+const ChoiceButton = styled.div<{ selected: boolean }>`
+   font-size: 14px;
+   width: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border-radius: 6px;
+   padding: 13px;
+   background-color: ${(props) => (props.selected ? "black" : "#f1f1f1")};
+   color: ${(props) => (props.selected ? "white" : "black")};
+   cursor: pointer;
+   transition: all 0.1s ease-in-out;
+`;
+
 const TimeContainer = styled.div`
    width: 100%;
    display: flex;
@@ -214,21 +269,22 @@ const TimeContainer = styled.div`
    justify-content: flex-start; /* 왼쪽 정렬 유지 */
 `;
 
-const TimeButton = styled.button`
-   flex: 1 1 calc(25% - 10px); /* 4개씩 정렬 (여백 고려) */
-   max-width: calc(25% - 10px); /* 버튼 크기 고정 */
+
+const TimeButton = styled.button<{ selected: boolean }>`
+   flex: 1 1 calc(25% - 10px);
+   max-width: calc(25% - 10px);
    aspect-ratio: 2/1;
-   background-color: #f0f0f0;
+   background-color: ${(props) => (props.selected ? "black" : "#f0f0f0")};
+   color: ${(props) => (props.selected ? "white" : "black")};
    font-size: 14px;
    border: none;
    cursor: pointer;
    transition: all 0.2s ease-in-out;
 
    &:hover {
-      background: #e0e0e0;
+      background: ${(props) => (props.selected ? "black" : "#e0e0e0")};
    }
 `;
-
 
 
 
