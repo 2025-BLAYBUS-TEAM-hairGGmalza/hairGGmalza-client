@@ -8,15 +8,24 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components'
 
+// import "react-calendar/dist/Calendar.css";
+import "./Calendar.css";
+import Calendar from 'react-calendar';
+
 const DesignerPage = () => {
    const [isModalOpen, setIsModalOpen] = useState(true);
+   const [selectedDate, setSelectedDate] = useState(new Date());
    const params = useParams();
 
-   const onHeartClick = () => {
+   const handleHeartClick = () => {
       console.log('하트 클릭');
       //todo: 하트 클릭시 좋아요 수 증가
    }
 
+   const handleDateChange = (date) => {
+      setSelectedDate(date);
+      console.log("선택한 날짜:", date.toISOString().split("T")[0]);
+   };
 
    return (
       <DesignerPageWrapper>
@@ -34,7 +43,7 @@ const DesignerPage = () => {
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
-                  <HeartImage src='/images/heart.png' onClick={onHeartClick}/>
+                  <HeartImage src='/images/heart.png' onClick={handleHeartClick}/>
                   <span>32</span>
                </HeartContainer>
             </MainIntroContainer>
@@ -76,10 +85,10 @@ const DesignerPage = () => {
 
          {/* 하단 모달 */}
          <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="예약하기">
-            <TabContainer>
+            {/* <TabContainer>
                <TabButton>상담유형</TabButton>
                <TabButton>일정</TabButton>
-            </TabContainer>
+            </TabContainer> */}
 
             <ChoiceContainer>
                <ChoiceTitle>상담유형</ChoiceTitle>
@@ -98,6 +107,11 @@ const DesignerPage = () => {
             </ChoiceContainer>
             <ChoiceContainer>
                <ChoiceTitle>일정</ChoiceTitle>
+               <Calendar 
+                  onChange={handleDateChange} 
+                  value={selectedDate} 
+                  formatDay={(locale, date) => date.getDate().toString()}
+                  />
             </ChoiceContainer>
          </BottomModal>
 
@@ -112,22 +126,22 @@ const DesignerPage = () => {
 
 export default DesignerPage
 ///////
-const TabContainer = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-   margin-top: 20px;
-   border-bottom: 1px solid #eee;
-`
+// const TabContainer = styled.div`
+//    width: 100%;
+//    display: flex;
+//    flex-direction: row;
+//    align-items: center;
+//    justify-content: flex-start;
+//    margin-top: 20px;
+//    border-bottom: 1px solid #eee;
+// `
 
-const TabButton = styled.button`
-   background: none;
-   border: none;
-   font-size: 16px;
-   cursor: pointer;
-`  
+// const TabButton = styled.button`
+//    background: none;
+//    border: none;
+//    font-size: 16px;
+//    cursor: pointer;
+// `  
 
 const ChoiceContainer = styled.div`
    width: 100%;
