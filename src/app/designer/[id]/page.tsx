@@ -1,6 +1,5 @@
 "use client";
 
-import Header from '@/components/common/Header/Header';
 import BottomButtonBar from '@/components/common/BottomButtonBar';
 import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
