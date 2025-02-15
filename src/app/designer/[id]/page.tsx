@@ -1,5 +1,6 @@
 "use client";
 
+import Header from '@/components/common/Header/Header';
 import BottomButtonBar from '@/components/common/BottomButtonBar';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import { useParams } from 'next/navigation';
@@ -16,7 +17,8 @@ const DesignerPage = () => {
 
    return (
       <DesignerPageWrapper>
-         <DesignerPageHeader>디자이너 정보</DesignerPageHeader>
+         {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
+         <Header where='designer' />
          <DesignerMainImage />
          <Content>
             <MainIntroContainer>
