@@ -29,10 +29,10 @@ const BottomModal: React.FC<ModalProps> = ({ isOpen, onClose, title, children })
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
             <Title>
-               <span style={{fontSize:'20px', fontWeight:'bold', marginLeft:'10px'}}>{title}</span>
+               <span style={{fontSize:'20px', fontWeight:'bold'}}>{title}</span>
                <CloseButton onClick={onClose}>×</CloseButton>
             </Title>
-            <ModalWrapper>{children}</ModalWrapper>
+            <ModalWrapper id="modal-wrapper">{children}</ModalWrapper>
          </ModalContainer>
       </ModalOverlay>
    );
@@ -46,14 +46,14 @@ const ModalOverlay = styled.div`
    display: flex;
    justify-content: center;
    align-items: flex-end;
-   z-index: 1000;
+   z-index: 100;
 `;
 
 // 모달 컨테이너 (슬라이드 애니메이션 포함)
 const ModalContainer = styled.div`
    font-family: "pretendard-regular", sans-serif;
    width: 100%;
-   max-width: 490px;
+   max-width: 470px;
    height: 75%;
    background: white;
    border-radius: 12px 12px 0 0;
@@ -77,8 +77,16 @@ const ModalContainer = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-   width: 80%;
-   padding: 20px;
+   width: 90%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   overflow-y: auto;
+   gap: 10px;
+   padding-bottom: 20px;
+
 `;
 
 // 모달 제목
