@@ -53,7 +53,7 @@ const ModalOverlay = styled.div`
 const ModalContainer = styled.div`
    font-family: "pretendard-regular", sans-serif;
    width: 100%;
-   max-width: 490px;
+   max-width: 470px;
    height: 75%;
    background: white;
    border-radius: 12px 12px 0 0;

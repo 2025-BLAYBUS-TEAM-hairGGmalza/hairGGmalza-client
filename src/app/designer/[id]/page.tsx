@@ -1,11 +1,15 @@
 "use client";
 
 import BottomButtonBar from '@/components/common/BottomButtonBar';
+import BottomModal from '@/components/common/BottomModal';
+import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import styled from 'styled-components'
 
 const DesignerPage = () => {
+   const [isModalOpen, setIsModalOpen] = useState(false);
    const params = useParams();
 
    const onHeartClick = () => {
@@ -69,10 +73,17 @@ const DesignerPage = () => {
             <ReviewAndPortfolio />
          </Content>
 
+
+         {/* 하단 모달 */}
+         <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="모달 제목">
+            <p>bottomModal 내용 예시입니다.</p>
+            <div>dfdfdfdf</div>
+         </BottomModal>
+
           {/* 하단 고정 예약 버튼 */}
          <BottomButtonBar>
             <ShareButton src='/images/shareButton.png' />
-            <ReservationButton>예약하기</ReservationButton>
+            <ReservationButton onClick={() => setIsModalOpen(true)}>예약하기</ReservationButton>
          </BottomButtonBar>
       </DesignerPageWrapper>
    )
@@ -92,19 +103,6 @@ const DesignerPageWrapper = styled.div`
 
    /* 하단 고정 예약 버튼을 위한 여백 */
    padding-bottom: 70px;
-`
-
-
-const DesignerPageHeader = styled.header`
-   width: 100%;
-   height: 55px;
-   display: flex;
-   align-items: center;
-   text-align: center;
-   justify-content: center;
-   font-size: 20px;
-
-   border-bottom: 1px solid #747474;
 `
 
 const DesignerMainImage = styled.div`
@@ -241,25 +239,6 @@ const PriceImg = styled.img`
 `
 
 
-// 하단 고정 예약 버튼
-const FixedBottomBar = styled.div`
-   position: fixed;
-   bottom: 0;
-   width: inherit; /* ✅ 부모의 너비(모바일 비율)에 맞춤 */
-   max-width: 470px; /* ✅ 모바일 화면 비율 유지 */
-   left: 50%;
-   transform: translateX(-50%); /* ✅ 중앙 정렬 */
-   height: 80px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background-color: black;
-   padding: 0 15px;
-   box-sizing: border-box;
-   z-index: 100;
-`
-
-
 const ShareButton = styled.img`
    height: 30px;
    background: none;
@@ -282,4 +261,4 @@ const ReservationButton = styled.button`
    &:hover {
       background: #f0f0f0;
    }
-`;
+`
