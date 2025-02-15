@@ -29,7 +29,7 @@ const BottomModal: React.FC<ModalProps> = ({ isOpen, onClose, title, children })
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
             <Title>
-               <span style={{fontSize:'20px', fontWeight:'bold', marginLeft:'10px'}}>{title}</span>
+               <span style={{fontSize:'20px', fontWeight:'bold'}}>{title}</span>
                <CloseButton onClick={onClose}>×</CloseButton>
             </Title>
             <ModalWrapper>{children}</ModalWrapper>
@@ -77,8 +77,14 @@ const ModalContainer = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-   width: 80%;
-   padding: 20px;
+   width: 90%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   overflow-y: auto;
+   gap: 10px;
 `;
 
 // 모달 제목

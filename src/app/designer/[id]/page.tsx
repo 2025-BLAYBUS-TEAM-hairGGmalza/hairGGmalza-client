@@ -9,7 +9,7 @@ import { useState } from 'react';
 import styled from 'styled-components'
 
 const DesignerPage = () => {
-   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isModalOpen, setIsModalOpen] = useState(true);
    const params = useParams();
 
    const onHeartClick = () => {
@@ -75,9 +75,30 @@ const DesignerPage = () => {
 
 
          {/* 하단 모달 */}
-         <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="모달 제목">
-            <p>bottomModal 내용 예시입니다.</p>
-            <div>dfdfdfdf</div>
+         <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="예약하기">
+            <TabContainer>
+               <TabButton>상담유형</TabButton>
+               <TabButton>일정</TabButton>
+            </TabContainer>
+
+            <ChoiceContainer>
+               <ChoiceTitle>상담유형</ChoiceTitle>
+               <ChoiceButtonContainer>
+                  <PriceCard>
+                     <PriceImg />
+                     <span id='price_title'>대면</span>
+                     <span id='price'>30,000원</span>
+                  </PriceCard>
+                  <PriceCard>
+                     <PriceImg />
+                     <span id='price_title'>화상</span>
+                     <span id='price'>30,000원</span>
+                  </PriceCard>
+               </ChoiceButtonContainer>
+            </ChoiceContainer>
+            <ChoiceContainer>
+               <ChoiceTitle>일정</ChoiceTitle>
+            </ChoiceContainer>
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}
@@ -90,6 +111,52 @@ const DesignerPage = () => {
 }
 
 export default DesignerPage
+///////
+const TabContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   margin-top: 20px;
+   border-bottom: 1px solid #eee;
+`
+
+const TabButton = styled.button`
+   background: none;
+   border: none;
+   font-size: 16px;
+   cursor: pointer;
+`  
+
+const ChoiceContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin-top: 20px;
+`
+
+const ChoiceTitle = styled.div`
+   width: 100%;
+   font-size: 16px;
+   font-weight: bold;
+`
+
+const ChoiceButtonContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   margin-top: 15px;
+   gap: 15px;
+`
+
+
+
+///////
 
 const DesignerPageWrapper = styled.div`
    width: 100%;
