@@ -37,6 +37,15 @@
  .react-calendar__navigation button:nth-child(5) {
    display: none;
  }
+
+ /* 월 이동 화살표 버튼 스타일 */
+   .react-calendar__navigation button:nth-child(2),
+   .react-calendar__navigation button:nth-child(4) {
+      font-size: 20px;
+
+      /* 좀 더 안쪽으로 이동 */
+      padding: 5px 10x;
+   }
  
  /* 요일 헤더 스타일 (밑줄 제거) */
  .react-calendar__month-view__weekdays {

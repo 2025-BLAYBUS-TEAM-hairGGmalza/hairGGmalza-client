@@ -11,6 +11,7 @@ import styled from 'styled-components'
 // import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
 import Calendar from 'react-calendar';
+import { Value } from 'react-calendar/src/shared/types.js';
 
 const DesignerPage = () => {
    const [isModalOpen, setIsModalOpen] = useState(true);
@@ -22,10 +23,12 @@ const DesignerPage = () => {
       //todo: 하트 클릭시 좋아요 수 증가
    }
 
-   const handleDateChange = (date) => {
+   const handleDateChange = (date: Value) => {
+      if (!date || Array.isArray(date)) return; // 다중 선택 방어
+    
       setSelectedDate(date);
-      console.log("선택한 날짜:", date.toISOString().split("T")[0]);
-   };
+      console.log(date.toLocaleDateString("ko-KR"));
+    };
 
    return (
       <DesignerPageWrapper>
