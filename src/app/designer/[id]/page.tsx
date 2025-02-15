@@ -1,6 +1,7 @@
 "use client";
 
 import Header from '@/components/common/Header/Header';
+import BottomButtonBar from '@/components/common/BottomButtonBar';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import { useParams } from 'next/navigation';
 import styled from 'styled-components'
@@ -70,10 +71,10 @@ const DesignerPage = () => {
          </Content>
 
           {/* 하단 고정 예약 버튼 */}
-          <FixedBottomBar>
-            <ShareButton src='/images/shareButton.png'/>
+         <BottomButtonBar>
+            <ShareButton src='/images/shareButton.png' />
             <ReservationButton>예약하기</ReservationButton>
-         </FixedBottomBar>
+         </BottomButtonBar>
       </DesignerPageWrapper>
    )
 }
@@ -82,8 +83,8 @@ export default DesignerPage
 
 const DesignerPageWrapper = styled.div`
    width: 100%;
-   max-width: 470px; /* ✅ 모바일 화면 비율 고정 */
-   margin: 0 auto; /* ✅ 중앙 정렬 */
+   max-width: 470px; /* 모바일 화면 비율 고정 */
+   margin: 0 auto; /*  중앙 정렬 */
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -239,27 +240,6 @@ const PriceImg = styled.img`
    width: 30px;
    height: 30px;
 `
-
-
-// 하단 고정 예약 버튼
-const FixedBottomBar = styled.div`
-   position: fixed;
-   bottom: 0;
-   width: inherit; /* ✅ 부모의 너비(모바일 비율)에 맞춤 */
-   max-width: 470px; /* ✅ 모바일 화면 비율 유지 */
-   left: 50%;
-   transform: translateX(-50%); /* ✅ 중앙 정렬 */
-   height: 70px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background-color: black;
-   padding: 0 15px;
-   box-sizing: border-box;
-   z-index: 100;
-`
-
-
 const ShareButton = styled.img`
    height: 30px;
    background: none;
