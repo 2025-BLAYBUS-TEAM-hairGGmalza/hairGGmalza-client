@@ -34,14 +34,10 @@ const BottomModal: React.FC<ModalProps> = ({
     <ModalOverlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <Title>
-          <span
-            style={{ fontSize: "20px", fontWeight: "bold", marginLeft: "10px" }}
-          >
-            {title}
-          </span>
+          <span style={{ fontSize: "20px", fontWeight: "bold" }}>{title}</span>
           <CloseButton onClick={onClose}>×</CloseButton>
         </Title>
-        <ModalWrapper>{children}</ModalWrapper>
+        <ModalWrapper id="modal-wrapper">{children}</ModalWrapper>
       </ModalContainer>
     </ModalOverlay>
   );
@@ -55,7 +51,7 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 1000;
+  z-index: 100;
 `;
 
 // 모달 컨테이너 (슬라이드 애니메이션 포함)
@@ -86,19 +82,18 @@ const ModalContainer = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 100%;
+  width: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-grow: 1;
-  overflow-x: hidden;
   overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  gap: 10px;
+  padding-bottom: 20px;
 `;
 
+// 모달 제목
 const Title = styled.div`
   width: 90%;
   height: 50px;
@@ -110,6 +105,7 @@ const Title = styled.div`
   border-bottom: 1px solid #eee;
 `;
 
+// 닫기 버튼
 const CloseButton = styled.button`
   align-self: flex-end;
   font-size: 30px;
