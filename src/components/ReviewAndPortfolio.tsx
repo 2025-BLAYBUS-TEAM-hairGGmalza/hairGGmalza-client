@@ -1,5 +1,6 @@
 import styled from "styled-components"
-import { IoMdStar } from "react-icons/io";
+import { GoStarFill } from "react-icons/go";
+
 
 const ReviewAndPortfolio = () => {
 
@@ -11,7 +12,7 @@ const ReviewAndPortfolio = () => {
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                <ReviewBottom>
                   <ReviewStars>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
                      <Score>5.0</Score>
                   </ReviewStars>
                   <ReviewText>
@@ -22,8 +23,10 @@ const ReviewAndPortfolio = () => {
             <ReviewCard>
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                <ReviewBottom>
-                  <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                  <ReviewText>
+               <ReviewStars>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
+                     <Score>5.0</Score>
+                  </ReviewStars>               <ReviewText>
                      예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
                   </ReviewText>
                </ReviewBottom>
@@ -31,8 +34,10 @@ const ReviewAndPortfolio = () => {
             <ReviewCard>
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                <ReviewBottom>
-                  <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                  <ReviewText>
+               <ReviewStars>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
+                     <Score>5.0</Score>
+                  </ReviewStars>               <ReviewText>
                      예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
                   </ReviewText>
                </ReviewBottom>
