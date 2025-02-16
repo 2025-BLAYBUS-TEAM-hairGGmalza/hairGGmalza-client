@@ -6,53 +6,56 @@ const ReviewAndPortfolio = () => {
    return (
       <Wrapper>
          <Title>리뷰</Title>
-            <ContentsContainer>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-            </ContentsContainer>
+         <ContentsContainer>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+                  <ReviewStars>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                  </ReviewStars>
+                  <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+                  <ReviewStars>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                  </ReviewStars>
+                  <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+                  <ReviewStars>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
+                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                  </ReviewStars>
+                  <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+         </ContentsContainer>
+
+         <Title>포트폴리오</Title>
+         <PortfolioImage />
       </Wrapper>
    )
 }
@@ -150,4 +153,14 @@ const ReviewStars = styled.div`
    flex-direction: row;
    align-items: center;
    justify-content: flex-start;
+`
+
+const PortfolioImage = styled.div`
+   width: 100%;
+   height: 500px;
+   background-image: url('/images/portfolio-example.jpeg');
+   background-size: cover;
+   background-position: center;
+   background-color: #f0f0f0;
+   margin-bottom: 20px;
 `
