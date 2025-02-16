@@ -12,10 +12,7 @@ const ReviewAndPortfolio = () => {
                <ReviewBottom>
                   <ReviewStars>
                      <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
+                     <Score>5.0</Score>
                   </ReviewStars>
                   <ReviewText>
                      예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
@@ -25,13 +22,7 @@ const ReviewAndPortfolio = () => {
             <ReviewCard>
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                <ReviewBottom>
-                  <ReviewStars>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                  </ReviewStars>
+                  <IoMdStar style={{color:'white',fontSize:'22px'}}/>
                   <ReviewText>
                      예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
                   </ReviewText>
@@ -40,13 +31,7 @@ const ReviewAndPortfolio = () => {
             <ReviewCard>
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
                <ReviewBottom>
-                  <ReviewStars>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                     <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                  </ReviewStars>
+                  <IoMdStar style={{color:'white',fontSize:'22px'}}/>
                   <ReviewText>
                      예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
                   </ReviewText>
@@ -153,6 +138,12 @@ const ReviewStars = styled.div`
    flex-direction: row;
    align-items: center;
    justify-content: flex-start;
+`
+
+const Score = styled.div`
+   font-size: 16px;
+   color: white;
+   margin-left: 5px;
 `
 
 const PortfolioImage = styled.div`
