@@ -5,7 +5,7 @@ import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
 // import "react-calendar/dist/Calendar.css";
@@ -21,6 +21,7 @@ const DesignerPage = () => {
    const [selectedDate, setSelectedDate] = useState(new Date());
    const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
    const [selectedTime, setSelectedTime] = useState<string | null>(null);
+   const [isMounted, setIsMounted] = useState(false);
 
    const handleConsultingTypeChange = (type: "대면" | "화상") => {
    setSelectedConsultingType(type);
@@ -70,7 +71,12 @@ const DesignerPage = () => {
     
       setSelectedDate(date);
       console.log(date.toLocaleDateString("ko-KR"));
-    };
+   };
+
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+   if (!isMounted) return null;
 
    return (
       <DesignerPageWrapper>

@@ -149,7 +149,7 @@ const Score = styled.div`
 const PortfolioImage = styled.div`
    width: 100%;
    height: 500px;
-   background-image: url('/images/portfolio-example.jpeg');
+   /* background-image: url('/images/portfolio-example.jpeg'); */
    background-size: cover;
    background-position: center;
    background-color: #f0f0f0;
