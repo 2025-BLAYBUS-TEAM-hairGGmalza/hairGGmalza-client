@@ -274,6 +274,7 @@ const AgreeAll = styled.div`
    justify-content: flex-start;
    gap: 10px;   
    font-size: 18px;
+   color: #535353;
 
    input {
       width: 20px;
@@ -302,6 +303,7 @@ const Term = styled.div`
    align-items: center;
    justify-content: flex-start;
    gap: 10px;
+   color: #535353;
 
    input {
       width: 15px;
