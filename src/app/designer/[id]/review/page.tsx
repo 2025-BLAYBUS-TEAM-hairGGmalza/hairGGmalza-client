@@ -8,6 +8,7 @@ import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
 
 const Reviewpage = () => {
+   const [isMounted, setIsMounted] = React.useState(false);
    // const searchParams = useSearchParams();
    // const id = searchParams.get('id'); //쿼리에서 id 가져오기
 
@@ -16,6 +17,11 @@ const Reviewpage = () => {
    useEffect(() => {
       console.log(id);
    }, [id])
+
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+   if (!isMounted) return null;
 
    //리뷰카드 임시 더미데이터
    const reviewData = [

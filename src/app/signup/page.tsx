@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const SignUpPage = () => {
@@ -13,6 +13,7 @@ const SignUpPage = () => {
       term3: false,
       term4: false
    });
+   const [isMounted, setIsMounted] = useState(false);
 
    // 약관 전체 동의 기능
    const handleAgreeAll = () => {
@@ -54,6 +55,11 @@ const SignUpPage = () => {
       console.log("성별:", gender);
       console.log("전화번호:", phone);
    };
+
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+   if (!isMounted) return null;
 
    return (
       <Wrapper>
