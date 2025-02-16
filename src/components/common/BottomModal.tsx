@@ -101,7 +101,6 @@ const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
-
   border-bottom: 1px solid #eee;
 `;
 

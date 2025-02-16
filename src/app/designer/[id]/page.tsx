@@ -1,21 +1,79 @@
 "use client";
 
+import BottomButtonBar from '@/components/common/BottomButtonBar';
+import BottomModal from '@/components/common/BottomModal';
+import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import styled from 'styled-components'
+
+// import "react-calendar/dist/Calendar.css";
+import "./Calendar.css";
+import Calendar from 'react-calendar';
+import { Value } from 'react-calendar/src/shared/types.js';
 
 const DesignerPage = () => {
    const params = useParams();
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [selectedDate, setSelectedDate] = useState(new Date());
+   const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
+   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-   const onHeartClick = () => {
+   const handleConsultingTypeChange = (type: "대면" | "화상") => {
+   setSelectedConsultingType(type);
+   };
+
+   const handleTimeSelection = (time: string) => {
+   setSelectedTime(time);
+   };
+
+   const handleReservationButtonClick = () => {
+      if (!isModalOpen) {
+         setIsModalOpen(true);
+         return;
+      }
+   
+      // 예외 처리: 선택하지 않은 항목이 있으면 alert 표시
+      if (!selectedConsultingType) {
+      alert("상담유형을 선택해주세요.");
+      return;
+      }
+   
+      if (!selectedDate) {
+      alert("일정을 선택해주세요.");
+      return;
+      }
+   
+      if (!selectedTime) {
+      alert("시간을 선택해주세요.");
+      return;
+      }
+   
+      // 모든 값이 선택되었을 때 콘솔 출력
+      console.log("상담유형:", selectedConsultingType);
+      console.log("선택한 날짜:", selectedDate.toLocaleDateString("ko-KR"));
+      console.log("선택한 시간:", selectedTime);
+   };
+   
+
+
+   const handleHeartClick = () => {
       console.log('하트 클릭');
       //todo: 하트 클릭시 좋아요 수 증가
    }
 
+   const handleDateChange = (date: Value) => {
+      if (!date || Array.isArray(date)) return; // 다중 선택 방어
+    
+      setSelectedDate(date);
+      console.log(date.toLocaleDateString("ko-KR"));
+    };
 
    return (
       <DesignerPageWrapper>
-         <DesignerPageHeader>디자이너 정보</DesignerPageHeader>
+         {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
+         <Header where='designer' />
          <DesignerMainImage />
          <Content>
             <MainIntroContainer>
@@ -28,7 +86,7 @@ const DesignerPage = () => {
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
-                  <HeartImage src='/images/heart.png' onClick={onHeartClick}/>
+                  <HeartImage src='/images/heart.png' onClick={handleHeartClick}/>
                   <span>32</span>
                </HeartContainer>
             </MainIntroContainer>
@@ -67,21 +125,175 @@ const DesignerPage = () => {
             <ReviewAndPortfolio />
          </Content>
 
+
+         {/* 하단 모달 */}
+         <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="예약하기">
+            {/* <TabContainer>
+               <TabButton>상담유형</TabButton>
+               <TabButton>일정</TabButton>
+            </TabContainer> */}
+
+            <ChoiceContainer>
+               <ChoiceTitle>상담유형</ChoiceTitle>
+               <ChoiceButtonContainer>
+                  <ChoiceButton onClick={() => handleConsultingTypeChange("대면")} 
+                                 selected={selectedConsultingType === "대면"}>
+                     <PriceImg />
+                     <span id='price_title'>대면</span>
+                     <span id='price'>30,000원</span>
+                  </ChoiceButton>
+                  <ChoiceButton onClick={() => handleConsultingTypeChange("화상")} 
+                                 selected={selectedConsultingType === "화상"}>
+                     <PriceImg />
+                     <span id='price_title'>화상</span>
+                     <span id='price'>30,000원</span>
+                  </ChoiceButton>
+               </ChoiceButtonContainer>
+            </ChoiceContainer>
+            <ChoiceContainer>
+               <ChoiceTitle>일정</ChoiceTitle>
+               <Calendar 
+                  onChange={handleDateChange} 
+                  value={selectedDate} 
+                  formatDay={(locale, date) => date.getDate().toString()}
+                  />
+            </ChoiceContainer>
+            <ChoiceContainer style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
+               <ChoiceTitle>오전</ChoiceTitle>
+               <TimeContainer>
+               {["10:00", "10:30", "11:00", "11:30"].map((time) => (
+                  <TimeButton
+                     key={time}
+                     selected={selectedTime === time}
+                     onClick={() => handleTimeSelection(time)}
+                  >
+                     {time}
+                  </TimeButton>
+               ))}
+               </TimeContainer>
+               <ChoiceTitle style={{marginTop:'20px'}}>오후</ChoiceTitle>
+               <TimeContainer>
+                  {["12:00", "12:30", "1:00", "1:30",
+                  "2:00", "2:30", "3:00", "3:30",
+                  "4:00", "4:30", "5:00", "5:30",
+                  "6:00", "6:30", "7:00", "7:30", "8:00"
+                  ].map((time) => (
+                     <TimeButton
+                        key={time}
+                        selected={selectedTime === time}
+                        onClick={() => handleTimeSelection(time)}
+                     >
+                        {time}
+                     </TimeButton>
+                  ))}
+               </TimeContainer>
+            </ChoiceContainer>
+         </BottomModal>
+
           {/* 하단 고정 예약 버튼 */}
-          <FixedBottomBar>
-            <ShareButton src='/images/shareButton.png'/>
-            <ReservationButton>예약하기</ReservationButton>
-         </FixedBottomBar>
+         <BottomButtonBar>
+            <ShareButton src='/images/shareButton.png' />
+            <ReservationButton onClick={handleReservationButtonClick}>
+               {/* {isModalOpen ? "예약 확인" : "예약하기"} */}
+               예약하기
+            </ReservationButton>         
+         </BottomButtonBar>
       </DesignerPageWrapper>
    )
 }
 
 export default DesignerPage
+///////
+// const TabContainer = styled.div`
+//    width: 100%;
+//    display: flex;
+//    flex-direction: row;
+//    align-items: center;
+//    justify-content: flex-start;
+//    margin-top: 20px;
+//    border-bottom: 1px solid #eee;
+// `
+
+// const TabButton = styled.button`
+//    background: none;
+//    border: none;
+//    font-size: 16px;
+//    cursor: pointer;
+// `  
+
+const ChoiceContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin-top: 20px;
+`
+
+const ChoiceTitle = styled.div`
+   width: 100%;
+   font-size: 16px;
+   font-weight: bold;
+   margin-bottom: 10px;
+`
+
+const ChoiceButtonContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   margin-top: 15px;
+   gap: 15px;
+`
+
+const ChoiceButton = styled.div<{ selected: boolean }>`
+   font-size: 14px;
+   width: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border-radius: 6px;
+   padding: 13px;
+   background-color: ${(props) => (props.selected ? "black" : "#f1f1f1")};
+   color: ${(props) => (props.selected ? "white" : "black")};
+   cursor: pointer;
+   transition: all 0.1s ease-in-out;
+`;
+
+const TimeContainer = styled.div`
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   justify-content: flex-start; /* 왼쪽 정렬 유지 */
+`;
+
+
+const TimeButton = styled.button<{ selected: boolean }>`
+   flex: 1 1 calc(25% - 10px);
+   max-width: calc(25% - 10px);
+   aspect-ratio: 2/1;
+   background-color: ${(props) => (props.selected ? "black" : "#f0f0f0")};
+   color: ${(props) => (props.selected ? "white" : "black")};
+   font-size: 14px;
+   border: none;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+
+   &:hover {
+      background: ${(props) => (props.selected ? "black" : "#e0e0e0")};
+   }
+`;
+
+
+
+///////
 
 const DesignerPageWrapper = styled.div`
    width: 100%;
-   max-width: 470px; /* ✅ 모바일 화면 비율 고정 */
-   margin: 0 auto; /* ✅ 중앙 정렬 */
+   max-width: 470px; /* 모바일 화면 비율 고정 */
+   margin: 0 auto; /*  중앙 정렬 */
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -90,19 +302,6 @@ const DesignerPageWrapper = styled.div`
 
    /* 하단 고정 예약 버튼을 위한 여백 */
    padding-bottom: 70px;
-`
-
-
-const DesignerPageHeader = styled.header`
-   width: 100%;
-   height: 55px;
-   display: flex;
-   align-items: center;
-   text-align: center;
-   justify-content: center;
-   font-size: 20px;
-
-   border-bottom: 1px solid #747474;
 `
 
 const DesignerMainImage = styled.div`
@@ -239,25 +438,6 @@ const PriceImg = styled.img`
 `
 
 
-// 하단 고정 예약 버튼
-const FixedBottomBar = styled.div`
-   position: fixed;
-   bottom: 0;
-   width: inherit; /* ✅ 부모의 너비(모바일 비율)에 맞춤 */
-   max-width: 470px; /* ✅ 모바일 화면 비율 유지 */
-   left: 50%;
-   transform: translateX(-50%); /* ✅ 중앙 정렬 */
-   height: 70px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background-color: black;
-   padding: 0 15px;
-   box-sizing: border-box;
-   z-index: 100;
-`
-
-
 const ShareButton = styled.img`
    height: 30px;
    background: none;
@@ -273,11 +453,11 @@ const ReservationButton = styled.button`
    font-size: 16px;
    font-weight: bold;
    border: none;
-   padding: 12px 24px;
+   padding: 14px 24px;
    cursor: pointer;
    transition: all 0.2s ease-in-out;
 
    &:hover {
       background: #f0f0f0;
    }
-`;
+`

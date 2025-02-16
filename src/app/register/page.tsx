@@ -1,7 +1,7 @@
 "use client";
 
-import BottomModal from "@/components/BottomModal";
-import CenterModal from "@/components/CenterModal";
+import BottomModal from "@/components/common/BottomModal";
+import CenterModal from "@/components/common/CenterModal";
 import { useState } from "react";
 import styled from "styled-components";
 
