@@ -1,12 +1,13 @@
 'use client';
 
 import Header from '@/components/common/Header/Header';
-import { useParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 import styled from 'styled-components';
 
 const Reviewpage = () => {
-   const params = useParams();
+   const searchParams = useSearchParams();
+   const id = searchParams.get('id'); //쿼리에서 id 가져오기
 
    //리뷰카드 임시 더미데이터
    const reviewData = [
@@ -48,7 +49,7 @@ const Reviewpage = () => {
                <TopProfile>
                   <ProfileImage />
                   <NameAndAddress>
-                     <Name>박수빈 디자이너({params.id}번)</Name>
+                     <Name>박수빈 디자이너({id}번)</Name>
                      <Address>
                         <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
                         <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
