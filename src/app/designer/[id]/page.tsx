@@ -4,7 +4,7 @@ import BottomButtonBar from '@/components/common/BottomButtonBar';
 import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components'
 
@@ -14,7 +14,9 @@ import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 
 const DesignerPage = () => {
-   const params = useParams();
+   const searchParams = useSearchParams();
+   const id = searchParams.get('id'); //쿼리에서 id 가져오기
+
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
    const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
@@ -79,7 +81,7 @@ const DesignerPage = () => {
             <MainIntroContainer>
                <ProfileImage />
                <NameAndAddress>
-                  <Name>박수빈 디자이너({params.id}번)</Name>
+                  <Name>박수빈 디자이너({id}번)</Name>
                   <Address>
                      <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
                      <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
