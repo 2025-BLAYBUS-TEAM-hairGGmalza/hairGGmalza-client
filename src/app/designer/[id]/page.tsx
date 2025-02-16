@@ -87,7 +87,7 @@ const DesignerPage = () => {
                </NameAndAddress>
                <HeartContainer id='heart_container'>
                   <HeartImage src='/images/heart.png' onClick={handleHeartClick}/>
-                  <span>32</span>
+                  <span style={{fontSize:'10px'}}>32</span>
                </HeartContainer>
             </MainIntroContainer>
             <OneLineIntro>
