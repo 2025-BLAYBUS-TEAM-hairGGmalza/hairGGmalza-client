@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start && next-on-netlify",
     "lint": "next lint"
   },
   "dependencies": {
