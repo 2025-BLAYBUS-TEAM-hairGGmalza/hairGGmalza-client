@@ -11,7 +11,7 @@ html {
   display: flex;
   justify-content: center; /* ✅ PC에서 중앙 정렬 */
   align-items: center;
-  font-family: 'Pretendard-Regular', sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   overflow: hidden; /* ✅ 전체 페이지 스크롤 방지 */
 }
 
@@ -73,8 +73,9 @@ img {
 
 /* ✅ Pretendard 폰트 추가 */
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
   font-weight: 400;
   font-style: normal;
 }
