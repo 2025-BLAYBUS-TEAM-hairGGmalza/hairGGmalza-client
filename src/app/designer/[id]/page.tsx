@@ -13,6 +13,7 @@ import "./Calendar.css";
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 
+
 const DesignerPage = () => {
    const searchParams = useSearchParams();
    const id = searchParams.get('id'); //쿼리에서 id 가져오기
@@ -119,12 +120,10 @@ const DesignerPage = () => {
             </TagsContainer>
             <PricesContainer>
                <PriceCard>
-                  <PriceImg />
                   <span id='price_title'>대면</span>
                   <span id='price'>30,000원</span>
                </PriceCard>
                <PriceCard>
-                  <PriceImg />
                   <span id='price_title'>커트</span>
                   <span id='price'>30,000원</span>
                </PriceCard>
@@ -436,7 +435,7 @@ const PriceCard = styled.div`
    align-items: center;
    justify-content: space-between;
    border-radius: 6px;
-   padding: 13px;
+   padding: 17px;
    background-color: #f1f1f1;
 `
 
