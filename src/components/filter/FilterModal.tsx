@@ -5,8 +5,8 @@ import PriceFilter from "./PriceFilter";
 import HairInfoFilter from "./HairInfoFilter";
 import ExpertiseFilter from "./ExpertiseFilter";
 import TabBar from "./TabBar";
-import BottomModal from "../BottomModal";
 import styled from "styled-components";
+import BottomModal from "../common/BottomModal";
 
 interface FilterModalProps {
   isBottomOpen: boolean;
