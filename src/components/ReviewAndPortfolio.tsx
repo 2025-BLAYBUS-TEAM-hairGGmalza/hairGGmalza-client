@@ -110,7 +110,7 @@ const ReviewCard = styled.div`
    align-items: center;
    justify-content: flex-end;
    border-radius: 8px;
-   background-image: url('/images/review-example.jpeg');
+   background-image: url('/images/hairmodel.png');
    background-size: cover;
    background-position: center;
    background-color: #f0f0f0;
@@ -167,7 +167,7 @@ const Score = styled.div`
 const PortfolioImage = styled.div`
    width: 100%;
    height: 500px;
-   /* background-image: url('/images/portfolio-example.jpeg'); */
+   background-image: url('/images/hairmodel.png');
    background-size: cover;
    background-position: center;
    background-color: #f0f0f0;
