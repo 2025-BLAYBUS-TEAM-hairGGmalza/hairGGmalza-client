@@ -11,7 +11,7 @@ html {
   display: flex;
   justify-content: center; /* ✅ PC에서 중앙 정렬 */
   align-items: center;
-  font-family: "Pretendard-Regular", sans-serif;
+  font-family: "Apple SD Gothic Neo", "Pretendard-Regular", sans-serif;
   overflow: hidden; /* ✅ 전체 페이지 스크롤 방지 */
 }
 
@@ -78,4 +78,13 @@ img {
     format("woff");
   font-weight: 400;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.ttf') format('truetype');
 }
