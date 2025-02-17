@@ -12,13 +12,15 @@ import styled from 'styled-components'
 import "./Calendar.css";
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
+import CenterModal from '@/components/common/CenterModal';
 
 
 const DesignerPage = () => {
    const searchParams = useSearchParams();
    const id = searchParams.get('id'); //쿼리에서 id 가져오기
 
-   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
+   const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
    const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
    const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -33,8 +35,8 @@ const DesignerPage = () => {
    };
 
    const handleReservationButtonClick = () => {
-      if (!isModalOpen) {
-         setIsModalOpen(true);
+      if (!isBottomModalOpen) {
+         setIsBottomModalOpen(true);
          return;
       }
    
@@ -111,7 +113,7 @@ const DesignerPage = () => {
                   </Tag>
                </div>
                <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
-                  <span>상담유형</span>
+                  <span>컨설팅 유형</span>
                   <Tag>
                      <ScissorImg src='/images/scissors.png'/>
                      <span>대면/화상</span>
@@ -134,30 +136,28 @@ const DesignerPage = () => {
 
 
          {/* 하단 모달 */}
-         <BottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="예약하기">
+         <BottomModal isOpen={isBottomModalOpen} onClose={() => setIsBottomModalOpen(false)} title="예약하기">
             {/* <TabContainer>
                <TabButton>상담유형</TabButton>
                <TabButton>일정</TabButton>
             </TabContainer> */}
 
-            <ChoiceContainer>
-               <ChoiceTitle>상담유형</ChoiceTitle>
+            <ChoiceContainer id='consulting_type'>
+               <ChoiceTitle>컨설팅 유형</ChoiceTitle>
                <ChoiceButtonContainer>
-                  <ChoiceButton onClick={() => handleConsultingTypeChange("대면")} 
+                  <ChoiceButton onClick={() => {handleConsultingTypeChange("대면"); setIsCenterModalOpen(true);}} 
                                  selected={selectedConsultingType === "대면"}>
-                     <PriceImg />
                      <span id='price_title'>대면</span>
                      <span id='price'>30,000원</span>
                   </ChoiceButton>
                   <ChoiceButton onClick={() => handleConsultingTypeChange("화상")} 
                                  selected={selectedConsultingType === "화상"}>
-                     <PriceImg />
                      <span id='price_title'>화상</span>
                      <span id='price'>30,000원</span>
                   </ChoiceButton>
                </ChoiceButtonContainer>
             </ChoiceContainer>
-            <ChoiceContainer>
+            <ChoiceContainer id='date'>
                <ChoiceTitle>일정</ChoiceTitle>
                <Calendar 
                   onChange={handleDateChange} 
@@ -165,7 +165,7 @@ const DesignerPage = () => {
                   formatDay={(locale, date) => date.getDate().toString()}
                   />
             </ChoiceContainer>
-            <ChoiceContainer style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
+            <ChoiceContainer id ='time' style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
                <ChoiceTitle>오전</ChoiceTitle>
                <TimeContainer>
                {["10:00", "10:30", "11:00", "11:30"].map((time) => (
@@ -195,6 +195,14 @@ const DesignerPage = () => {
                   ))}
                </TimeContainer>
             </ChoiceContainer>
+
+            {/* 센터 모달 */}
+            <CenterModal 
+               isOpen={isCenterModalOpen} onClose={() => setIsCenterModalOpen(false)}
+               title="대면 컨설팅을 선택했어요"
+               first={"대면 컨설팅은 30,000원*부터 시작되며\n 실제 샵에 방문하여 진행됩니다."}
+               second={"컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."}               third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다. "
+            />
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}
@@ -261,7 +269,7 @@ const ChoiceButton = styled.div<{ selected: boolean }>`
    align-items: center;
    justify-content: space-between;
    border-radius: 6px;
-   padding: 13px;
+   padding: 17px;
    background-color: ${(props) => (props.selected ? "black" : "#f1f1f1")};
    color: ${(props) => (props.selected ? "white" : "black")};
    cursor: pointer;
@@ -287,6 +295,7 @@ const TimeButton = styled.button<{ selected: boolean }>`
    border: none;
    cursor: pointer;
    transition: all 0.2s ease-in-out;
+   border-radius: 4px;
 
    &:hover {
       background: ${(props) => (props.selected ? "black" : "#e0e0e0")};
@@ -350,8 +359,7 @@ const NameAndAddress = styled.div`
    flex-direction: column;
    align-items: flex-start;
    justify-content: space-between;
-   
-   margin-left: -50px; //이거 더 좋게 하는 방법 있을까... 너무 바보같아!
+   margin-left: 20px;
 `
 
 const Name = styled.div`
@@ -369,6 +377,8 @@ const HeartContainer = styled.div`
    flex-direction: column;
    align-items: center;
    justify-content: space-between;
+
+   margin-left: auto;
 `
 
 const HeartImage = styled.img`
@@ -437,11 +447,6 @@ const PriceCard = styled.div`
    border-radius: 6px;
    padding: 17px;
    background-color: #f1f1f1;
-`
-
-const PriceImg = styled.img`
-   width: 30px;
-   height: 30px;
 `
 
 
