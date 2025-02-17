@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import styled from "styled-components";
+import { useState } from "react";
 
 const images = [
   { src: "/file.svg", alt: "Image 1" },
@@ -15,21 +16,20 @@ const images = [
   { src: "/vercel.svg", alt: "Image 4" },
 ];
 
-const NumberCarousel = () => {
+const ProgressCarousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   return (
     <LandingSectionContainer>
       <BannerSection $loadingWidth={576} className="loading">
         <Swiper
           modules={[Pagination, Autoplay]}
-          pagination={{
-            type: "fraction",
-            el: ".custom-pagination",
-          }}
           autoplay={{
             delay: 2000,
             disableOnInteraction: false,
           }}
           loop={true}
+          onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
         >
           {images.map(({ src, alt }, index) => (
             <SwiperSlide key={index}>
@@ -46,15 +46,17 @@ const NumberCarousel = () => {
           ))}
         </Swiper>
 
-        <PaginationContainer className="custom-pagination">
-          1/{images.length}
-        </PaginationContainer>
+        <CustomProgressBarContainer>
+          <CustomProgressBar
+            $progress={((currentIndex + 1) / images.length) * 100}
+          />
+        </CustomProgressBarContainer>
       </BannerSection>
     </LandingSectionContainer>
   );
 };
 
-export default NumberCarousel;
+export default ProgressCarousel;
 
 const LandingSectionContainer = styled.div`
   display: flex;
@@ -94,11 +96,21 @@ const SlideContainer = styled.div`
   height: 100%;
 `;
 
-const PaginationContainer = styled.div`
+const CustomProgressBarContainer = styled.div`
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 6px;
+  background: white;
+  overflow: hidden;
+  z-index: 1;
+`;
+
+const CustomProgressBar = styled.div<{ $progress: number }>`
+  width: ${(props) => props.$progress}%;
+  height: 100%;
+  background: black;
+  transition: width 0.5s ease-in-out;
 `;
