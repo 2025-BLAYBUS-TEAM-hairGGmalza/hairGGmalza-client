@@ -6,34 +6,45 @@ import styled from "styled-components";
 interface ModalProps {
    isOpen: boolean;
    onClose: () => void;
-   title?: string; // 제목을 동적으로 설정
-   content?: string[]; // 여러 줄의 내용을 받을 수 있도록 배열 형태
-   children?: React.ReactNode; // JSX 요소를 직접 받을 수도 있음
+   title?: string;
+   first?: string;
+   second?: string;
+   third?: string;
+   children?: React.ReactNode;
 }
 
-const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, content, children }) => {
+const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third }) => {
    useEffect(() => {
       if (isOpen) {
-         document.body.style.overflow = "hidden";
+         document.documentElement.style.overflow = "hidden";
       } else {
-         document.body.style.overflow = "auto";
+         document.documentElement.style.overflow = "auto";
       }
-
+   
       return () => {
-         document.body.style.overflow = "auto";
+         document.documentElement.style.overflow = "auto";
       };
    }, [isOpen]);
+   
 
    if (!isOpen) return null;
 
    return (
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
-            {/* 제목이 있으면 렌더링 */}
-            {title && <ModalTitle>{title}</ModalTitle>}
+            {/* 제목이 있으면 렌더링
+            {title && <ModalTitle>{title}</ModalTitle>} */}
+            <ModalTitle>{title}</ModalTitle>
             <ModalContent>
-               {/* content 배열이 있으면 각 줄을 p 태그로 출력 */}
-               {content ? content.map((line, index) => <p key={index}>{line}</p>) : children}
+               <FirstRow>
+                  {first}
+               </FirstRow>
+               <SecondRow>
+                  {second}
+               </SecondRow>
+               <ThirdRow>
+                  {third}
+               </ThirdRow>
             </ModalContent>
             <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
          </ModalContainer>
@@ -44,8 +55,12 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, content, ch
 // 배경 (모달 외부 클릭 시 닫힘)
 const ModalOverlay = styled.div`
    position: fixed;
-   inset: 0;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: calc(100vh - 70px); /* 🔥 BottomModal 위에서 끝나도록 조정 */
    background: rgba(0, 0, 0, 0.5);
+   border-radius: 12px;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -58,15 +73,17 @@ const ModalOverlay = styled.div`
    }
 `;
 
+
 // 모달 박스
 const ModalContainer = styled.div`
-   font-family: "pretendard-regular", sans-serif;
-   width: 85%;
-   max-width: 320px;
+   width: 90%;
+   max-width: 340px;
    background: white;
    text-align: center;
    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
    animation: slideDown 0.3s;
+   box-sizing: border-box;
+   margin-top: -200px;
 
    @keyframes slideDown {
       from { transform: translateY(-20px); opacity: 0; }
@@ -75,16 +92,22 @@ const ModalContainer = styled.div`
 `;
 
 // 모달 제목
-const ModalTitle = styled.h2`
-   padding: 16px;
-   font-size: 1.2rem;
-   border-bottom: 1px solid #eee;
+const ModalTitle = styled.div`
+   font-size: 20px;
+   font-weight: 1000;
+   margin-top: 35px;
+   margin-bottom: 10px;
 `;
 
 // 모달 내용
 const ModalContent = styled.div`
-   padding: 16px;
-   font-size: 1rem;
+   display: flex;
+   flex-direction: column;
+   align-self: stretch;
+   justify-content: center;
+   gap: 15px;
+   padding: 20px 30px;
+   white-space: pre-line; 
 `;
 
 
@@ -92,16 +115,40 @@ const ModalContent = styled.div`
 const ConfirmButton = styled.button`
    width: 100%;
    background: black;
-   color: white;
-   padding: 12px;
-   font-size: 1.2rem;
+   padding: 20px;
+   font-size: 16px;
    border: none;
-   margin-top: 16px;
    cursor: pointer;
+   color: var(--Chantilly-200, #F3D7E5);
 
    &:hover {
       background: #222;
    }
 `;
 
+const FirstRow = styled.div`
+   display: flex;
+   justify-content: space-between;
+   font-size: 16px;
+   text-align: start;
+`;
+
+const SecondRow = styled.div`
+   display: flex;
+   justify-content: space-between;
+   font-size: 14px;
+   text-align: start;
+`;
+
+const ThirdRow = styled.div`
+   display: flex;
+   justify-content: space-between;
+   font-size: 12px;
+   text-align: start;
+   color: var(--gray-400, #989898);
+
+`;
+
+
 export default CenterModal;
+

@@ -1,10 +1,12 @@
-import NumberCarousel from "@/components/main/carousel/NumberCarousel";
+import Header from "@/components/common/Header/Header";
+import Section1 from "@/components/main/Section1/Section1";
 import React from "react";
 
 const page = () => {
   return (
     <>
-      <NumberCarousel />
+      <Header where="main" />
+      <Section1 />
     </>
   );
 };

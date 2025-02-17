@@ -59,7 +59,7 @@ const ModalContainer = styled.div`
   font-family: "pretendard-regular", sans-serif;
   width: 100%;
   max-width: 470px;
-  height: 75%;
+  height: 80%;
   background: white;
   border-radius: 12px 12px 0 0;
   position: relative;
