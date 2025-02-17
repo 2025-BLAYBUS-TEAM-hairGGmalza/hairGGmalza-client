@@ -1,18 +1,33 @@
 'use client';
 
 import Header from '@/components/common/Header/Header';
-import { useParams } from 'next/navigation'
-import React from 'react'
+import { useParams, useSearchParams } from 'next/navigation'
+import React, { useEffect } from 'react'
 import styled from 'styled-components';
+import { GoStarFill } from "react-icons/go";
+import { GoStar } from "react-icons/go";
 
 const Reviewpage = () => {
-   const params = useParams();
+   const [isMounted, setIsMounted] = React.useState(false);
+   // const searchParams = useSearchParams();
+   // const id = searchParams.get('id'); //쿼리에서 id 가져오기
+
+   const id = useParams().id; //파라미터에서 id 가져오기
+
+   useEffect(() => {
+      console.log(id);
+   }, [id])
+
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+   if (!isMounted) return null;
 
    //리뷰카드 임시 더미데이터
    const reviewData = [
       {
          id: 1,
-         name: '박수빈 디자이너',
+         name: '구글 닉네임',
          address: '서울 강남구 압구정로79길',
          category: '홍대/연남/합정',
          score: 4.5,
@@ -21,7 +36,7 @@ const Reviewpage = () => {
       },
       {
          id: 2,
-         name: '박수빈 디자이너',
+         name: '구글 닉네임',
          address: '서울 강남구 압구정로79길',
          category: '홍대/연남/합정',
          score: 4.5,
@@ -30,7 +45,7 @@ const Reviewpage = () => {
       },
       {
          id: 3,
-         name: '박수빈 디자이너',
+         name: '구글 닉네임',
          address: '서울 강남구 압구정로79길',
          category: '홍대/연남/합정',
          score: 4.5,
@@ -48,7 +63,7 @@ const Reviewpage = () => {
                <TopProfile>
                   <ProfileImage />
                   <NameAndAddress>
-                     <Name>박수빈 디자이너({params.id}번)</Name>
+                     <Name>박수빈 디자이너({id}번)</Name>
                      <Address>
                         <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
                         <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
@@ -59,7 +74,13 @@ const Reviewpage = () => {
                   <ScoreTitle>평균평점</ScoreTitle>
                   <ScoreContainer>
                      <ScoreNumber>4.5</ScoreNumber>
-                     <ScoreStar>★★★★☆</ScoreStar>   
+                     <ScoreStars>
+                        <GoStarFill/>
+                        <GoStarFill/>
+                        <GoStarFill/>
+                        <GoStarFill/>
+                        <GoStar/>
+                     </ScoreStars>
                   </ScoreContainer>
                </BottomProfile>
             </ProfileContainer>
@@ -86,11 +107,20 @@ const Reviewpage = () => {
                      <RealReviewContainer>
                         <ReviewScore>
                            <ReviewScoreNumber>{review.score}</ReviewScoreNumber>
-                           <ReviewScoreStar>★★★★☆</ReviewScoreStar>
+                           <ReviewScoreStars>
+                              <GoStarFill/>
+                              <GoStarFill/>
+                              <GoStarFill/>
+                              <GoStarFill/>
+                              <GoStarFill/>
+                           </ReviewScoreStars>
                         </ReviewScore>
                         <ReviewContent>
                            <ReviewText>{review.review}</ReviewText>
-                           <ReviewDate>{review.date}</ReviewDate>
+                           <ReviewDateAndDelete>
+                              <span>{review.date}</span>
+                              <DeleteButton>삭제</DeleteButton>
+                           </ReviewDateAndDelete>
                         </ReviewContent>
                      </RealReviewContainer>
                   </ReviewCard>
@@ -166,6 +196,7 @@ const NameAndAddress = styled.div`
    margin-left: 20px;
    padding: 5px 0;
    box-sizing: border-box;
+   gap: 5px;
 `
 
 const Name = styled.div`
@@ -208,8 +239,13 @@ const ScoreNumber = styled.div`
    color: #000000;
 `
 
-const ScoreStar = styled.div`
-   font-size: 35px;
+const ScoreStars = styled.div`
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 10px;
+
+   font-size: 30px;
    color: #000000;
 `
 
@@ -294,12 +330,20 @@ const ReviewScore = styled.div`
 `
 
 const ReviewScoreNumber = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
    font-size: 18px;
    font-weight: bold;
 `
 
-const ReviewScoreStar = styled.div`
+const ReviewScoreStars = styled.div`
    font-size: 18px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 5px;
 `
 
 const ReviewContent = styled.div`
@@ -317,8 +361,21 @@ const ReviewText = styled.div`
    line-height: 1.4;
 `
 
-const ReviewDate = styled.div`
+const ReviewDateAndDelete = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
    font-size: 12px;
    color: #808080;
+`
+
+const DeleteButton = styled.div`
+   font-size: 12px;
+   color: #808080;
+   cursor: pointer;
+   //밑줄
+   text-decoration: underline;
 `
 

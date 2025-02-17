@@ -1,58 +1,62 @@
+"use client";
+
 import styled from "styled-components"
-import { IoMdStar } from "react-icons/io";
+import { GoStarFill } from "react-icons/go";
+import { useRouter } from "next/navigation";
+
 
 const ReviewAndPortfolio = () => {
+   const router = useRouter();
+
+   const handleMoreReview = () => {
+      const currentPath = window.location.pathname; // 현재 페이지 경로 가져오기
+      router.push(`${currentPath}/review`); // 현재 경로 뒤에 '/review' 추가
+      console.log('리뷰 더보기:', `${currentPath}/review`);
+   };
+   
 
    return (
       <Wrapper>
-         <Title>리뷰</Title>
-            <ContentsContainer>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-               <ReviewCard>
-                  {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-                  <ReviewBottom>
-                     <ReviewStars>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>   
-                        <IoMdStar style={{color:'white',fontSize:'22px'}}/>
-                     </ReviewStars>
-                     <ReviewText>
-                        예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
-                     </ReviewText>
-                  </ReviewBottom>
-               </ReviewCard>
-            </ContentsContainer>
+         <Title>리뷰 <span onClick={handleMoreReview} style={{cursor:'pointer', textDecoration:'underline', color:'var(--gray-500, #7C7C7C)'}}>리뷰 더보기</span></Title>
+         <ContentsContainer>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+                  <ReviewStars>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
+                     <Score>5.0</Score>
+                  </ReviewStars>
+                  <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+               <ReviewStars>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
+                     <Score>5.0</Score>
+                  </ReviewStars>               <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+            <ReviewCard>
+               {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
+               <ReviewBottom>
+               <ReviewStars>
+                     <GoStarFill style={{color:'#ECBDD3',fontSize:'18px'}}/>
+                     <Score>5.0</Score>
+                  </ReviewStars>               <ReviewText>
+                     예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서 했냐고 맨날 물어봐요 ㅋ
+                  </ReviewText>
+               </ReviewBottom>
+            </ReviewCard>
+         </ContentsContainer>
+
+         <Title>포트폴리오</Title>
+         <PortfolioImage />
       </Wrapper>
    )
 }
@@ -106,7 +110,7 @@ const ReviewCard = styled.div`
    align-items: center;
    justify-content: flex-end;
    border-radius: 8px;
-   background-image: url('/images/review-example.jpeg');
+   background-image: url('/images/hairmodel.png');
    background-size: cover;
    background-position: center;
    background-color: #f0f0f0;
@@ -126,6 +130,8 @@ const ReviewBottom = styled.div`
    box-sizing: border-box;
    border-bottom-left-radius: 8px;
    border-bottom-right-radius: 8px;
+   //투명도
+   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 90%);
 `;
 
 const ReviewText = styled.div`
@@ -150,4 +156,20 @@ const ReviewStars = styled.div`
    flex-direction: row;
    align-items: center;
    justify-content: flex-start;
+`
+
+const Score = styled.div`
+   font-size: 16px;
+   color: white;
+   margin-left: 5px;
+`
+
+const PortfolioImage = styled.div`
+   width: 100%;
+   height: 500px;
+   background-image: url('/images/hairmodel.png');
+   background-size: cover;
+   background-position: center;
+   background-color: #f0f0f0;
+   margin-bottom: 20px;
 `
