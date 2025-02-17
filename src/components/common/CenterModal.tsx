@@ -16,15 +16,16 @@ interface ModalProps {
 const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third }) => {
    useEffect(() => {
       if (isOpen) {
-         document.body.style.overflow = "hidden";
+         document.documentElement.style.overflow = "hidden";
       } else {
-         document.body.style.overflow = "auto";
+         document.documentElement.style.overflow = "auto";
       }
-
+   
       return () => {
-         document.body.style.overflow = "auto";
+         document.documentElement.style.overflow = "auto";
       };
    }, [isOpen]);
+   
 
    if (!isOpen) return null;
 
@@ -54,8 +55,12 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
 // 배경 (모달 외부 클릭 시 닫힘)
 const ModalOverlay = styled.div`
    position: fixed;
-   inset: 0;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: calc(100vh - 70px); /* 🔥 BottomModal 위에서 끝나도록 조정 */
    background: rgba(0, 0, 0, 0.5);
+   border-radius: 12px;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -67,6 +72,7 @@ const ModalOverlay = styled.div`
       to { opacity: 1; }
    }
 `;
+
 
 // 모달 박스
 const ModalContainer = styled.div`
