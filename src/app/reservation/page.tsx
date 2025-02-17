@@ -3,6 +3,7 @@ import Tag from "@/components/common/Tag";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { IoShareSocialOutline } from "react-icons/io5";
+import Profile from "@/components/common/Profile";
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
@@ -57,6 +58,13 @@ const ReservationPage = () => {
                </BottomProfile>
             </ProfileContainer>
          </ProfileWrapper>
+         <ConsultingRecordsWrapper>
+            <span style={{fontWeight:'bold', fontSize:'18px', width:'100%', textAlign:'start'}}>컨설팅 기록</span>
+
+            <Profile />
+            <Profile />
+            <Profile />
+         </ConsultingRecordsWrapper>
       </Wrapper>
    )
 }
@@ -68,8 +76,9 @@ const Wrapper = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
-
+   justify-content: flex-start;
+   background-color: #f0f0f0;
+   padding-bottom: 30px;
 `
 const ProfileWrapper = styled.div`
    width: 100%;
@@ -225,6 +234,17 @@ const GrayBox = styled.div`
    border-radius: 6px;
    box-sizing: border-box;
    background-color: #f0f0f0;
-   font-size: 14px;
+   font-size: 15px;
    cursor:pointer;
+`
+
+//////consulting records 
+const ConsultingRecordsWrapper = styled.div`
+   width: 90%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding-top: 20px;
+   gap: 20px;
 `
