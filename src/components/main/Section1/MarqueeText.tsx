@@ -26,7 +26,7 @@ const MarqueeContainer = styled.div`
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  background-color: #ddd;
+  background-color: #f7d7f4;
 `;
 
 const MarqueeContent = styled.div`
