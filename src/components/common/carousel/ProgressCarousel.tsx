@@ -59,6 +59,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 310px;
 `;
 
 const BannerSection = styled.div`

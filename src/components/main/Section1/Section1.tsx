@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import MarqueeText from "../MarqueeText";
 import ProgressCarousel from "../../common/carousel/ProgressCarousel";
+import MarqueeText from "./MarqueeText";
 
 const images = [
   { src: "/images/Haertz Branding-10.png", alt: "Image 1" },
