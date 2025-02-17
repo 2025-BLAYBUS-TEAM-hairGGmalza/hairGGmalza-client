@@ -13,6 +13,7 @@ import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 import CenterModal from '@/components/common/CenterModal';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import Tag from '@/components/common/Tag';
 
 
 const DesignerPage = () => {
@@ -98,7 +99,7 @@ const DesignerPage = () => {
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
-                  {<HeartIcon liked={isLiked} onClick={handleHeartClick}>
+                  {<HeartIcon onClick={handleHeartClick}>
                   {isLiked ? <FaHeart /> : <FaRegHeart />}
                </HeartIcon>}  
                   <span style={{fontSize:'10px'}}>32</span>
@@ -110,17 +111,11 @@ const DesignerPage = () => {
             <TagsContainer>
                <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>전문분야</span>
-                  <Tag>
-                     <ScissorImg  src='/images/scissors.svg'/>
-                     <span>레이어드 컷</span>
-                  </Tag>
+                  <Tag type='scissor' text='레이어드 컷'/>
                </div>
                <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>컨설팅 유형</span>
-                  <Tag>
-                     <ScissorImg src='/images/consulting.svg'/>
-                     <span>대면/화상</span>
-                  </Tag>
+                  <Tag type='consulting' text='대면/화상'/>
                </div>
             </TagsContainer>
             <PricesContainer>
@@ -380,7 +375,6 @@ const HeartContainer = styled.div`
 const HeartIcon = styled.div`
    font-size: 30px;
    cursor: pointer;
-   color: ${(props) => (props.isLiked ? "pink" : "black")}; // ✅ 상태에 따라 색 변경
    transition: color 0.3s ease-in-out;
 `;
 
@@ -407,24 +401,7 @@ const TagsContainer = styled.div`
 
 `
 
-const Tag = styled.div`
-   display: flex;
-   align-items: center;
-   justify-content: flex-start;
-   font-weight: bold;
-   padding: 6px 8px;
-   border-radius: 6px;
-   background: var(--black, #1E1E1E);
-   color: var(--Chantilly-200, #F3D7E5);
-   
-`
 
-const ScissorImg = styled.img`
-   width: 13px;
-   height: 13px;
-   margin-right: 5px;
-
-`
 
 const PricesContainer = styled.div`
    width: 100%;
