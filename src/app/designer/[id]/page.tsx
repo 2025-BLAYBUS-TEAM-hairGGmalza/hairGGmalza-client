@@ -27,8 +27,10 @@ const DesignerPage = () => {
    const [isMounted, setIsMounted] = useState(false);
 
    const handleConsultingTypeChange = (type: "대면" | "화상") => {
-   setSelectedConsultingType(type);
+      setSelectedConsultingType(type);
+      setIsCenterModalOpen(true); //  버튼을 누를 때 모달 열기
    };
+   
 
    const handleTimeSelection = (time: string) => {
    setSelectedTime(time);
@@ -145,13 +147,15 @@ const DesignerPage = () => {
             <ChoiceContainer id='consulting_type'>
                <ChoiceTitle>컨설팅 유형</ChoiceTitle>
                <ChoiceButtonContainer>
-                  <ChoiceButton onClick={() => {handleConsultingTypeChange("대면"); setIsCenterModalOpen(true);}} 
-                                 selected={selectedConsultingType === "대면"}>
+                  <ChoiceButton 
+                     onClick={() => handleConsultingTypeChange("대면")} 
+                     selected={selectedConsultingType === "대면"}>
                      <span id='price_title'>대면</span>
                      <span id='price'>30,000원</span>
                   </ChoiceButton>
-                  <ChoiceButton onClick={() => handleConsultingTypeChange("화상")} 
-                                 selected={selectedConsultingType === "화상"}>
+                  <ChoiceButton 
+                     onClick={() => handleConsultingTypeChange("화상")} 
+                     selected={selectedConsultingType === "화상"}>
                      <span id='price_title'>화상</span>
                      <span id='price'>30,000원</span>
                   </ChoiceButton>
@@ -196,13 +200,21 @@ const DesignerPage = () => {
                </TimeContainer>
             </ChoiceContainer>
 
-            {/* 센터 모달 */}
+            {/* 센터 모달 - 대면/화상 공통 */}
             <CenterModal 
-               isOpen={isCenterModalOpen} onClose={() => setIsCenterModalOpen(false)}
-               title="대면 컨설팅을 선택했어요"
-               first={"대면 컨설팅은 30,000원*부터 시작되며\n 실제 샵에 방문하여 진행됩니다."}
-               second={"컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."}               third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다. "
+               isOpen={isCenterModalOpen} 
+               onClose={() => setIsCenterModalOpen(false)}
+               title={selectedConsultingType === "대면" ? "대면 컨설팅을 선택했어요" : "화상 컨설팅을 선택했어요"}
+               first={
+                  selectedConsultingType === "대면" 
+                     ? "대면 컨설팅은 30,000원*부터 시작되며\n 실제 샵에 방문하여 진행됩니다." 
+                     : "화상 컨설팅은 20,000원*부터 시작되며\n 예약 완료 후 생성되는 구글미트에서\n 화상으로 진행됩니다."
+               }
+               second={"컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."}
+               third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
             />
+
+
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}

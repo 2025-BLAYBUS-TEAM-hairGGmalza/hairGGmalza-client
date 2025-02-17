@@ -13,7 +13,7 @@ interface ModalProps {
    children?: React.ReactNode;
 }
 
-const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third, children }) => {
+const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third }) => {
    useEffect(() => {
       if (isOpen) {
          document.body.style.overflow = "hidden";
@@ -88,8 +88,9 @@ const ModalContainer = styled.div`
 // 모달 제목
 const ModalTitle = styled.div`
    font-size: 20px;
-   font-weight: 700;
+   font-weight: 1000;
    margin-top: 35px;
+   margin-bottom: 10px;
 `;
 
 // 모달 내용
