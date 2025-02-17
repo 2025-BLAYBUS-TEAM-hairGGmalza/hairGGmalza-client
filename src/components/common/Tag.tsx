@@ -13,7 +13,7 @@ const Tag: React.FC<ModalProps> = ({ type, text }) => {
          ) : (
             <TagImg src='/images/scissors.svg' />
          )}
-         <span>{text}</span>
+         <span style={{fontSize:'14px'}}>{text}</span>
       </Wrapper>
    );
 };
@@ -25,8 +25,8 @@ const Wrapper = styled.div`
    align-items: center;
    justify-content: flex-start;
    font-weight: bold;
-   padding: 6px 8px;
-   border-radius: 6px;
+   padding: 6px 10px;
+   border-radius: 4px;
    background: var(--black, #1E1E1E);
    color: var(--Chantilly-200, #F3D7E5);
    

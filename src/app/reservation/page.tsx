@@ -1,6 +1,8 @@
 "use client";
+import Tag from "@/components/common/Tag";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
+import { IoShareSocialOutline } from "react-icons/io5";
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
@@ -34,16 +36,23 @@ const ReservationPage = () => {
                   <ConsultingAndTime>
                      <Consulting>
                         <SmallTitle>컨설팅 유형</SmallTitle>
+                        <Tag type='consulting' text='대면' />
                      </Consulting>
                      <Time>
                         <SmallTitle>예약 시간</SmallTitle>
+                        <span style={{fontSize:'16px'}}>2월 12일 (수) | 오후 18:00</span>
                      </Time>
                   </ConsultingAndTime>
                   <MeetingLink>
-
+                     <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
+                     <GrayBox>
+                        <IoShareSocialOutline style={{fontSize:'20px'}} />
+                        <span style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
+                     </GrayBox>
                   </MeetingLink>
                   <Informations>
-
+                     <GrayBox>예약정보</GrayBox>
+                     <GrayBox>결제정보</GrayBox>
                   </Informations>
                </BottomProfile>
             </ProfileContainer>
@@ -155,37 +164,42 @@ const DDay = styled.div`
 
 const ConsultingAndTime = styled.div`
    width: 100%;
+   height: 60px;
    display: flex;
    flex-direction: row;
    align-items: center;
-   justify-content: space-between;
-   margin-top: 20px;
+   justify-content: flex-start;
+   gap: 20px;
 `
 
 const Consulting = styled.div`
+   height: 100%;
    display: flex;
    flex-direction: column;
-   align-items: center;
-   justify-content: center;
+   align-items: flex-start;
+   justify-content: space-between;
 `
 
 const Time = styled.div`
+   height: 100%;
    display: flex;
    flex-direction: column;
-   align-items: center;
-   justify-content: center;
+   align-items: flex-start;
+   justify-content: space-between;
 `
 
 const SmallTitle = styled.div`
    font-size: 13px;
    font-weight: bold;
+   margin-bottom: 10px;
+   color: #5f5f5f;
 `
 
 const MeetingLink = styled.div`
    width: 100%;
    display: flex;
    flex-direction: column;
-   align-items: center;
+   align-items: flex-start;
    justify-content: center;
    margin-top: 20px;
 `
@@ -193,9 +207,24 @@ const MeetingLink = styled.div`
 const Informations = styled.div`
    width: 100%;
    display: flex;
-   flex-direction: column;
+   flex-direction: row;
    align-items: center;
    justify-content: center;
+   gap: 10px;
    margin-top: 20px;
 `
 
+const GrayBox = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 10px;
+   padding: 15px 10px;
+   border-radius: 6px;
+   box-sizing: border-box;
+   background-color: #f0f0f0;
+   font-size: 14px;
+   cursor:pointer;
+`
