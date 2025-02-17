@@ -32,13 +32,16 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
           {images.map(({ src, alt }, index) => (
             <SwiperSlide key={index}>
               <SlideContainer>
-                <Image
-                  src={src}
-                  alt={alt}
-                  layout="intrinsic"
-                  width={800}
-                  height={800}
-                />
+                <ImageWrapper>
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill // 부모 컨테이너를 꽉 채우도록 설정
+                    quality={100} // 화질 최대
+                    objectFit="cover" // 비율을 유지하면서 꽉 채움
+                    priority // 초기 로딩 속도 최적화
+                  />
+                </ImageWrapper>
               </SlideContainer>
             </SwiperSlide>
           ))}
@@ -59,7 +62,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 310px;
+  height: 300px;
 `;
 
 const BannerSection = styled.div`
@@ -79,12 +82,19 @@ const SlideContainer = styled.div`
   height: 100%;
 `;
 
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 300px; // 원하는 높이 설정
+  max-width: 800px; // 최대 크기 설정 가능
+`;
+
 const ProgressBarContainer = styled.div`
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 40%;
   height: 6px;
   background: white;
   overflow: hidden;

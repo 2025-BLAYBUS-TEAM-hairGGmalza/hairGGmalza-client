@@ -3,11 +3,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const Explain = () => {
+const Explain = ({ title, subtitle }: { title: string; subtitle?: string }) => {
   return (
     <TitleWrapper>
-      <Title>나만의 스타일을 찾아보세요</Title>
-      <Subtitle>후기가 보장하는 완벽 맞춤 헤어 컨설팅</Subtitle>
+      <Title>{title}</Title>
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
     </TitleWrapper>
   );
 };
@@ -15,6 +15,7 @@ const Explain = () => {
 export default Explain;
 
 const TitleWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

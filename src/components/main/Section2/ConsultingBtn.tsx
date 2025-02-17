@@ -35,14 +35,14 @@ const ConsultingBtn = () => {
 export default ConsultingBtn;
 
 const Container = styled.div`
-  height: 20%;
+  height: 25%;
   background: #1a1919;
   color: white;
   padding: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 2rem;
 `;
 
 const TitleWrapper = styled.div`
@@ -51,7 +51,7 @@ const TitleWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const Title = styled.div`
