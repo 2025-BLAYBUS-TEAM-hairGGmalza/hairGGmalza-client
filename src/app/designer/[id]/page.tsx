@@ -8,15 +8,16 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
-// import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 import CenterModal from '@/components/common/CenterModal';
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 
 const DesignerPage = () => {
    const id = useParams().id;
+   const [isLiked, setIsLiked] = useState(false);
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
@@ -66,13 +67,12 @@ const DesignerPage = () => {
 
 
    const handleHeartClick = () => {
-      console.log('하트 클릭');
-      //todo: 하트 클릭시 좋아요 수 증가
-   }
+      setIsLiked((prev) => !prev); //  클릭할 때마다 상태 변경   
+   };
 
    const handleDateChange = (date: Value) => {
       if (!date || Array.isArray(date)) return; // 다중 선택 방어
-    
+   
       setSelectedDate(date);
       console.log(date.toLocaleDateString("ko-KR"));
    };
@@ -98,7 +98,9 @@ const DesignerPage = () => {
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
-                  <HeartImage src='/images/heart.png' onClick={handleHeartClick}/>
+                  {<HeartIcon liked={isLiked} onClick={handleHeartClick}>
+                  {isLiked ? <FaHeart /> : <FaRegHeart />}
+               </HeartIcon>}  
                   <span style={{fontSize:'10px'}}>32</span>
                </HeartContainer>
             </MainIntroContainer>
@@ -228,24 +230,7 @@ const DesignerPage = () => {
    )
 }
 
-export default DesignerPage
-///////
-// const TabContainer = styled.div`
-//    width: 100%;
-//    display: flex;
-//    flex-direction: row;
-//    align-items: center;
-//    justify-content: flex-start;
-//    margin-top: 20px;
-//    border-bottom: 1px solid #eee;
-// `
-
-// const TabButton = styled.button`
-//    background: none;
-//    border: none;
-//    font-size: 16px;
-//    cursor: pointer;
-// `  
+export default DesignerPage  
 
 const ChoiceContainer = styled.div`
    width: 100%;
@@ -392,11 +377,12 @@ const HeartContainer = styled.div`
    margin-left: auto;
 `
 
-const HeartImage = styled.img`
-   width: 30px;
-   height: 30px;
+const HeartIcon = styled.div`
+   font-size: 30px;
    cursor: pointer;
-`
+   color: ${(props) => (props.isLiked ? "pink" : "black")}; // ✅ 상태에 따라 색 변경
+   transition: color 0.3s ease-in-out;
+`;
 
 const OneLineIntro = styled.div`
    width: 100%;
