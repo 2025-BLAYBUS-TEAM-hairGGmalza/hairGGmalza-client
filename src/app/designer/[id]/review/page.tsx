@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/common/Header/Header';
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
 import { GoStarFill } from "react-icons/go";
