@@ -9,20 +9,18 @@ import "swiper/css/autoplay";
 import styled from "styled-components";
 import { useState } from "react";
 
-const images = [
-  { src: "/file.svg", alt: "Image 1" },
-  { src: "/globe.svg", alt: "Image 2" },
-  { src: "/next.svg", alt: "Image 3" },
-  { src: "/vercel.svg", alt: "Image 4" },
-];
+interface CarouselProps {
+  images: { src: string; alt: string }[];
+}
 
-const ProgressCarousel = () => {
+const ProgressCarousel = ({ images }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <LandingSectionContainer>
-      <BannerSection $loadingWidth={576} className="loading">
+    <CarouselContainer>
+      <BannerSection>
         <Swiper
+          style={{ width: "100%", height: "auto" }}
           modules={[Pagination, Autoplay]}
           autoplay={{
             delay: 2000,
@@ -37,55 +35,39 @@ const ProgressCarousel = () => {
                 <Image
                   src={src}
                   alt={alt}
-                  width={300}
-                  height={300}
                   layout="intrinsic"
+                  width={800}
+                  height={800}
                 />
               </SlideContainer>
             </SwiperSlide>
           ))}
         </Swiper>
 
-        <CustomProgressBarContainer>
-          <CustomProgressBar
-            $progress={((currentIndex + 1) / images.length) * 100}
-          />
-        </CustomProgressBarContainer>
+        <ProgressBarContainer>
+          <ProgressBar $progress={((currentIndex + 1) / images.length) * 100} />
+        </ProgressBarContainer>
       </BannerSection>
-    </LandingSectionContainer>
+    </CarouselContainer>
   );
 };
 
 export default ProgressCarousel;
 
-const LandingSectionContainer = styled.div`
+const CarouselContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
-  height: fit-content;
 `;
 
-const BannerSection = styled.div<{ $loadingWidth?: number }>`
+const BannerSection = styled.div`
   width: 100%;
-  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-
-  &.loading {
-    width: 90%;
-    height: ${(props) =>
-      props.$loadingWidth && props.$loadingWidth >= 576
-        ? `332.9px`
-        : `490.8px`};
-    background-color: #f0f0f0;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
 `;
 
 const SlideContainer = styled.div`
@@ -96,7 +78,7 @@ const SlideContainer = styled.div`
   height: 100%;
 `;
 
-const CustomProgressBarContainer = styled.div`
+const ProgressBarContainer = styled.div`
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -108,7 +90,7 @@ const CustomProgressBarContainer = styled.div`
   z-index: 1;
 `;
 
-const CustomProgressBar = styled.div<{ $progress: number }>`
+const ProgressBar = styled.div<{ $progress: number }>`
   width: ${(props) => props.$progress}%;
   height: 100%;
   background: black;
