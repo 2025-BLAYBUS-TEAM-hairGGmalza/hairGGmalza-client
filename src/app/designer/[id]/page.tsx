@@ -4,7 +4,7 @@ import BottomButtonBar from '@/components/common/BottomButtonBar';
 import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
@@ -16,8 +16,7 @@ import CenterModal from '@/components/common/CenterModal';
 
 
 const DesignerPage = () => {
-   const searchParams = useSearchParams();
-   const id = searchParams.get('id'); //쿼리에서 id 가져오기
+   const id = useParams().id;
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
@@ -104,20 +103,20 @@ const DesignerPage = () => {
                </HeartContainer>
             </MainIntroContainer>
             <OneLineIntro>
-               트렌디한 감성, 섬세한 손길로 새로운 감성을
+               트렌디한 감성, 섬세한 손길로 새로운 모습을
             </OneLineIntro>
             <TagsContainer>
-               <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
+               <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>전문분야</span>
                   <Tag>
-                     <ScissorImg  src='/images/scissors.png'/>
+                     <ScissorImg  src='/images/scissors.svg'/>
                      <span>레이어드 컷</span>
                   </Tag>
                </div>
-               <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center'}}>
+               <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>컨설팅 유형</span>
                   <Tag>
-                     <ScissorImg src='/images/scissors.png'/>
+                     <ScissorImg src='/images/consulting.svg'/>
                      <span>대면/화상</span>
                   </Tag>
                </div>
@@ -426,11 +425,12 @@ const Tag = styled.div`
    display: flex;
    align-items: center;
    justify-content: flex-start;
-   background-color: #f0f0f0;
-   color: #565656;
    font-weight: bold;
    padding: 6px 8px;
    border-radius: 6px;
+   background: var(--black, #1E1E1E);
+   color: var(--Chantilly-200, #F3D7E5);
+   
 `
 
 const ScissorImg = styled.img`

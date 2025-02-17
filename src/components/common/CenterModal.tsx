@@ -83,7 +83,7 @@ const ModalContainer = styled.div`
    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
    animation: slideDown 0.3s;
    box-sizing: border-box;
-   margin-top: -100px;
+   margin-top: -200px;
 
    @keyframes slideDown {
       from { transform: translateY(-20px); opacity: 0; }

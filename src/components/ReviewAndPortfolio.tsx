@@ -1,12 +1,23 @@
+"use client";
+
 import styled from "styled-components"
 import { GoStarFill } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
 
 const ReviewAndPortfolio = () => {
+   const router = useRouter();
+
+   const handleMoreReview = () => {
+      const currentPath = window.location.pathname; // 현재 페이지 경로 가져오기
+      router.push(`${currentPath}/review`); // 현재 경로 뒤에 '/review' 추가
+      console.log('리뷰 더보기:', `${currentPath}/review`);
+   };
+   
 
    return (
       <Wrapper>
-         <Title>리뷰</Title>
+         <Title>리뷰 <span onClick={handleMoreReview} style={{cursor:'pointer', textDecoration:'underline', color:'var(--gray-500, #7C7C7C)'}}>리뷰 더보기</span></Title>
          <ContentsContainer>
             <ReviewCard>
                {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
@@ -119,6 +130,8 @@ const ReviewBottom = styled.div`
    box-sizing: border-box;
    border-bottom-left-radius: 8px;
    border-bottom-right-radius: 8px;
+   //투명도
+   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 90%);
 `;
 
 const ReviewText = styled.div`
