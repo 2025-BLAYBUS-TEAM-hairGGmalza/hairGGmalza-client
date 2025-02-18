@@ -3,8 +3,18 @@ import Tag from "@/components/common/Tag";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 
+
 const ReservationDetailpage = () => {
    const [isMounted, setIsMounted] = useState(false);
+   const [designerName, setDesignerName] = useState('');
+   const [address, setAddress] = useState('');
+   const [region, setRegion] = useState('');
+   const [consultingType, setConsultingType] = useState('대면');
+   const [time, setTime] = useState('');
+   const [status, setStatus] = useState('');
+   const [price, setPrice] = useState('');
+
+
    
    useEffect(() => {
       setIsMounted(true);
@@ -52,11 +62,22 @@ const ReservationDetailpage = () => {
          </BottomProfile>
       </ReservationCard>
 
+      {consultingType === '대면' ?
       <RequestCard>
-         <span style={{fontSize:'15px'}}>대면 컨설팅 시 유의해주세요!</span>
-         <RequestInput>대면 컨설팅 시 유의사항 사실 유의할 건 없다 머리카락만 제대로 가져왓</RequestInput>
-      </RequestCard>
-
+               <span style={{fontSize:'15px'}}>대면 컨설팅 시 유의해주세요!</span>
+               <RequestInput>· 대면 컨설팅은 실제 샵에 방문하여 진행됩니다. <br/>
+                              · 컨설팅 예약 시간 전, 10분 전까지 샵에 도착하여 컨설팅을 준비해주세요.<br/>
+                              · 예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, 소정의 수수료가 부과될 수 있습니다.<br/>
+                              ·예약 변경을 원하시는 경우, 예약 취소 후 재예약 해주시기 바랍니다.</RequestInput>
+            </RequestCard>
+            :      
+            <RequestCard>
+               <span style={{fontSize:'15px'}}>화상 컨설팅 시 유의해주세요!</span>
+               <RequestInput>· 화상 컨설팅은 예약 완료 후 생성되는 구글미트에서 화상으로 진행됩니다. <br/>
+                              · 컨설팅 예약 시간 전, 10분 전까지 구글미트에 접속하여 컨설팅을 준비해주세요. <br/>
+                              · 예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, 소정의 수수료가 부과될 수 있습니다. <br/>
+                              · 예약 변경을 원하시는 경우, 예약 취소 후 재예약 해주시기 바랍니다.</RequestInput>
+         </RequestCard>}
       </Wrapper>
    )
 }
@@ -222,7 +243,6 @@ margin-top: 20px;
 
 const RequestInput = styled.div`
 width: 100%;
-height: 100px;
 margin-top: 10px;
 padding: 15px;
 box-sizing: border-box;
