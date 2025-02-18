@@ -1,7 +1,8 @@
+
 import Main from "@/components/main/Main";
 import React from "react";
 
-const page = () => {
+
   return (
     <>
       <Main />
@@ -9,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Mainpage;
