@@ -116,7 +116,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
     onApplyFilters(filters);
   };
 
-  // ✅ 탭 클릭 시 해당 섹션으로 스크롤 이동
   const handleTabSelect = (id: string) => {
     setActiveTab(id);
     const targetRef = sectionRefs[id];
@@ -126,7 +125,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
     }
   };
 
-  // ✅ 스크롤 이벤트 감지 및 activeTab 업데이트
   const updateActiveTab = useCallback(() => {
     if (!filterWrapperRef.current) return;
 
