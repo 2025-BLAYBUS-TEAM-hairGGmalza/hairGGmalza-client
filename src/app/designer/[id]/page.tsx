@@ -297,7 +297,7 @@ const ChoiceButton = styled.div<{ selected: boolean }>`
    border-radius: 6px;
    padding: 17px;
    background-color: ${(props) => (props.selected ? "black" : "#f1f1f1")};
-   color: ${(props) => (props.selected ? "white" : "black")};
+   color: ${(props) => (props.selected ? "#F3D7E5" : "black")};
    cursor: pointer;
    transition: all 0.1s ease-in-out;
 `;
@@ -316,7 +316,7 @@ const TimeButton = styled.button<{ selected: boolean }>`
    max-width: calc(25% - 10px);
    aspect-ratio: 2/1;
    background-color: ${(props) => (props.selected ? "black" : "#f0f0f0")};
-   color: ${(props) => (props.selected ? "white" : "black")};
+   color: ${(props) => (props.selected ? "#F3D7E5" : "black")};
    font-size: 14px;
    border: none;
    cursor: pointer;

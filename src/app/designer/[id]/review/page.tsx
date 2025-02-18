@@ -25,8 +25,7 @@ const Reviewpage = () => {
       {
          id: 1,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -34,8 +33,7 @@ const Reviewpage = () => {
       {
          id: 2,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -43,8 +41,7 @@ const Reviewpage = () => {
       {
          id: 3,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -96,8 +93,7 @@ const Reviewpage = () => {
                         <NameAndAddress>  
                            <Name>{review.name}</Name>
                            <Address>
-                              <span id='address_detail' style={{marginRight:'10px'}}>{review.address}</span>
-                              <span id='address_category' style={{color: '#808080'}}>{review.category}</span>
+                              <span id='address_detail' style={{marginRight:'10px'}}>{review.email}</span>
                            </Address>
                         </NameAndAddress>
                      </TopProfile>
