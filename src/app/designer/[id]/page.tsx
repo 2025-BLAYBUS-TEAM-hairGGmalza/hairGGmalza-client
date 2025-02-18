@@ -166,7 +166,7 @@ const DesignerPage = () => {
                <TabButton>상담유형</TabButton>
                <TabButton>일정</TabButton>
             </TabContainer> */}
-
+            <ModalWrapper>
             <ChoiceContainer id='consulting_type'>
                <ChoiceTitle>컨설팅 유형</ChoiceTitle>
                <ChoiceButtonContainer>
@@ -237,7 +237,7 @@ const DesignerPage = () => {
                third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
             />
 
-
+         </ModalWrapper>
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}
@@ -253,6 +253,14 @@ const DesignerPage = () => {
 }
 
 export default DesignerPage  
+
+const ModalWrapper = styled.div`
+width: 90%;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+`
 
 const ChoiceContainer = styled.div`
    width: 100%;
