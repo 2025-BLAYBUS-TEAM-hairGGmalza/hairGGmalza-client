@@ -9,9 +9,6 @@ import { GoStar } from "react-icons/go";
 
 const Reviewpage = () => {
    const [isMounted, setIsMounted] = React.useState(false);
-   // const searchParams = useSearchParams();
-   // const id = searchParams.get('id'); //쿼리에서 id 가져오기
-
    const id = useParams().id; //파라미터에서 id 가져오기
 
    useEffect(() => {
@@ -56,7 +53,7 @@ const Reviewpage = () => {
 
    return (
       <Wrapper>
-         <Header where='designer' />
+         <Header where='review' />
 
          <ProfileWrapper>
             <ProfileContainer>
