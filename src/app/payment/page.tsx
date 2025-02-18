@@ -1,8 +1,8 @@
-import Payment from "@/components/payment/Payment";
+import ReservationForm from "@/components/payment/ResevationForm";
 import React from "react";
 
 const page = () => {
-  return <Payment />;
+  return <ReservationForm />;
 };
 
 export default page;

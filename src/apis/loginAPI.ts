@@ -19,5 +19,9 @@ export const sendCode = async (code: string|null) => {
    console.log(response.data);
 }
 
+export const newSendCode = async (code: string|null) => {
+   const response = await axios.post(`${BASE_URL}/login?code=${code}`);
+   console.log(response.data);
+}
 
 

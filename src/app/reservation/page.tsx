@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
+import Navbar from "@/components/common/Navbar/Navbar";
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
@@ -72,6 +73,7 @@ const ReservationPage = () => {
             <Profile />
             <Profile />
          </ConsultingRecordsWrapper>
+         <Navbar />
       </Wrapper>
    )
 }

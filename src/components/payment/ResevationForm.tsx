@@ -42,6 +42,7 @@ const ReservationForm: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState("카카오페이");
   const [refundAccount, setRefundAccount] = useState("");
   const [selectedBank, setSelectedBank] = useState(banks[0]);
+  const [isMounted, setIsMounted] = useState(false);
 
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -81,6 +82,11 @@ const ReservationForm: React.FC = () => {
       console.log("성공");
     }
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) return null;
 
   return (
     <>
