@@ -4,14 +4,28 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
+import { useParams } from "next/navigation";
+import { getReservations } from "@/apis/reservationAPI";
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
+   const memberId = String(useParams().memberId);
    
+   // const router = useRouter();
+   
+   // const goTo = (path: string) => {
+   //    router.push(path);
+   // }
 
    useEffect(() => {
       setIsMounted(true);
-   }, []);
+      console.log(memberId);
+
+      getReservations(memberId).then((res) => {
+         console.log(res.data);
+      })
+
+   }, [memberId]);
    if (!isMounted) return null;
 
    return (
@@ -48,7 +62,7 @@ const ReservationPage = () => {
                      <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
                      <GrayBox>
                         <IoShareSocialOutline style={{fontSize:'20px'}} />
-                        <span style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
+                        <span onClick={()=>window.open('https://meet.google.com/ebb-iurh-gyc')} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
                      </GrayBox>
                   </MeetingLink>
                   <Informations>
@@ -236,6 +250,11 @@ const GrayBox = styled.div`
    background-color: #f0f0f0;
    font-size: 15px;
    cursor:pointer;
+
+   //hover
+   &:hover {
+      background-color: #e0e0e0;
+   }
 `
 
 //////consulting records 

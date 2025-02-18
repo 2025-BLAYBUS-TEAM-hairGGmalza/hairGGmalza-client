@@ -135,8 +135,9 @@ const DesignerPage = () => {
             <TagsContainer>
                <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>전문분야</span>
-                  {designer?.majors.map((major) => (
-                     <Tag key={major} type='major' text={major} />
+                  {/* 할 수 있으면 tag 출력(api 잘 받아왔는지 검사) */}
+                  {designer?.majors.map((major, index) => (
+                     <Tag key={index} type='major' text={major} />
                   ))}
                </div>
                <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
