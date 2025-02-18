@@ -12,6 +12,7 @@ const BottomButtonBar = ({ children }: BottomButtonBarProps) => {
 export default BottomButtonBar;
 
 const Wrapper = styled.div`
+  /* width: 470px; */
   position: fixed;
   bottom: 0;
   width: inherit; /*  부모의 너비(모바일 비율)에 맞춤 */
