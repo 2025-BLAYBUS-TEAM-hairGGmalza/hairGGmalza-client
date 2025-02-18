@@ -53,7 +53,7 @@ const Reviewpage = () => {
 
    return (
       <Wrapper>
-         <Header where='designer' />
+         <Header where='review' />
 
          <ProfileWrapper>
             <ProfileContainer>
