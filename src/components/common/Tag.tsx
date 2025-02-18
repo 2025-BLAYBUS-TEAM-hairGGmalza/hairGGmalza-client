@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 interface ModalProps {
    type: string;
-   text: string;
+   text: string | undefined;
 }
 
 const Tag: React.FC<ModalProps> = ({ type, text }) => {

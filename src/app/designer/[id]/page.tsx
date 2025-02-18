@@ -14,11 +14,26 @@ import { Value } from 'react-calendar/src/shared/types.js';
 import CenterModal from '@/components/common/CenterModal';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Tag from '@/components/common/Tag';
+import { getDesigner } from '@/apis/designerAPI';
 
+type DesignerType = {
+   id: string;
+   name: string;
+   region: string;
+   address: string;
+   profile: string;
+   description: string;
+   offlinePrice: number;
+   onlinePrice: number;
+   meetingType: string;
+   majors: string[];
+}
 
 const DesignerPage = () => {
-   const id = useParams().id;
+   const id = String(useParams().id);
    const [isLiked, setIsLiked] = useState(false);
+   const [designer, setDesigner] = useState<DesignerType | null>(null);
+   
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
@@ -65,8 +80,6 @@ const DesignerPage = () => {
       console.log("선택한 시간:", selectedTime);
    };
    
-
-
    const handleHeartClick = () => {
       setIsLiked((prev) => !prev); //  클릭할 때마다 상태 변경   
    };
@@ -80,7 +93,18 @@ const DesignerPage = () => {
 
    useEffect(() => {
       setIsMounted(true);
-   }, []);
+
+      const fetchDesigner = async () => {
+         try {
+            const designerData = await getDesigner(id); // ✅ API 호출 후 데이터 기다리기
+            setDesigner(designerData); // ✅ 상태 업데이트
+         } catch (error) {
+            console.error("디자이너 정보를 가져오는 중 오류 발생:", error);
+         }
+      };
+
+      if (id) fetchDesigner(); // ✅ 비동기 함수 실행
+   }, [id]);
    if (!isMounted) return null;
 
    return (
@@ -92,10 +116,10 @@ const DesignerPage = () => {
             <MainIntroContainer>
                <ProfileImage />
                <NameAndAddress>
-                  <Name>박수빈 디자이너({id}번)</Name>
+                  <Name>{designer?.name}</Name>
                   <Address>
-                     <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
-                     <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
+                     <span id='address_detail' style={{marginRight:'10px'}}>{designer?.address}</span>
+                     <span id='address_category' style={{color: '#808080'}}>{designer?.region}</span>
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
@@ -106,26 +130,28 @@ const DesignerPage = () => {
                </HeartContainer>
             </MainIntroContainer>
             <OneLineIntro>
-               트렌디한 감성, 섬세한 손길로 새로운 모습을
+               {designer?.description}
             </OneLineIntro>
             <TagsContainer>
                <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>전문분야</span>
-                  <Tag type='scissor' text='레이어드 컷'/>
+                  {designer?.majors.map((major) => (
+                     <Tag key={major} type='major' text={major} />
+                  ))}
                </div>
                <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>컨설팅 유형</span>
-                  <Tag type='consulting' text='대면/화상'/>
+                  <Tag type='consulting' text={designer?.meetingType}/>
                </div>
             </TagsContainer>
             <PricesContainer>
                <PriceCard>
                   <span id='price_title'>대면</span>
-                  <span id='price'>30,000원</span>
+                  <span id='price'>{designer?.offlinePrice}</span>
                </PriceCard>
                <PriceCard>
-                  <span id='price_title'>커트</span>
-                  <span id='price'>30,000원</span>
+                  <span id='price_title'>화상</span>
+                  <span id='price'>{designer?.onlinePrice}</span>
                </PriceCard>
             </PricesContainer>
 
