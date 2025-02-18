@@ -166,7 +166,7 @@ const DesignerPage = () => {
                <TabButton>상담유형</TabButton>
                <TabButton>일정</TabButton>
             </TabContainer> */}
-
+            <ModalWrapper>
             <ChoiceContainer id='consulting_type'>
                <ChoiceTitle>컨설팅 유형</ChoiceTitle>
                <ChoiceButtonContainer>
@@ -237,7 +237,7 @@ const DesignerPage = () => {
                third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
             />
 
-
+         </ModalWrapper>
          </BottomModal>
 
           {/* 하단 고정 예약 버튼 */}
@@ -253,6 +253,14 @@ const DesignerPage = () => {
 }
 
 export default DesignerPage  
+
+const ModalWrapper = styled.div`
+width: 90%;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+`
 
 const ChoiceContainer = styled.div`
    width: 100%;
@@ -289,7 +297,7 @@ const ChoiceButton = styled.div<{ selected: boolean }>`
    border-radius: 6px;
    padding: 17px;
    background-color: ${(props) => (props.selected ? "black" : "#f1f1f1")};
-   color: ${(props) => (props.selected ? "white" : "black")};
+   color: ${(props) => (props.selected ? "#F3D7E5" : "black")};
    cursor: pointer;
    transition: all 0.1s ease-in-out;
 `;
@@ -308,7 +316,7 @@ const TimeButton = styled.button<{ selected: boolean }>`
    max-width: calc(25% - 10px);
    aspect-ratio: 2/1;
    background-color: ${(props) => (props.selected ? "black" : "#f0f0f0")};
-   color: ${(props) => (props.selected ? "white" : "black")};
+   color: ${(props) => (props.selected ? "#F3D7E5" : "black")};
    font-size: 14px;
    border: none;
    cursor: pointer;

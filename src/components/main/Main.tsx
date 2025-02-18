@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/common/Header/Header";
 import Section1 from "@/components/main/Section1/Section1";
 import Section2 from "@/components/main/Section2/Section2";
@@ -10,8 +10,24 @@ import Section4 from "./Section4/Section4";
 import Section5 from "./Section5/Section5";
 import Footer from "./Footer/Footer";
 import Divider from "../common/Divider";
+import { sendCode } from "@/apis/loginAPI";
 
 const Main = () => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  useEffect(() => {
+    //쿼리에 구글 인가코드가 있으면 백으로 전송
+    if (window.location.search.includes("code")) {
+      const code = new URLSearchParams(window.location.search).get("code");
+      sendCode(code);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) return null;
+
   return (
     <MainWrapper>
       <Header where="main" />

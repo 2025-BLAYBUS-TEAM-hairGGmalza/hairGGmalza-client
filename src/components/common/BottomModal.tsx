@@ -56,7 +56,6 @@ const ModalOverlay = styled.div`
 
 // 모달 컨테이너 (슬라이드 애니메이션 포함)
 const ModalContainer = styled.div`
-  font-family: "pretendard-regular", sans-serif;
   width: 100%;
   max-width: 470px;
   height: 80%;

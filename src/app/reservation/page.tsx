@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
-import { useParams } from "next/navigation";
-import { getReservations } from "@/apis/reservationAPI";
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
-   const memberId = String(useParams().memberId);
    
    // const router = useRouter();
    
@@ -19,13 +16,9 @@ const ReservationPage = () => {
 
    useEffect(() => {
       setIsMounted(true);
-      console.log(memberId);
+      //토큰으로 예약 내역 요청
 
-      getReservations(memberId).then((res) => {
-         console.log(res.data);
-      })
-
-   }, [memberId]);
+   }, []);
    if (!isMounted) return null;
 
    return (
