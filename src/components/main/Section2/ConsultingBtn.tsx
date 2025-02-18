@@ -2,8 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import { FaDesktop } from "react-icons/fa";
-import { IoChatboxEllipses } from "react-icons/io5";
 
 const ConsultingBtn = () => {
   const router = useRouter();
@@ -20,11 +18,16 @@ const ConsultingBtn = () => {
       </TitleWrapper>
       <ButtonContainer>
         <FilterButton onClick={() => handleFilter("offline")}>
-          <IoChatboxEllipses size={25} />
+          <img
+            src="/images/chat.svg"
+            alt="채팅 아이콘"
+            width={30}
+            height={30}
+          />
           대면 컨설팅
         </FilterButton>
         <FilterButton onClick={() => handleFilter("online")}>
-          <FaDesktop size={25} />
+          <img src="/images/pad.svg" alt="패드 아이콘" width={30} height={30} />{" "}
           화상 컨설팅
         </FilterButton>
       </ButtonContainer>

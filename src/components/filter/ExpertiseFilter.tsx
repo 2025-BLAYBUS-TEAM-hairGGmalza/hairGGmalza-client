@@ -1,28 +1,25 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Divider from "../common/Divider";
 
-const OPTIONS = [
-  "컷",
-  "펌",
-  "염색",
-  "탈염색",
-  "펌",
-  "염색",
-  "탈염색",
-  "펌",
-  "염색",
-  "탈염색",
-];
+interface ExpertiseFilterProps {
+  selected: string[] | null;
+  onChange: (value: string[] | null) => void;
+}
 
-const ExpertiseFilter = () => {
-  const [selected, setSelected] = useState<string[]>([]);
+const OPTIONS = ["컷", "펌", "염색", "탈염색"];
 
+const ExpertiseFilter: React.FC<ExpertiseFilterProps> = ({
+  selected,
+  onChange,
+}) => {
   const handleSelect = (option: string) => {
-    if (selected.includes(option)) {
-      setSelected(selected.filter((item) => item !== option));
+    if (!selected) {
+      onChange([option]);
+    } else if (selected.includes(option)) {
+      const newSelection = selected.filter((item) => item !== option);
+      onChange(newSelection.length > 0 ? newSelection : null);
     } else if (selected.length < 2) {
-      setSelected([...selected, option]);
+      onChange([...selected, option]);
     }
   };
 
@@ -37,7 +34,7 @@ const ExpertiseFilter = () => {
           {OPTIONS.map((option) => (
             <Option
               key={option}
-              selected={selected.includes(option)}
+              selected={selected?.includes(option) ?? false}
               onClick={() => handleSelect(option)}
             >
               ✂️ {option}
@@ -54,7 +51,7 @@ export default ExpertiseFilter;
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 23px;
   display: flex;
   flex-direction: column;
   gap: 20px;

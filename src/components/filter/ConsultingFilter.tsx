@@ -1,11 +1,20 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Divider from "../common/Divider";
 
-const options = ["대면", "비대면", "대면/비대면"];
+interface ConsultingFilterProps {
+  selected: string | null;
+  onChange: (value: string | null) => void;
+}
 
-export default function ConsultingFilter() {
-  const [selected, setSelected] = useState<string | null>(null);
+const options = ["대면", "화상", "대면/화상"];
+
+const ConsultingFilter: React.FC<ConsultingFilterProps> = ({
+  selected,
+  onChange,
+}) => {
+  const handleSelect = (option: string) => {
+    onChange(selected === option ? null : option);
+  };
 
   return (
     <>
@@ -13,27 +22,26 @@ export default function ConsultingFilter() {
         <Title>컨설팅유형</Title>
         <OptionsWrapper>
           {options.map((option) => (
-            <Label key={option}>
-              <RadioButton selected={selected === option} />
+            <Option
+              key={option}
+              selected={selected === option}
+              onClick={() => handleSelect(option)}
+            >
               {option}
-              <HiddenInput
-                type="radio"
-                name="consultation"
-                value={option}
-                onChange={() => setSelected(option)}
-              />
-            </Label>
+            </Option>
           ))}
         </OptionsWrapper>
       </Container>
       <Divider />
     </>
   );
-}
+};
+
+export default ConsultingFilter;
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 23px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -47,24 +55,19 @@ const Title = styled.span`
 const OptionsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
-`;
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 1.9rem;
-  cursor: pointer;
   gap: 1rem;
 `;
 
-const RadioButton = styled.span<{ selected: boolean }>`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: ${(props) => (props.selected ? "black" : "#ccc")};
-`;
-
-const HiddenInput = styled.input`
-  display: none;
+const Option = styled.button<{ selected: boolean }>`
+  padding: 8px 14px;
+  font-size: 1.6rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: ${({ selected }) => (selected ? "black" : "#ddd")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
 `;
