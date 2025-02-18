@@ -1,9 +1,16 @@
 "use client";
-import Profile from "@/components/common/Profile";
 import Tag from "@/components/common/Tag";
+import { useEffect, useState } from "react";
 import styled from "styled-components"
 
 const ReservationDetailpage = () => {
+   const [isMounted, setIsMounted] = useState(false);
+   
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+   if (!isMounted) return null;
+
    return (
       <Wrapper>
          <Header>예약 확정</Header>
