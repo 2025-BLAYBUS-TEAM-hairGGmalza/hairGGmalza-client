@@ -13,9 +13,16 @@ html {
   align-items: center;
   font-family: "Apple SD Gothic Neo", "Pretendard-Regular", sans-serif;
   overflow: hidden; /* ✅ 전체 페이지 스크롤 방지 */
+  -webkit-scrollbar {
+    display: none;
+  }
 }
 
 html::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
   display: none;
 }
 
@@ -81,10 +88,12 @@ img {
 }
 
 @font-face {
-  font-family: 'Apple SD Gothic Neo';
+  font-family: "Apple SD Gothic Neo";
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.woff2') format('woff2'),
-       url('https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.ttf') format('truetype');
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/fonts-archive/AppleSDGothicNeo/AppleSDGothicNeo-Regular.ttf")
+      format("truetype");
 }
