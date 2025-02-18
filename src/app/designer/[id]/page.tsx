@@ -40,12 +40,14 @@ const DesignerPage = () => {
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
    const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
+   const [selectedPrice, setSelectedPrice] = useState<number | undefined>(0);
    const [selectedTime, setSelectedTime] = useState<string | null>(null);
    const [isMounted, setIsMounted] = useState(false);
 
    const handleConsultingTypeChange = (type: "대면" | "화상") => {
       setSelectedConsultingType(type);
       setIsCenterModalOpen(true); //  버튼을 누를 때 모달 열기
+      setSelectedPrice(type === "대면" ? designer?.offlinePrice : designer?.onlinePrice);
    };
    
 
@@ -77,13 +79,16 @@ const DesignerPage = () => {
    
       /// 날짜를 YYYYMMDD 형식으로 변환
       const formattedDate = selectedDate.toISOString().split('T')[0].replace(/-/g, '');
+      // 대면이면 offlinePrice, 화상이면 onlinePrice
 
       console.log("상담유형:", selectedConsultingType);
       console.log("선택한 날짜:", formattedDate);
       console.log("선택한 시간:", selectedTime);
 
       // 쿼리스트링 생성 후 이동
-      router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}`);
+      const url = `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
+      console.log(url);
+      // router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`);
 
    };
    
@@ -181,13 +186,13 @@ const DesignerPage = () => {
                      onClick={() => handleConsultingTypeChange("대면")} 
                      selected={selectedConsultingType === "대면"}>
                      <span id='price_title'>대면</span>
-                     <span id='price'>30,000원</span>
+                     <span id='price'>{designer?.onlinePrice}원</span>
                   </ChoiceButton>
                   <ChoiceButton 
                      onClick={() => handleConsultingTypeChange("화상")} 
                      selected={selectedConsultingType === "화상"}>
                      <span id='price_title'>화상</span>
-                     <span id='price'>30,000원</span>
+                     <span id='price'>{designer?.onlinePrice}원</span>
                   </ChoiceButton>
                </ChoiceButtonContainer>
             </ChoiceContainer>
