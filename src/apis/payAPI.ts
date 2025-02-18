@@ -35,3 +35,23 @@ export const postReservation = async (memberId: number, designerId: number, meet
       console.error("❌ 예약 요청 실패");
    }
 };
+
+export const postPGtoken = async (pg_token: string|null, reservationId: string) => {
+   console.log("📢 postPGtoken 호출");
+
+   if (!API_URL) {
+      console.error("❌ API_URL이 설정되지 않았습니다. .env.local 파일을 확인하세요.");
+      return;
+   }
+
+   try {
+      const response = await axios.get(`${API_URL}/reservation/${reservationId}/pay/completed?pg_token=${pg_token}`);
+
+      console.log("✅ 결제 완료:", response.data);
+
+      return response.data;
+   }
+   catch {
+      console.error("❌ 결제 실패");
+   }
+}
