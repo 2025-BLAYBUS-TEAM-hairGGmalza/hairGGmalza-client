@@ -1,6 +1,6 @@
 "use client";
 
-import { apiTest, loginTest } from '@/apis/apiTest'
+import { apiTest, loginTest } from '@/apis/loginAPI'
 import { getDesigner } from '@/apis/designerAPI';
 import { postReservation } from '@/apis/payAPI';
 
