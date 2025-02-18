@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../common/Header/Header";
 import { FaFilter } from "react-icons/fa";
@@ -50,6 +50,7 @@ const dummyDesigners: Designer[] = [
 ];
 
 const Search = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [designers] = useState<Designer[]>(dummyDesigners); // 더미 데이터 사용
@@ -58,6 +59,11 @@ const Search = () => {
     setSelectedFilters(filters);
     setIsFilterOpen(false);
   };
+
+    useEffect(() => {
+      setIsMounted(true);
+    }, []);
+    if (!isMounted) return null;
 
   return (
     <>
