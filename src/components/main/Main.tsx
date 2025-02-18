@@ -19,8 +19,9 @@ const Main = () => {
     //쿼리에 구글 인가코드가 있으면 백으로 전송
     if (window.location.search.includes("code")) {
       const code = new URLSearchParams(window.location.search).get("code");
-      // sendCode(code);
-      newSendCode(code);
+      console.log(code);  
+      sendCode(code);
+      // newSendCode(code);
     }
   }, []);
 

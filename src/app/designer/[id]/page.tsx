@@ -4,7 +4,7 @@ import BottomButtonBar from '@/components/common/BottomButtonBar';
 import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
@@ -15,7 +15,7 @@ import CenterModal from '@/components/common/CenterModal';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Tag from '@/components/common/Tag';
 import { getDesigner } from '@/apis/designerAPI';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type DesignerType = {
    id: string;
@@ -34,8 +34,7 @@ const DesignerPage = () => {
    const id = String(useParams().id);
    const [isLiked, setIsLiked] = useState(false);
    const [designer, setDesigner] = useState<DesignerType | null>(null);
-   const pathname = usePathname();
-   
+   const router = useRouter();
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
@@ -83,14 +82,8 @@ const DesignerPage = () => {
       console.log("선택한 날짜:", formattedDate);
       console.log("선택한 시간:", selectedTime);
 
-      // 쿼리스트링 생성
-      const searchParams = new URLSearchParams();
-      searchParams.set("consultingType", selectedConsultingType);
-      searchParams.set("date", formattedDate);
-      searchParams.set("time", selectedTime);
-      const paymentUrl = `${pathname}?${searchParams.toString()}`;
-      window.history.pushState({}, "", paymentUrl);
-
+      // 쿼리스트링 생성 후 이동
+      router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}`);
 
    };
    
