@@ -1,44 +1,66 @@
 import React from "react";
 import styled from "styled-components";
 
-interface ProfileCardProps {
-  imageUrl?: string;
+interface SearchCardProps {
+  designerId: number;
   name: string;
-  location: string;
+  region: string;
+  address: string;
+  profile: string;
   description: string;
-  services: { name: string; price: string }[];
+  offlinePrice: number;
+  onlinePrice: number;
+  meetingType: string;
+  majors: string[];
 }
 
-const SearchCard: React.FC<ProfileCardProps> = ({
-  imageUrl,
+const SearchCard: React.FC<SearchCardProps> = ({
   name,
-  location,
+  region,
+  profile,
   description,
-  services,
+  offlinePrice,
+  onlinePrice,
+  meetingType,
+  majors,
 }) => {
   return (
     <CardContainer>
       <ImageWrapper>
-        <ProfileImage src={imageUrl || "/default-profile.png"} alt={name} />
-        <Badge />
+        <ProfileImage
+          src={profile !== "null" ? profile : "/images/hairmodel.png"}
+          alt={name}
+        />
       </ImageWrapper>
       <Content>
         <Header>
           <Name>{name}</Name>
-          <Location>{location}</Location>
+          <Location>{region}</Location>
         </Header>
-        <Description>{description}</Description>
+        <Description>{description.trim() || "설명이 없습니다."}</Description>
         <TagContainer>
-          <Tag>✂ 대면/화상</Tag>
-          <Tag>✂ 펌</Tag>
+          <Tag>
+            {meetingType === "BOTH"
+              ? "💬 대면/화상"
+              : meetingType === "OFFLINE"
+              ? "🏢 대면"
+              : "💻 화상"}
+          </Tag>
+          {majors.length > 0 ? (
+            majors.map((major, index) => <Tag key={index}>✂ {major}</Tag>)
+          ) : (
+            <Tag>✂ 커트</Tag>
+          )}
         </TagContainer>
         <ServiceList>
-          {services.map((service, index) => (
-            <ServiceItem key={index}>
-              <ServiceName>{service.name}</ServiceName>
-              <ServicePrice>{service.price}</ServicePrice>
-            </ServiceItem>
-          ))}
+          <ServiceItem>
+            <ServiceName>대면 상담</ServiceName>
+            <ServicePrice>{offlinePrice.toLocaleString()}원</ServicePrice>
+          </ServiceItem>
+          <ServiceItem>
+            <ServiceName>온라인 상담</ServiceName>
+            <ServicePrice>{onlinePrice.toLocaleString()}원</ServicePrice>
+          </ServiceItem>
         </ServiceList>
       </Content>
     </CardContainer>
@@ -50,7 +72,6 @@ export default SearchCard;
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
-  background: #f5f5f5;
   border-radius: 10px;
   width: 85%;
   height: fit-content;
@@ -58,8 +79,8 @@ const CardContainer = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
   flex-shrink: 0;
 `;
 
@@ -70,65 +91,73 @@ const ProfileImage = styled.img`
   background: #ccc;
 `;
 
-const Badge = styled.div`
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 14px;
-  height: 14px;
-  background: white;
-  border-radius: 50%;
-`;
+// const Badge = styled.div`
+//   position: absolute;
+//   bottom: 4px;
+//   right: 4px;
+//   width: 14px;
+//   height: 14px;
+//   background: white;
+//   border-radius: 50%;
+// `;
 
 const Content = styled.div`
   flex: 1;
   margin-left: 15px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 2.4rem;
 `;
 
 const Name = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 `;
 
-const Location = styled.span`
-  font-size: 12px;
+const Location = styled.div`
+  font-size: 16px;
   color: gray;
   margin-left: 6px;
+  display: flex;
+  align-items: center;
 `;
 
-const Description = styled.p`
-  font-size: 18px;
+const Description = styled.div`
+  font-size: 16px;
   color: #666;
-  margin: 4px 0;
 `;
 
 const TagContainer = styled.div`
   display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 10px;
 `;
 
-const Tag = styled.span`
-  font-size: 12px;
-  background: #e0e0e0;
-  padding: 4px 6px;
-  border-radius: 4px;
+const Tag = styled.div`
+  width: 90px;
+  font-size: 16px;
+  background: black;
+  color: #f3d7e5;
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 `;
 
 const ServiceList = styled.div`
-  width: 95%;
-  height: 90px;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 4px;
-  border-radius: 6px;
 `;
 
 const ServiceItem = styled.div`
@@ -136,13 +165,21 @@ const ServiceItem = styled.div`
   justify-content: space-between;
   font-size: 14px;
   background: #ddd;
-  padding: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  text-align: center;
+  border-radius: 8px;
 `;
 
-const ServiceName = styled.span`
+const ServiceName = styled.div`
   font-weight: bold;
+  display: flex;
+  align-items: center;
 `;
 
-const ServicePrice = styled.span`
+const ServicePrice = styled.div`
+  font-weight: 500;
   color: black;
+  display: flex;
+  align-items: center;
 `;

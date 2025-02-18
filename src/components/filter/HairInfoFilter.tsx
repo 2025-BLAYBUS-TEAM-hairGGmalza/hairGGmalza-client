@@ -1,5 +1,15 @@
-import { useState } from "react";
 import styled from "styled-components";
+
+interface HairInfo {
+  concerns: string[];
+  length: string | null;
+  condition: string | null;
+}
+
+interface HairInfoFilterProps {
+  selected: HairInfo | null;
+  onChange: (value: HairInfo | null) => void;
+}
 
 const HAIR_CONCERNS = [
   "스타일 변화",
@@ -15,41 +25,47 @@ const HAIR_CONCERNS = [
 const HAIR_LENGTHS = ["숏컷", "단발", "중단발", "장발"];
 const HAIR_CONDITIONS = ["건강", "보통", "손상", "극손상"];
 
-const DEFAULT_HAIR_INFO = {
+const DEFAULT_HAIR_INFO: HairInfo = {
   concerns: ["스타일 변화", "모발 손상/관리"],
   length: "중단발",
   condition: "손상",
 };
 
-const HairInfoFilter = () => {
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
-  const [selectedLength, setSelectedLength] = useState<string | null>(null);
-  const [selectedCondition, setSelectedCondition] = useState<string | null>(
-    null
-  );
-  const [useMyHairInfo, setUseMyHairInfo] = useState(false);
-
+const HairInfoFilter = ({ selected, onChange }: HairInfoFilterProps) => {
   const handleSelectConcern = (concern: string) => {
-    if (selectedConcerns.includes(concern)) {
-      setSelectedConcerns(selectedConcerns.filter((item) => item !== concern));
-    } else if (selectedConcerns.length < 3) {
-      setSelectedConcerns([...selectedConcerns, concern]);
+    if (!selected) return; // selected가 null이면 아무 동작 안 함
+    const isSelected = selected.concerns.includes(concern);
+    if (isSelected) {
+      onChange({
+        ...selected,
+        concerns: selected.concerns.filter((item) => item !== concern),
+      });
+    } else if (selected.concerns.length < 3) {
+      onChange({ ...selected, concerns: [...selected.concerns, concern] });
     }
   };
 
+  const handleSelectLength = (length: string) => {
+    onChange(
+      selected
+        ? { ...selected, length }
+        : { concerns: [], length, condition: null }
+    );
+  };
+
+  const handleSelectCondition = (condition: string) => {
+    onChange(
+      selected
+        ? { ...selected, condition }
+        : { concerns: [], length: null, condition }
+    );
+  };
+
   const loadMyHairInfo = () => {
-    if (useMyHairInfo) {
-      // 이미 불러온 상태라면 초기화
-      setSelectedConcerns([]);
-      setSelectedLength(null);
-      setSelectedCondition(null);
-      setUseMyHairInfo(false);
+    if (JSON.stringify(selected) === JSON.stringify(DEFAULT_HAIR_INFO)) {
+      onChange(null); // 초기화할 때 null 설정
     } else {
-      // 불러오기 실행
-      setSelectedConcerns(DEFAULT_HAIR_INFO.concerns);
-      setSelectedLength(DEFAULT_HAIR_INFO.length);
-      setSelectedCondition(DEFAULT_HAIR_INFO.condition);
-      setUseMyHairInfo(true);
+      onChange(DEFAULT_HAIR_INFO);
     }
   };
 
@@ -66,7 +82,9 @@ const HairInfoFilter = () => {
             {HAIR_CONCERNS.map((concern) => (
               <Option
                 key={concern}
-                selected={selectedConcerns.includes(concern)}
+                selected={
+                  selected ? selected.concerns.includes(concern) : false
+                }
                 onClick={() => handleSelectConcern(concern)}
               >
                 {concern}
@@ -81,8 +99,8 @@ const HairInfoFilter = () => {
             {HAIR_LENGTHS.map((length) => (
               <Option
                 key={length}
-                selected={selectedLength === length}
-                onClick={() => setSelectedLength(length)}
+                selected={selected ? selected.length === length : false}
+                onClick={() => handleSelectLength(length)}
               >
                 {length}
               </Option>
@@ -96,8 +114,8 @@ const HairInfoFilter = () => {
             {HAIR_CONDITIONS.map((condition) => (
               <Option
                 key={condition}
-                selected={selectedCondition === condition}
-                onClick={() => setSelectedCondition(condition)}
+                selected={selected ? selected.condition === condition : false}
+                onClick={() => handleSelectCondition(condition)}
               >
                 {condition}
               </Option>
@@ -107,7 +125,11 @@ const HairInfoFilter = () => {
       </SectionWrapper>
 
       <LoadButton onClick={loadMyHairInfo}>
-        <RadioButton selected={useMyHairInfo} />
+        <RadioButton
+          selected={
+            JSON.stringify(selected) === JSON.stringify(DEFAULT_HAIR_INFO)
+          }
+        />
         <span>나의 헤어정보 불러오기</span>
       </LoadButton>
     </Container>
@@ -118,10 +140,10 @@ export default HairInfoFilter;
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 23px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 `;
 
 const Title = styled.span`
@@ -135,10 +157,11 @@ const SectionWrapper = styled.div`
   flex-direction: column;
   max-width: 80%;
   padding: 2.2rem;
-  gap: 3rem;
-  background-color: #f5f5f5; // 배경색 추가
-  border: 1px solid #ddd; // 테두리 추가
+  gap: 2rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
 `;
+
 const Section = styled.div`
   display: flex;
   flex-direction: column;
@@ -179,7 +202,6 @@ const Option = styled.div<{ selected: boolean }>`
 `;
 
 const LoadButton = styled.button`
-  margin-top: 10px;
   padding: 10px;
   font-size: 1.6rem;
   background: none;

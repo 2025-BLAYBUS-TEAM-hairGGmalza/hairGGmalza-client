@@ -2,7 +2,7 @@
 
 import React from "react";
 import Explain from "../Explain";
-import CategorySelector from "../CategoryBtns";
+import CategorySelector from "../CategorySelector";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import CarouselWrapper from "../CarouselWrapper";
 import DesignerCarousel from "@/components/common/carousel/DesignerCarousel";

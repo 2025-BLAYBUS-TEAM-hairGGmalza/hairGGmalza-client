@@ -1,7 +1,8 @@
 "use client";
 
-import BottomModal from "@/components/common/BottomModal";
+// import BottomModal from "@/components/common/BottomModal";
 import CenterModal from "@/components/common/CenterModal";
+import FilterModal from "@/components/filter/FilterModal";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -15,10 +16,14 @@ const Home = () => {
       <Button onClick={() => setIsCenterOpen(true)}>중앙 모달 열기</Button>
 
       {/* 하단 모달 */}
-      <BottomModal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} title="모달 제목">
+      {/* <BottomModal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} title="모달 제목">
         <p>bottomModal 내용 예시입니다.</p>
         <div>dfdfdfdf</div>
-      </BottomModal>
+      </BottomModal> */}
+      <FilterModal
+        isBottomOpen={isBottomOpen}
+        setIsBottomOpen={() => setIsBottomOpen(false)}
+      />
 
       {/* 중앙 모달 */}
       <CenterModal isOpen={isCenterOpen} onClose={() => setIsCenterOpen(false)}>
