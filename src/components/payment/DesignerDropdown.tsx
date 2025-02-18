@@ -17,9 +17,20 @@ const HairDesignerDropdown: React.FC = () => {
     const urlParams = new URLSearchParams(queryString);
 
     setConsultingType(urlParams.get("type") || "");
-    setTime(urlParams.get("time") || "");
+
+    //10시부터 12시까지는 오전, 그 이외는 오후를 앞에 붙이기. 그리고 뒤에 시간을 그대로 붙이기
+    const timeStr = urlParams.get("time") || "";
+    const hour = parseInt(timeStr.slice(0, 2), 10);
+    const time = `${hour >= 10 && hour < 12 ? "오전" : "오후"} ${timeStr}`;
+    setTime(time);
+
     setPrice(Number(urlParams.get("price")) || 0);
-    setDate(urlParams.get("date") || "");
+
+    //날짜는 월/일만, n월 n일 형식으로 표시(20240213 -> 2월 13일)
+    const dateStr = urlParams.get("date") || "";
+    const month = dateStr.slice(4, 6);
+    const day = dateStr.slice(6, 8);
+    setDate(`${month}월 ${day}일`);
   }, []);
 
   return (
