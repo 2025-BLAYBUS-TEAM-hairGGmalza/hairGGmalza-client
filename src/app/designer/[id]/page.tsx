@@ -4,7 +4,7 @@ import BottomButtonBar from '@/components/common/BottomButtonBar';
 import BottomModal from '@/components/common/BottomModal';
 import Header from '@/components/common/Header/Header';
 import ReviewAndPortfolio from '@/components/ReviewAndPortfolio';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
 
@@ -15,6 +15,7 @@ import CenterModal from '@/components/common/CenterModal';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Tag from '@/components/common/Tag';
 import { getDesigner } from '@/apis/designerAPI';
+import { useRouter } from 'next/router';
 
 type DesignerType = {
    id: string;
@@ -33,6 +34,7 @@ const DesignerPage = () => {
    const id = String(useParams().id);
    const [isLiked, setIsLiked] = useState(false);
    const [designer, setDesigner] = useState<DesignerType | null>(null);
+   const pathname = usePathname();
    
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
@@ -74,10 +76,22 @@ const DesignerPage = () => {
       return;
       }
    
-      // 모든 값이 선택되었을 때 콘솔 출력
+      /// 날짜를 YYYYMMDD 형식으로 변환
+      const formattedDate = selectedDate.toISOString().split('T')[0].replace(/-/g, '');
+
       console.log("상담유형:", selectedConsultingType);
-      console.log("선택한 날짜:", selectedDate.toLocaleDateString("ko-KR"));
+      console.log("선택한 날짜:", formattedDate);
       console.log("선택한 시간:", selectedTime);
+
+      // 쿼리스트링 생성
+      const searchParams = new URLSearchParams();
+      searchParams.set("consultingType", selectedConsultingType);
+      searchParams.set("date", formattedDate);
+      searchParams.set("time", selectedTime);
+      const paymentUrl = `${pathname}?${searchParams.toString()}`;
+      window.history.pushState({}, "", paymentUrl);
+
+
    };
    
    const handleHeartClick = () => {
