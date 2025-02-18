@@ -96,11 +96,11 @@ const ReservationForm: React.FC = () => {
           <SectionTitle>예약정보</SectionTitle>
           <HairDesignerDropdown />
           <Label>예약 전 꼭 확인해주세요!</Label>
-          <TextArea
-            placeholder="내용을 입력해주세요."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
+          <Notice>
+            설팅 예약 시간 전, 10분 전까지 컨설팅을 준비해주세요. <br/>
+            예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, <br/>소정의 수수료가 부과될 수 있습니다. <br/>
+            컨설팅은 약 30분 소요되며, 종료 후 컨설팅 결과를 요약 리포트로 확인할 수 있어요.<br/>
+          </Notice>
         </SectionContainer>
 
         <Divider />
@@ -422,4 +422,13 @@ const AccountInput = styled.input`
   border-radius: 5px;
   background: #f7f7f7;
   color: #999;
+`;
+
+const Notice = styled.div`
+  font-size: 1.5rem;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
 `;

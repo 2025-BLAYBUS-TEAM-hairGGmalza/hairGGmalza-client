@@ -88,7 +88,7 @@ const DesignerPage = () => {
       // 쿼리스트링 생성 후 이동
       const url = `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
       console.log(url);
-      // router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`);
+      router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`);
 
    };
    
