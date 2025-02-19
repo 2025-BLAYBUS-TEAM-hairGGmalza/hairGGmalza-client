@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
 import { getDesignerReviews } from '@/apis/reviewAPI';
-import Image from 'next/image';
+import { getDesigner } from '@/apis/designerAPI';
 
 // ✅ API 응답 데이터 타입 (Review 타입 제거, ReviewInfo만 사용)
 interface ReviewInfo {
@@ -18,11 +18,20 @@ interface ReviewInfo {
    imageUrls: string[];
 }
 
+interface DesignerInfo {
+   designerId: number;
+   name: string;
+   address: string;
+   region: string;
+   profile: string;
+}
+
 const Reviewpage = () => {
    const [isMounted, setIsMounted] = useState(false);
    const id = String(useParams().id); // URL 파라미터에서 id 가져오기
    const [reviews, setReviews] = useState<ReviewInfo[]>([]);
    const [averageScore, setAverageScore] = useState<number | null>(null);
+   const [designerInfo, setDesignerInfo] = useState<DesignerInfo | null>(null);
 
    useEffect(() => {
       console.log(`디자이너 ID: ${id}`);
@@ -41,7 +50,7 @@ const Reviewpage = () => {
                setReviews(reviewInfos);
 
                // 평균 평점 계산
-               const totalScore = reviewInfos.reduce((sum, r) => sum + r.score, 0);
+               const totalScore = reviewInfos.reduce((sum: number, r:ReviewInfo) => sum + r.score, 0);
                setAverageScore(parseFloat((totalScore / reviewInfos.length).toFixed(1)));
             } else {
                setReviews([]);
@@ -52,7 +61,28 @@ const Reviewpage = () => {
          }
       };
 
+      //디자이너 API 호출
+      const fetchDesignerInfo = async () => {
+         try {
+            const response = await getDesigner(id);
+            const data = response.data;
+            console.log("✅ 디자이너 정보:", data);
+
+            //디자이너 정보 세팅
+            setDesignerInfo({
+               designerId: data.designerId,
+               name: data.name,
+               address: data.address,
+               region: data.region,
+               profile: data.profile
+            });
+         } catch (error) {
+            console.error("❌ 디자이너 정보를 불러오는 중 오류 발생:", error);
+         }
+      }
+
       fetchReviews();
+      fetchDesignerInfo();
    }, [id]);
 
    useEffect(() => {
@@ -68,12 +98,12 @@ const Reviewpage = () => {
          <ProfileWrapper>
             <ProfileContainer>
                <TopProfile>
-                  <ProfileImage />
+                  <ProfileImage src={designerInfo?.profile}/>
                   <NameAndAddress>
-                     <Name>디자이너 ({id}번)</Name>
+                     <Name>{designerInfo?.name}</Name>
                      <Address>
-                        <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
-                        <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
+                        <span id='address_detail' style={{marginRight:'10px'}}>{designerInfo?.address}</span>
+                        <span id='address_category' style={{color: '#808080'}}>{designerInfo?.region}</span>
                      </Address>
                   </NameAndAddress>
                </TopProfile>
@@ -156,7 +186,7 @@ const ReviewImages = styled.div`
    display: flex;
    flex-direction: row;
    align-items: center;
-   justify-content: space-between;
+   justify-content: flex-start;
    gap: 10px;
 `
 
@@ -216,7 +246,7 @@ const TopProfile = styled.div`
 `
 
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
    width: 55px;
    aspect-ratio: 1/1;
    border-radius: 50%;
