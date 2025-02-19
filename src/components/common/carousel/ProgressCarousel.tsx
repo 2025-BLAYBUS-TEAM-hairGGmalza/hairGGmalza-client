@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import styled from "styled-components";
 import { useState } from "react";
+import Image from "next/image";
 
 interface CarouselProps {
   images: { src: string; alt: string }[];
@@ -19,7 +20,6 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
     <CarouselContainer>
       <BannerSection>
         <Swiper
-          style={{ width: "100%", height: "auto" }}
           modules={[Pagination, Autoplay]}
           autoplay={{
             delay: 2000,
@@ -32,7 +32,14 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
             <SwiperSlide key={index}>
               <SlideContainer>
                 <ImageWrapper>
-                  <img src={src} alt={alt} />
+                  <Image
+                    src={src}
+                    alt={alt}
+                    width={470}
+                    height={300}
+                    priority={true}
+                    style={{ display: "block" }}
+                  />
                 </ImageWrapper>
               </SlideContainer>
             </SwiperSlide>
@@ -54,7 +61,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 300px;
+  height: fit-content;
 `;
 
 const BannerSection = styled.div`
@@ -77,10 +84,10 @@ const SlideContainer = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  img {
-    width: 470px;
+  /* img {
+    width: 100%;
     height: fit-content;
-  }
+  } */
 `;
 
 const ProgressBarContainer = styled.div`

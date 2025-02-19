@@ -50,9 +50,9 @@ const MyPage = () => {
                 <Arrow isOpen={openSections.account}>▼</Arrow>
               </Header>
               <Content isOpen={openSections.account}>
-                <InfoText>이름 | 홍길동</InfoText>
-                <InfoText>성별 | 남성</InfoText>
-                <InfoText>핸드폰 번호 | 010-1234-5678</InfoText>
+                <InfoText>이름 | 박재윤</InfoText>
+                <InfoText>성별 | 여성</InfoText>
+                <InfoText>핸드폰 번호 | 010-7625-5596</InfoText>
               </Content>
             </AccordionItem>
 
