@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import Tag from "./Tag"
-import { GoStarFill } from "react-icons/go";
 
 
 const Profile = () => {
@@ -28,13 +27,13 @@ const Profile = () => {
                   <span style={{fontSize:'16px'}}>2월 12일 (수) | 오후 18:00</span>
                </Time>
             </ConsultingAndTime>
-            <ReviewContainer>
+            {/* <ReviewContainer>
                <ReviewTitle>
                   <span>4.8</span>
                   <GoStarFill/><GoStarFill/><GoStarFill/><GoStarFill/><GoStarFill/>
                </ReviewTitle>
                <ReviewText>라뷰가줄줄줄리뷰가여기있다리듀가버이러이랴더랴머이래데재러이나</ReviewText>
-            </ReviewContainer>
+            </ReviewContainer> */}
             <Buttons>
                <GrayBox className="reviewBtn">리뷰작성</GrayBox>
                <GrayBox>예약정보</GrayBox>
@@ -178,29 +177,29 @@ const Buttons = styled.div`
    }
 `
 
-const ReviewContainer = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: center;
-   gap: 10px;
-   background-color: #f0f0f0;
-   border-radius: 4px;
-   padding: 15px 20px;
-   box-sizing: border-box;
-`
+// const ReviewContainer = styled.div`
+//    width: 100%;
+//    display: flex;
+//    flex-direction: column;
+//    align-items: flex-start;
+//    justify-content: center;
+//    gap: 10px;
+//    background-color: #f0f0f0;
+//    border-radius: 4px;
+//    padding: 15px 20px;
+//    box-sizing: border-box;
+// `
 
-const ReviewTitle = styled.div`
-   font-size: 18px;
-   font-weight: bold;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-   gap: 10px;
-`
+// const ReviewTitle = styled.div`
+//    font-size: 18px;
+//    font-weight: bold;
+//    display: flex;
+//    flex-direction: row;
+//    align-items: center;
+//    justify-content: flex-start;
+//    gap: 10px;
+// `
 
-const ReviewText = styled.div`
-   font-size: 15px;
-`
+// const ReviewText = styled.div`
+//    font-size: 15px;
+// `
