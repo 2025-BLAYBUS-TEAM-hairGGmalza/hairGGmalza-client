@@ -17,6 +17,7 @@ import Tag from "@/components/common/Tag";
 import { getDesigner } from "@/apis/designerAPI";
 import { useRouter } from "next/navigation";
 import ProgressCarousel from "@/components/common/carousel/ProgressCarousel";
+import { postMarked } from "@/apis/wishList";
 
 const DesignerPage = () => {
   const id = String(useParams().id);
@@ -114,8 +115,9 @@ const DesignerPage = () => {
     router.push(url);
   };
 
-  const handleHeartClick = () => {
+  const handleHeartClick = async () => {
     setIsLiked((prev) => !prev); //  클릭할 때마다 상태 변경
+    await postMarked(Number(id));
   };
 
   const handleDateChange = (date: Value) => {

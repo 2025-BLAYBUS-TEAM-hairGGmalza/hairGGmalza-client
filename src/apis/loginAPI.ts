@@ -30,9 +30,9 @@ export const sendCode = async (code: string | null) => {
     console.log(localStorage.getItem("token"));
 
     //첫 로그인이면 signUp 호출
-    if (response.data.isFirstLogin) {
+    if (response.data.isFirstLogin === "true") {
       //회원가입 페이지로 이동
-      console.log("첫 로그인 입니다.");
+      console.log(typeof response.data.isFirstLogin);
       window.location.href = "/signup";
     } else {
       console.log("첫 로그인이 아닙니다.");

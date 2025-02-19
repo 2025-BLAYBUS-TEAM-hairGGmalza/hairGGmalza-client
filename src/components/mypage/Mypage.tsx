@@ -8,6 +8,8 @@ import MyTab from "./MyTab";
 import { getMarked } from "@/apis/wishList";
 
 const MyPage = () => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     account: false,
     hair: false,
@@ -21,12 +23,15 @@ const MyPage = () => {
   };
 
   useEffect(() => {
+    // setIsMounted(true);
     const getWish = async () => {
       const response = await getMarked();
       console.log(response);
     };
     getWish();
   }, []);
+
+  // if (!isMounted) return null;
 
   return (
     <>
