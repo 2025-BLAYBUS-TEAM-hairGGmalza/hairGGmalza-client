@@ -115,7 +115,7 @@ const ReservationForm: React.FC = () => {
           <SectionTitle>예약자 정보</SectionTitle>
           <InputRow>
             <NameWrapper>
-              <div>예약자명</div>
+              <div>이름</div>
               <GrayBox>박수빈</GrayBox>
             </NameWrapper>
             <SelectWrapper>
@@ -123,6 +123,7 @@ const ReservationForm: React.FC = () => {
               <GrayBox>여</GrayBox>
             </SelectWrapper>
           </InputRow>
+          <div style={{fontSize:'1.5rem'}}>전화번호</div>
           <GrayBox>010-1234-5678</GrayBox>
         </SectionContainer>
 
@@ -141,7 +142,7 @@ const ReservationForm: React.FC = () => {
               checked={isChecked}
               onChange={() => setIsChecked(!isChecked)}
             />
-            <div>확인했습니다.</div>
+            <div style={{fontSize:'12px'}}>확인했습니다.</div>
           </CheckboxContainer>
           <SubText>
             헤어 고민이 있으신가요? <Optional>(선택)</Optional>
@@ -180,29 +181,33 @@ const ReservationForm: React.FC = () => {
           </PaymentButtonRow>
         </SectionContainer>
 
-        <Divider />
+        {paymentMethod === "계좌이체" && (
+        <>
+          <Divider />
 
-        <SectionContainer>
-          <SectionTitle>환불 계좌 입력</SectionTitle>
-          <BtnWrapper>
-            <Select
-              onChange={(e) => setSelectedBank(e.target.value)}
-              value={selectedBank}
-            >
-              {banks.map((bank) => (
-                <option key={bank} value={bank}>
-                  {bank}
-                </option>
-              ))}
-            </Select>
-            <AccountInput
-              type="text"
-              placeholder="000-0000-000000"
-              value={refundAccount}
-              onChange={(e) => setRefundAccount(e.target.value)}
-            />
-          </BtnWrapper>
-        </SectionContainer>
+          <SectionContainer>
+            <SectionTitle>환불 계좌 입력</SectionTitle>
+            <BtnWrapper>
+              <Select
+                onChange={(e) => setSelectedBank(e.target.value)}
+                value={selectedBank}
+              >
+                {banks.map((bank) => (
+                  <option key={bank} value={bank}>
+                    {bank}
+                  </option>
+                ))}
+              </Select>
+              <AccountInput
+                type="text"
+                placeholder="000-0000-000000"
+                value={refundAccount}
+                onChange={(e) => setRefundAccount(e.target.value)}
+              />
+            </BtnWrapper>
+          </SectionContainer>
+        </>
+      )}
         <Divider />
         <SectionContainer>
           <SectionTitle>개인정보 처리</SectionTitle>
@@ -234,7 +239,7 @@ const SectionContainer = styled.div`
 `;
 
 const SectionTitle = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `;
 
@@ -261,6 +266,7 @@ const TextArea = styled.textarea`
   font-size: 12px;
   color: #333;
   border: none;
+  font-family: "Apple SD Gothic Neo", "Nanum Gothic", sans-serif;
 `;
 
 // const Input = styled.input`
@@ -288,7 +294,7 @@ const Select = styled.select`
 `;
 
 const SubText = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
   display: flex;
   gap: 1rem;
@@ -350,7 +356,7 @@ const AccountWrapper = styled.div`
   border: 1px solid #ddd;
   background: #f5f5f5;
   border-radius: 6px;
-  padding: 2px 14px;
+  padding: 2px 18px;
   align-items: center;
   resize: none;
   font-size: 16px;
@@ -396,12 +402,12 @@ const PaymentButtonRow = styled.div`
 const PaymentButton = styled.button<{ selected: boolean }>`
   flex: 1;
   padding: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   border: none;
   border-radius: 8px;
-  background-color: ${({ selected }) => (selected ? "#ff6b6b" : "#ccc")};
-  color: white;
+  background-color: ${({ selected }) => (selected ? "#1E1E1E" : "#ccc")};
+  color: ${({ selected }) => (selected ? "#F3D7E5" : "white")};
   cursor: pointer;
 `;
 

@@ -56,8 +56,8 @@ const ToggleWrapper = styled.div`
 const ToggleButton = styled.button`
   width: 100%;
   padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 13px;
+  /* font-weight: bold; */
   text-align: left;
   color: #333;
   background: #f9f9f9;
