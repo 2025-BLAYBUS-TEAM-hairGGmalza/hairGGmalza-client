@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -33,14 +32,7 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
             <SwiperSlide key={index}>
               <SlideContainer>
                 <ImageWrapper>
-                  <Image
-                    src={src}
-                    alt={alt}
-                    fill // 부모 컨테이너를 꽉 채우도록 설정
-                    quality={100} // 화질 최대
-                    objectFit="cover" // 비율을 유지하면서 꽉 채움
-                    priority // 초기 로딩 속도 최적화
-                  />
+                  <img src={src} alt={alt} />
                 </ImageWrapper>
               </SlideContainer>
             </SwiperSlide>
@@ -85,8 +77,10 @@ const SlideContainer = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 300px; // 원하는 높이 설정
-  max-width: 800px; // 최대 크기 설정 가능
+  img {
+    width: 470px;
+    height: fit-content;
+  }
 `;
 
 const ProgressBarContainer = styled.div`

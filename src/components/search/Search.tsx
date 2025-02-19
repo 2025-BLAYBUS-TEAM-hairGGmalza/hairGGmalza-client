@@ -7,66 +7,26 @@ import { FaFilter } from "react-icons/fa";
 import FilterBtn from "./FilterBtn";
 import FilterModal from "../filter/FilterModal";
 import SearchCard from "./SearchCard";
-
-interface Designer {
-  designerId: number;
-  name: string;
-  region: string;
-  address: string;
-  profile: string;
-  description: string;
-  offlinePrice: number;
-  onlinePrice: number;
-  meetingType: string;
-  majors: string[];
-}
-
-// 더미 데이터
-const dummyDesigners: Designer[] = [
-  {
-    designerId: 2,
-    name: "최재영",
-    region: "홍대_연남_합정",
-    address: "1",
-    profile: "null",
-    description: " ",
-    offlinePrice: 45000,
-    onlinePrice: 25000,
-    meetingType: "BOTH",
-    majors: [],
-  },
-  {
-    designerId: 5,
-    name: "박수빈",
-    region: "홍대_연남_합정",
-    address: "3",
-    profile: "null",
-    description: " ",
-    offlinePrice: 40000,
-    onlinePrice: 28000,
-    meetingType: "BOTH",
-    majors: [],
-  },
-];
+import { Designer } from "@/types/request";
 
 const Search = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [designers] = useState<Designer[]>(dummyDesigners); // 더미 데이터 사용
+  const [designers, setDesigners] = useState<Designer[]>([]); // 디자이너 리스트 상태
 
   const handleApplyFilters = (filters: string[]) => {
     setSelectedFilters(filters);
     setIsFilterOpen(false);
   };
 
-    useEffect(() => {
-      setIsMounted(true);
-    }, []);
-    if (!isMounted) return null;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) return null;
 
   return (
-    <>
+    <Wrapper>
       <Header where="search" />
       <BtnWrapper>
         <FilterBtn Icon={<FaFilter />} onClick={() => setIsFilterOpen(true)} />
@@ -75,25 +35,34 @@ const Search = () => {
         ))}
       </BtnWrapper>
 
-      <SearchWrapper>
-        <span>{designers.length.toLocaleString()}건</span>
-        <CardList>
-          {designers.map((designer) => (
-            <SearchCard key={designer.designerId} {...designer} />
-          ))}
-        </CardList>
-      </SearchWrapper>
+      {/* ✅ designers가 존재할 때만 렌더링 */}
+      {designers && designers.length > 0 && (
+        <SearchWrapper>
+          <span>{designers.length.toLocaleString()}건</span>
+          <CardList>
+            {designers.map((designer) => (
+              <SearchCard key={designer.designerId} {...designer} />
+            ))}
+          </CardList>
+        </SearchWrapper>
+      )}
 
       <FilterModal
         isBottomOpen={isFilterOpen}
         setIsBottomOpen={() => setIsFilterOpen(false)}
         onApplyFilters={handleApplyFilters}
+        setDesigners={setDesigners}
       />
-    </>
+    </Wrapper>
   );
 };
 
 export default Search;
+
+const Wrapper = styled.div`
+  width: 100%;
+  overflow-x: hidden;
+`;
 
 const BtnWrapper = styled.div`
   display: flex;
