@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 
-const useNavigateTo = () => {
+const useNavigateTo = (page: string) => {
   const router = useRouter();
 
-  const navigateTo = (page: string) => () => {
+  const navigateTo = () => {
     router.push(page);
   };
 
