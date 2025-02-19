@@ -23,3 +23,9 @@ export interface Designer {
   meetingType: string;
   majors: string[];
 }
+
+export interface Review {
+  image: string;
+  text: string;
+  point: number;
+}

@@ -48,21 +48,21 @@ const InfoWrapper = styled.div`
   left: 10px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  /* background: white; */
+  gap: 10px;
+  background: white;
   padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
 `;
 
 const Icon = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 `;
 
-const Name = styled.span`
+const Name = styled.div`
   color: black;
   font-size: 15px;
 `;
