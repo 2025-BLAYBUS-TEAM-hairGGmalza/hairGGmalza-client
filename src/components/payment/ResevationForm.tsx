@@ -7,7 +7,8 @@ import Divider from "../common/Divider";
 import HairDesignerDropdown from "./DesignerDropdown";
 import BottomButtonBar from "../common/BottomButtonBar";
 import ToggleSection from "./ToggleSection";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { postReservation } from "@/apis/payAPI";
 
 const banks: string[] = [
   "NH농협",
@@ -36,14 +37,15 @@ const ReservationForm: React.FC = () => {
   const [reservationName, setReservationName] = useState("");
   const [gender, setGender] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [notes, setNotes] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("카카오페이");
   const [refundAccount, setRefundAccount] = useState("");
   const [selectedBank, setSelectedBank] = useState(banks[0]);
+  const [isMounted, setIsMounted] = useState(false);
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const designerId = useParams().id;
 
   const accountNumber = "1002-858-1312312";
 
@@ -65,7 +67,10 @@ const ReservationForm: React.FC = () => {
     } else {
       setIsFormValid(false);
     }
-  }, [reservationName, gender, phoneNumber, isChecked]);
+
+    console.log(designerId);
+    
+  }, [reservationName, gender, phoneNumber, isChecked, designerId]);
 
   const handleSubmit = () => {
     if (!reservationName || !gender || !phoneNumber) {
@@ -78,9 +83,25 @@ const ReservationForm: React.FC = () => {
       return;
     }
     if (isFormValid) {
-      console.log("성공");
+      console.log("✅ 예약 정보");
+      console.log("예약자명:", reservationName);
+      console.log("성별:", gender);
+      console.log("전화번호:", phoneNumber);
+      console.log("추가 정보:", extraInfo);
+      console.log("결제 수단:", paymentMethod);
+      console.log("선택한 은행:", selectedBank);
+      console.log("환불 계좌:", refundAccount);
+      console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
+      
+
+      postReservation(1, 1, "ONLINE", "2022-02-13");
     }
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) return null;
 
   return (
     <>
@@ -90,11 +111,11 @@ const ReservationForm: React.FC = () => {
           <SectionTitle>예약정보</SectionTitle>
           <HairDesignerDropdown />
           <Label>예약 전 꼭 확인해주세요!</Label>
-          <TextArea
-            placeholder="내용을 입력해주세요."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
+          <Notice>
+            설팅 예약 시간 전, 10분 전까지 컨설팅을 준비해주세요. <br/>
+            예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, <br/>소정의 수수료가 부과될 수 있습니다. <br/>
+            컨설팅은 약 30분 소요되며, 종료 후 컨설팅 결과를 요약 리포트로 확인할 수 있어요.<br/>
+          </Notice>
         </SectionContainer>
 
         <Divider />
@@ -416,4 +437,13 @@ const AccountInput = styled.input`
   border-radius: 5px;
   background: #f7f7f7;
   color: #999;
+`;
+
+const Notice = styled.div`
+  font-size: 1.5rem;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
 `;

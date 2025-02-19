@@ -1,10 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const HairDesignerDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [consultingType, setConsultingType] = useState("");
+  const [time, setTime] = useState("");
+  const [price, setPrice] = useState(0);
+  const [date, setDate] = useState("");
+
+
+  useEffect(() => {
+    //예약 정보 쿼리 스트링에서 가져오기
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    setConsultingType(urlParams.get("type") || "");
+
+    //10시부터 12시까지는 오전, 그 이외는 오후를 앞에 붙이기. 그리고 뒤에 시간을 그대로 붙이기
+    const timeStr = urlParams.get("time") || "";
+    const hour = parseInt(timeStr.slice(0, 2), 10);
+    const time = `${hour >= 10 && hour < 12 ? "오전" : "오후"} ${timeStr}`;
+    setTime(time);
+
+    setPrice(Number(urlParams.get("price")) || 0);
+
+    //날짜는 월/일만, n월 n일 형식으로 표시(20240213 -> 2월 13일)
+    const dateStr = urlParams.get("date") || "";
+    const month = dateStr.slice(4, 6);
+    const day = dateStr.slice(6, 8);
+    setDate(`${month}월 ${day}일`);
+  }, []);
 
   return (
     <Container>
@@ -29,8 +56,8 @@ const HairDesignerDropdown: React.FC = () => {
           <InfoSection>
             <InfoTitle>상담유형</InfoTitle>
             <PriceContainer>
-              <PriceBox>기본</PriceBox>
-              <Price>20,000원</Price>
+              <PriceBox>{consultingType}</PriceBox>
+              <Price>{price}원</Price>
             </PriceContainer>
           </InfoSection>
 
@@ -39,8 +66,8 @@ const HairDesignerDropdown: React.FC = () => {
           <InfoSection>
             <InfoTitle>예약시간</InfoTitle>
             <DateTime>
-              <Date>2월 12일 (수)</Date>
-              <Time>오후 18:00</Time>
+              <Date>{date}</Date>
+              <Time>{time}</Time>
             </DateTime>
           </InfoSection>
         </DropdownContent>
