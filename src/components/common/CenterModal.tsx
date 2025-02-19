@@ -18,6 +18,7 @@ interface ModalProps {
 const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third, login }) => {
 
    const handleGoogleLogin = () => {
+      onClose();
       loginTest();
    }
 
@@ -54,10 +55,10 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
             </ModalContent>
                : <div style={{paddingTop:'50px'}}></div>
                }
-            <ConfirmButton onClick={login ? onClose : handleGoogleLogin}>
-               {login ? "확인했어요" : "Google 로그인"}
-            </ConfirmButton>
-
+            {login ?
+               <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
+               : <ConfirmButton onClick={handleGoogleLogin}>Google 로그인</ConfirmButton>
+            }
          </ModalContainer>
       </ModalOverlay>
    );

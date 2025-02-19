@@ -76,10 +76,19 @@ const DesignerPage = () => {
       return;
     }
 
+<<<<<<< HEAD
     if (!isReservationModalOpen) {
       setIsReservationBottomModalOpen(true);
       return;
     }
+=======
+   const handleReservationButtonClick = () => {
+      //토큰이 없으면 로그인 하단 모달 뜨기
+      if (!localStorage.getItem("token")) {
+         setIsLoginModalOpen(true);
+         return;
+      }
+>>>>>>> f18853672e027b51f8a0cbdd0f48977a2a5c1099
 
     // 예외 처리: 선택하지 않은 항목이 있으면 alert 표시
     if (!selectedConsultingType) {
@@ -280,6 +289,7 @@ const DesignerPage = () => {
         <ReviewAndPortfolio />
       </Content>
 
+<<<<<<< HEAD
       {/* 하단 모달 - 예약하기 */}
       <BottomModal
         isOpen={isReservationModalOpen}
@@ -326,6 +336,140 @@ const DesignerPage = () => {
               onChange={handleDateChange}
               value={selectedDate}
               formatDay={(locale, date) => date.getDate().toString()}
+=======
+   return (
+      <DesignerPageWrapper>
+         {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
+         <Header where='designer' />
+         {/* <DesignerMainImage /> */}
+         <ProgressCarousel images={upPortfolios} main={false}/>
+         <Content>
+            <MainIntroContainer>
+            <ProfileImage src={designerImage || "/default-image.jpg"} alt="디자이너 프로필 이미지" />
+            <NameAndAddress>
+                  <Name>{designerName}</Name>
+                  <Address>
+                     <span id='address_detail' style={{marginRight:'10px'}}>{designerAdress}</span>
+                     <span id='address_category' style={{color: '#808080'}}>{designerRegion}</span>
+                  </Address>
+               </NameAndAddress>
+               <HeartContainer id='heart_container'>
+                  {<HeartIcon onClick={handleHeartClick}>
+                  {isLiked ? <FaHeart /> : <FaRegHeart />}
+               </HeartIcon>}  
+                  <span style={{fontSize:'10px'}}>32</span>
+               </HeartContainer>
+            </MainIntroContainer>
+            <OneLineIntro>
+               {designerDescription}
+            </OneLineIntro>
+            <TagsContainer>
+               <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
+                  <span>전문분야</span>
+                  {/* 할 수 있으면 tag 출력(api 잘 받아왔는지 검사) */}
+                  {Array.isArray(designerMajors) ? (
+                     designerMajors.map((major, index) => (
+                        <Tag key={index} type='major' text={major} />
+                     ))
+                  ) : null}
+               </div>
+               <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
+                  <span>컨설팅 유형</span>
+                  <Tag type='consulting' text={designerMeetingType}/>
+               </div>
+            </TagsContainer>
+            <PricesContainer>
+               <PriceCard>
+                  <span id='price_title'>대면</span>
+                  <span id='price' style={{fontSize:'15px', fontWeight:'700'}}>{designerOfflinePrice}원</span>
+               </PriceCard>
+               <PriceCard>
+                  <span id='price_title'>화상</span>
+                  <span id='price' style={{fontSize:'15px', fontWeight:'700'}}>{designerOnlinePrice}원</span>
+               </PriceCard>
+            </PricesContainer>
+
+            <ReviewAndPortfolio />
+         </Content>
+
+
+         {/* 하단 모달 - 예약하기 */}
+         <BottomModal isOpen={isReservationModalOpen} onClose={() => setIsReservationBottomModalOpen(false)} title="예약하기">
+            {/* <TabContainer>
+               <TabButton>상담유형</TabButton>
+               <TabButton>일정</TabButton>
+            </TabContainer> */}
+            <ModalWrapper>
+            <ChoiceContainer id='consulting_type'>
+               <ChoiceTitle>컨설팅 유형</ChoiceTitle>
+               <ChoiceButtonContainer>
+                  <ChoiceButton 
+                     onClick={() => handleConsultingTypeChange("대면")} 
+                     selected={selectedConsultingType === "대면"}>
+                     <span id='price_title'>대면</span>
+                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOfflinePrice}원</span>
+                  </ChoiceButton>
+                  <ChoiceButton 
+                     onClick={() => handleConsultingTypeChange("화상")} 
+                     selected={selectedConsultingType === "화상"}>
+                     <span id='price_title'>화상</span>
+                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOnlinePrice}원</span>
+                  </ChoiceButton>
+               </ChoiceButtonContainer>
+            </ChoiceContainer>
+            <ChoiceContainer id='date'>
+               <ChoiceTitle>일정</ChoiceTitle>
+               <Calendar 
+                  onChange={handleDateChange} 
+                  value={selectedDate} 
+                  formatDay={(locale, date) => date.getDate().toString()}
+                  />
+            </ChoiceContainer>
+            <ChoiceContainer id ='time' style={{paddingBottom:'70px'}}>  {/* 고정 예약 버튼을 위한 여백 */}
+               <ChoiceTitle>오전</ChoiceTitle>
+               <TimeContainer>
+               {["10:00", "10:30", "11:00", "11:30"].map((time) => (
+                  <TimeButton
+                     key={time}
+                     selected={selectedTime === time}
+                     onClick={() => handleTimeSelection(time)}
+                  >
+                     {time}
+                  </TimeButton>
+               ))}
+               </TimeContainer>
+               <ChoiceTitle style={{marginTop:'20px'}}>오후</ChoiceTitle>
+               <TimeContainer>
+                  {["12:00", "12:30", "1:00", "1:30",
+                  "2:00", "2:30", "3:00", "3:30",
+                  "4:00", "4:30", "5:00", "5:30",
+                  "6:00", "6:30", "7:00", "7:30", "8:00"
+                  ].map((time) => (
+                     <TimeButton
+                        key={time}
+                        selected={selectedTime === time}
+                        onClick={() => handleTimeSelection(time)}
+                     >
+                        {time}
+                     </TimeButton>
+                  ))}
+               </TimeContainer>
+            </ChoiceContainer>
+
+            {/* 센터 모달 - 대면/화상 공통 */}
+            <CenterModal 
+               isOpen={isCenterModalOpen} 
+               onClose={() => setIsCenterModalOpen(false)}
+               title={selectedConsultingType === "대면" ? "대면 컨설팅을 선택했어요" : "화상 컨설팅을 선택했어요"}
+               first={
+                  selectedConsultingType === "대면" 
+                     ? "대면 컨설팅은 30,000원*부터 시작되며\n 실제 샵에 방문하여 진행됩니다." 
+                     : "화상 컨설팅은 20,000원*부터 시작되며\n 예약 완료 후 생성되는 구글미트에서\n 화상으로 진행됩니다."
+               }
+               second={"컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."}
+               third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
+               login={false}
+>>>>>>> f18853672e027b51f8a0cbdd0f48977a2a5c1099
             />
           </ChoiceContainer>
           <ChoiceContainer id="time" style={{ paddingBottom: "70px" }}>
@@ -397,6 +541,7 @@ const DesignerPage = () => {
         </ModalWrapper>
       </BottomModal>
 
+<<<<<<< HEAD
       {/* 센터 모달 - 로그인하기 */}
       <CenterModal
         isOpen={isLoginModalOpen}
@@ -404,6 +549,10 @@ const DesignerPage = () => {
         title={"\n\n로그인이 필요해요"}
         first=""
       />
+=======
+         {/* 센터 모달 - 로그인하기 */}
+         <CenterModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} title={"\n\n로그인이 필요해요"} login={true}/>
+>>>>>>> f18853672e027b51f8a0cbdd0f48977a2a5c1099
 
       {/* 하단 고정 예약 버튼 */}
       <BottomButtonBar>
