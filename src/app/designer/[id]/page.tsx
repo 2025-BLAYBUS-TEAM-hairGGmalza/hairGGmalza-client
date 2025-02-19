@@ -116,7 +116,14 @@ const DesignerPage = () => {
             setDesignerRegion(designerData.region);
             setDesignerDescription(designerData.description);
             setDesignerMajors(designerData.majors);
-            setDesignerMeetingType(designerData.meetingType);
+            //meetingtype을 "OFFLINE"이면 "대면", "ONLINE"이면 "화상", "BOTH"이면 "대면/화상"으로 변경
+            setDesignerMeetingType(
+               designerData.meetingType === "OFFLINE" 
+                  ? "대면" 
+                  : designerData.meetingType === "ONLINE" 
+                     ? "화상" 
+                     : "대면/화상"
+            );
             setDesignerOfflinePrice(designerData.offlinePrice);
             setDesignerOnlinePrice(designerData.onlinePrice);
          } catch (error) {
@@ -191,11 +198,11 @@ const DesignerPage = () => {
             <PricesContainer>
                <PriceCard>
                   <span id='price_title'>대면</span>
-                  <span id='price'>{designerOfflinePrice}원</span>
+                  <span id='price' style={{fontSize:'15px', fontWeight:'700'}}>{designerOfflinePrice}원</span>
                </PriceCard>
                <PriceCard>
                   <span id='price_title'>화상</span>
-                  <span id='price'>{designerOnlinePrice}원</span>
+                  <span id='price' style={{fontSize:'15px', fontWeight:'700'}}>{designerOnlinePrice}원</span>
                </PriceCard>
             </PricesContainer>
 
@@ -432,12 +439,12 @@ const NameAndAddress = styled.div`
 `
 
 const Name = styled.div`
-   font-size: 19px;
+   font-size: 21px;
    font-weight: bold;   
 `
 
 const Address = styled.div`
-   font-size: 13px;
+   font-size: 14px;
 `
 
 const HeartContainer = styled.div`
@@ -508,7 +515,9 @@ const ShareButton = styled.img`
    background: none;
    border: none;
    cursor: pointer;
-   margin-left: 40px;
+   //남는 칸의 가운데에 배치
+   margin-left: auto;
+   margin-right: auto;
 `;
 
 const ReservationButton = styled.button`
