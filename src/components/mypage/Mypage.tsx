@@ -23,7 +23,7 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    // setIsMounted(true);
+    setIsMounted(true);
     const getWish = async () => {
       const response = await getMarked();
       console.log(response);
@@ -31,7 +31,7 @@ const MyPage = () => {
     getWish();
   }, []);
 
-  // if (!isMounted) return null;
+  if (!isMounted) return null;
 
   return (
     <>
