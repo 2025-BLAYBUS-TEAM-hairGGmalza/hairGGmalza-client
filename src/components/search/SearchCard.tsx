@@ -79,6 +79,7 @@ const CardContainer = styled.div`
   border-radius: 10px;
   width: 95%;
   height: fit-content;
+  cursor: pointer;
 `;
 
 const ImageWrapper = styled.div`
