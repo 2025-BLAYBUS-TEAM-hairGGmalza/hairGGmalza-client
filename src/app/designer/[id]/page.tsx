@@ -24,6 +24,7 @@ const DesignerPage = () => {
    const router = useRouter();
 
    // 디자이너 정보 상태
+   const [designerImage, setDesignerImage] = useState<string | null>(null);
    const [designerName, setDesignerName] = useState<string | null>(null);
    const [designerAdress, setDesignerAdress] = useState<string | null>(null);
    const [designerRegion, setDesignerRegion] = useState<string | null>(null);
@@ -111,6 +112,7 @@ const DesignerPage = () => {
             console.log("API 응답 데이터:", designerData);
    
             // 상태 업데이트
+            setDesignerImage(designerData.profile);
             setDesignerName(designerData.name);
             setDesignerAdress(designerData.address);
             setDesignerRegion(designerData.region);
@@ -162,8 +164,8 @@ const DesignerPage = () => {
          <DesignerMainImage />
          <Content>
             <MainIntroContainer>
-               <ProfileImage />
-               <NameAndAddress>
+            <ProfileImage src={designerImage || "/default-image.jpg"} alt="디자이너 프로필 이미지" />
+            <NameAndAddress>
                   <Name>{designerName}</Name>
                   <Address>
                      <span id='address_detail' style={{marginRight:'10px'}}>{designerAdress}</span>
@@ -422,11 +424,10 @@ const MainIntroContainer = styled.div`
 
 `
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
    height: 100%;
    aspect-ratio: 1/1;
    border-radius: 50%;
-   background-color: #f0f0f0;
 `
 
 const NameAndAddress = styled.div`
