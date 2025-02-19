@@ -58,7 +58,7 @@ const DesignerPage = () => {
 
    const handleReservationButtonClick = () => {
       //토큰이 없으면 로그인 하단 모달 뜨기
-      if (!localStorage.getItem("accessToken")) {
+      if (!localStorage.getItem("token")) {
          setIsLoginModalOpen(true);
          return;
       }
@@ -180,7 +180,7 @@ const DesignerPage = () => {
          {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
          <Header where='designer' />
          {/* <DesignerMainImage /> */}
-         <ProgressCarousel images={upPortfolios} />
+         <ProgressCarousel images={upPortfolios} main={false}/>
          <Content>
             <MainIntroContainer>
             <ProfileImage src={designerImage || "/default-image.jpg"} alt="디자이너 프로필 이미지" />
@@ -306,13 +306,14 @@ const DesignerPage = () => {
                }
                second={"컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."}
                third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
+               login={false}
             />
 
          </ModalWrapper>
          </BottomModal>
 
          {/* 센터 모달 - 로그인하기 */}
-         <CenterModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} title={"\n\n로그인이 필요해요"} first="" />
+         <CenterModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} title={"\n\n로그인이 필요해요"} login={true}/>
 
 
           {/* 하단 고정 예약 버튼 */}

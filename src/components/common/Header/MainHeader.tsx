@@ -35,6 +35,7 @@ const MainWrapper = styled.div`
 
 const LogoImg = styled.img`
   height: 24px;
+  cursor: pointer;
 `;
 
 const SearchAndAlarm = styled.div`
