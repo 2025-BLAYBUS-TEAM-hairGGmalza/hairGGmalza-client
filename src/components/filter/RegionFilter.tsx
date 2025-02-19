@@ -1,23 +1,30 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Divider from "../common/Divider";
+import { FiMapPin } from "react-icons/fi";
 
 const options = [
   "서울 전체",
   "강남/청담/압구정",
-  "홍대/연남/합정",
   "성수/건대",
+  "홍대/연남/합정",
 ];
 
-export default function RegionFilter() {
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+interface RegionFilterProps {
+  selected: string | null;
+  onChange: (regions: string | null) => void;
+}
 
+export default function RegionFilter({
+  selected,
+  onChange,
+}: RegionFilterProps) {
   const toggleSelection = (region: string) => {
-    setSelectedRegions((prev) =>
-      prev.includes(region)
-        ? prev.filter((r) => r !== region)
-        : [...prev, region]
-    );
+    if (selected === region) {
+      onChange(null);
+    } else {
+      onChange(region);
+      console.log(region);
+    }
   };
 
   return (
@@ -28,9 +35,10 @@ export default function RegionFilter() {
           {options.map((option) => (
             <Button
               key={option}
-              selected={selectedRegions.includes(option)}
+              selected={selected?.includes(option) ?? false}
               onClick={() => toggleSelection(option)}
             >
+              <FiMapPin />
               {option}
             </Button>
           ))}
@@ -43,7 +51,7 @@ export default function RegionFilter() {
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 23px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -61,13 +69,19 @@ const OptionsWrapper = styled.div`
 `;
 
 const Button = styled.button<{ selected: boolean }>`
+  display: flex;
+  align-items: center;
   padding: 8px 12px;
   border-radius: 8px;
   border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  gap: 0.5rem;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? "#666" : "#ddd")};
-  color: ${(props) => (props.selected ? "white" : "black")};
-  &:hover {
-    background-color: #bbb;
+  background-color: ${(props) => (props.selected ? "black" : "#EEEEEE")};
+  color: ${(props) => (props.selected ? "#F3D7E5" : "#989898")};
+
+  svg {
+    font-size: 1.8rem;
   }
 `;

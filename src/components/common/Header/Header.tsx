@@ -41,6 +41,14 @@ const Header = ({ where }: { where: string }) => {
         </HeaderComponent>
       </HeaderWrapper>
     );
+  } else if (where === "review") {
+    return (
+      <HeaderWrapper>
+        <HeaderComponent>
+          <DesignerHeader text="리뷰" />
+        </HeaderComponent>
+      </HeaderWrapper>
+    );
   }
 };
 

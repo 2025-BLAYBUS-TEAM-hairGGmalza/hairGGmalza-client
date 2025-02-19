@@ -7,10 +7,21 @@ import ExpertiseFilter from "./ExpertiseFilter";
 import TabBar from "./TabBar";
 import styled from "styled-components";
 import BottomModal from "../common/BottomModal";
+import BottomButtonBar from "../common/BottomButtonBar";
+import { filterDesigner } from "@/apis/filter";
+import { Designer, MeetingRequest } from "@/types/request";
 
 interface FilterModalProps {
   isBottomOpen: boolean;
   setIsBottomOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onApplyFilters: (filters: string[]) => void;
+  setDesigners: (designers: Designer[]) => void;
+}
+
+interface HairInfo {
+  concerns: string[];
+  length: string | null;
+  condition: string | null;
 }
 
 type SectionRefs = Record<string, RefObject<HTMLDivElement | null>>;
@@ -18,10 +29,27 @@ type SectionRefs = Record<string, RefObject<HTMLDivElement | null>>;
 const FilterModal: React.FC<FilterModalProps> = ({
   isBottomOpen,
   setIsBottomOpen,
+  onApplyFilters,
+  setDesigners,
 }) => {
   const [activeTab, setActiveTab] = useState<string>("consulting");
 
-  // ✅ 각 필터의 ref 생성
+  const [consultingType, setConsultingType] = useState<string | null>(null);
+  const [region, setRegion] = useState<string | null>(null);
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+  const [expertise, setExpertise] = useState<string[] | null>(null);
+  const [hairInfo, setHairInfo] = useState<HairInfo | null>({
+    concerns: [],
+    length: null,
+    condition: null,
+  });
+
+  const handlePriceChange = (min: number | null, max: number | null) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+  };
+
   const consultingRef = useRef<HTMLDivElement | null>(null);
   const regionRef = useRef<HTMLDivElement | null>(null);
   const priceRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +65,69 @@ const FilterModal: React.FC<FilterModalProps> = ({
     hair: hairRef,
   };
 
-  // ✅ 탭 클릭 시 해당 섹션으로 스크롤 이동
+  const handleResetFilters = async () => {
+    setConsultingType(null);
+    setRegion(null);
+    setMinPrice(null);
+    setMaxPrice(null);
+    setExpertise(null);
+    setHairInfo({
+      concerns: [],
+      length: null,
+      condition: null,
+    });
+  };
+
+  const handleApplyFilters = async () => {
+    const filterData: MeetingRequest = {
+      meetingType:
+        consultingType === "대면"
+          ? 0
+          : consultingType === "화상"
+          ? 1
+          : consultingType === "대면/화상"
+          ? 2
+          : null,
+      region:
+        region === "서울 전체"
+          ? 0
+          : region === "홍대/연남/합정"
+          ? 1
+          : region === "강남/청담/압구정"
+          ? 2
+          : region === "성수/건대"
+          ? 3
+          : null,
+      minPrice: minPrice === 0 ? null : minPrice,
+      maxPrice,
+      majors: expertise,
+    };
+
+    try {
+      const response = await filterDesigner(filterData);
+      setDesigners(response.data.designerInfos);
+    } catch (error) {
+      console.error("❌ 필터 API 호출 실패:", error);
+    }
+
+    const filters: string[] = [];
+
+    if (consultingType) filters.push(consultingType);
+    if (region && region.length > 0) filters.push(region);
+    if (minPrice !== null || maxPrice !== null) {
+      filters.push(`₩${minPrice || 0} - ₩${maxPrice || "무제한"}`);
+    }
+    if (expertise && expertise.length > 0) filters.push(...expertise);
+    if (hairInfo) {
+      if (hairInfo.length) filters.push(`길이: ${hairInfo.length}`);
+      if (hairInfo.condition) filters.push(`상태: ${hairInfo.condition}`);
+      if (hairInfo.concerns.length > 0) filters.push(...hairInfo.concerns);
+    }
+
+    onApplyFilters(filters);
+    await filterDesigner(filterData);
+  };
+
   const handleTabSelect = (id: string) => {
     setActiveTab(id);
     const targetRef = sectionRefs[id];
@@ -47,7 +137,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
     }
   };
 
-  // ✅ 스크롤 이벤트 감지 및 activeTab 업데이트
   const updateActiveTab = useCallback(() => {
     if (!filterWrapperRef.current) return;
 
@@ -57,7 +146,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
           if (entry.isIntersecting) {
             const section =
               entry.target.getAttribute("data-section") || "consulting";
-            console.log("✅ 활성화된 섹션:", section); // 디버깅 로그
             setActiveTab(section);
             break;
           }
@@ -93,27 +181,36 @@ const FilterModal: React.FC<FilterModalProps> = ({
       onClose={() => setIsBottomOpen(false)}
       title="필터"
     >
-      {/* ✅ TabBar 추가 */}
       <TabBar activeTab={activeTab} onSelectTab={handleTabSelect} />
 
-      {/* ✅ 내부 스크롤 감지 가능하도록 ref 추가 */}
       <FilterWrapper ref={filterWrapperRef}>
         <Section ref={consultingRef} data-section="consulting">
-          <ConsultingFilter />
+          <ConsultingFilter
+            selected={consultingType}
+            onChange={setConsultingType}
+          />
         </Section>
         <Section ref={regionRef} data-section="region">
-          <RegionFilter />
+          <RegionFilter selected={region} onChange={setRegion} />
         </Section>
         <Section ref={priceRef} data-section="price">
-          <PriceFilter />
+          <PriceFilter
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onChangePrice={handlePriceChange}
+          />
         </Section>
         <Section ref={expertiseRef} data-section="expertise">
-          <ExpertiseFilter />
+          <ExpertiseFilter selected={expertise} onChange={setExpertise} />
         </Section>
         <Section ref={hairRef} data-section="hair">
-          <HairInfoFilter />
+          <HairInfoFilter selected={hairInfo} onChange={setHairInfo} />
         </Section>
       </FilterWrapper>
+      <BottomButtonBar>
+        <ResetButton onClick={handleResetFilters}>초기화</ResetButton>
+        <ApplyButton onClick={handleApplyFilters}>적용하기</ApplyButton>
+      </BottomButtonBar>
     </BottomModal>
   );
 };
@@ -121,14 +218,40 @@ const FilterModal: React.FC<FilterModalProps> = ({
 export default FilterModal;
 
 const FilterWrapper = styled.div`
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   max-height: 70vh;
   &::-webkit-scrollbar {
     display: none;
   }
+  padding-bottom: 2.5rem;
 `;
 
 const Section = styled.div`
   /* padding: 16px 0; */
+`;
+
+const ResetButton = styled.button`
+  flex: 1;
+  padding: 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: none;
+  background-color: #464646;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-right: 1rem;
+`;
+
+const ApplyButton = styled.button`
+  flex: 2;
+  padding: 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 8px;
 `;

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -8,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import styled from "styled-components";
 import { useState } from "react";
+import Image from "next/image";
 
 interface CarouselProps {
   images: { src: string; alt: string }[];
@@ -20,7 +20,6 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
     <CarouselContainer>
       <BannerSection>
         <Swiper
-          style={{ width: "100%", height: "auto" }}
           modules={[Pagination, Autoplay]}
           autoplay={{
             delay: 2000,
@@ -32,13 +31,16 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
           {images.map(({ src, alt }, index) => (
             <SwiperSlide key={index}>
               <SlideContainer>
-                <Image
-                  src={src}
-                  alt={alt}
-                  layout="intrinsic"
-                  width={800}
-                  height={800}
-                />
+                <ImageWrapper>
+                  <Image
+                    src={src}
+                    alt={alt}
+                    width={470}
+                    height={300}
+                    priority={true}
+                    style={{ display: "block" }}
+                  />
+                </ImageWrapper>
               </SlideContainer>
             </SwiperSlide>
           ))}
@@ -59,6 +61,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: fit-content;
 `;
 
 const BannerSection = styled.div`
@@ -78,12 +81,21 @@ const SlideContainer = styled.div`
   height: 100%;
 `;
 
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  /* img {
+    width: 100%;
+    height: fit-content;
+  } */
+`;
+
 const ProgressBarContainer = styled.div`
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 40%;
   height: 6px;
   background: white;
   overflow: hidden;

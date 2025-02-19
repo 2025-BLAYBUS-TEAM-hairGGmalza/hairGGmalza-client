@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/common/Header/Header';
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
 import { GoStarFill } from "react-icons/go";
@@ -9,9 +9,6 @@ import { GoStar } from "react-icons/go";
 
 const Reviewpage = () => {
    const [isMounted, setIsMounted] = React.useState(false);
-   // const searchParams = useSearchParams();
-   // const id = searchParams.get('id'); //쿼리에서 id 가져오기
-
    const id = useParams().id; //파라미터에서 id 가져오기
 
    useEffect(() => {
@@ -28,8 +25,7 @@ const Reviewpage = () => {
       {
          id: 1,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -37,8 +33,7 @@ const Reviewpage = () => {
       {
          id: 2,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -46,8 +41,7 @@ const Reviewpage = () => {
       {
          id: 3,
          name: '구글 닉네임',
-         address: '서울 강남구 압구정로79길',
-         category: '홍대/연남/합정',
+         email: 'sdfsdf@gmail.com',
          score: 4.5,
          review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는길게끝까지더보기없이계속들어간다',
          date: '2021.10.10'
@@ -56,7 +50,7 @@ const Reviewpage = () => {
 
    return (
       <Wrapper>
-         <Header where='designer' />
+         <Header where='review' />
 
          <ProfileWrapper>
             <ProfileContainer>
@@ -99,8 +93,7 @@ const Reviewpage = () => {
                         <NameAndAddress>  
                            <Name>{review.name}</Name>
                            <Address>
-                              <span id='address_detail' style={{marginRight:'10px'}}>{review.address}</span>
-                              <span id='address_category' style={{color: '#808080'}}>{review.category}</span>
+                              <span id='address_detail' style={{marginRight:'10px'}}>{review.email}</span>
                            </Address>
                         </NameAndAddress>
                      </TopProfile>
