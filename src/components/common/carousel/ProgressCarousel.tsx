@@ -11,13 +11,14 @@ import Image from "next/image";
 
 interface CarouselProps {
   images: { src: string; alt: string }[];
+  main: boolean;
 }
 
-const ProgressCarousel = ({ images }: CarouselProps) => {
+const ProgressCarousel = ({ images, main }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <CarouselContainer>
+    <CarouselContainer main={main}>
       <BannerSection>
         <Swiper
           modules={[Pagination, Autoplay]}
@@ -56,12 +57,12 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
 
 export default ProgressCarousel;
 
-const CarouselContainer = styled.div`
+const CarouselContainer = styled.div<{ main: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 350px; //여기원래!!
+  height: ${(props) => (props.main ? "300px" : "350px")};
 `;
 
 const BannerSection = styled.div`

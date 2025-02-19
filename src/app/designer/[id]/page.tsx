@@ -13,11 +13,10 @@ import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/src/shared/types.js';
 import CenterModal from '@/components/common/CenterModal';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import Tag from '@/components/common/Tag';
-import { getDesigner } from '@/apis/designerAPI';
-import { useRouter } from 'next/navigation';
-import ProgressCarousel from '@/components/common/carousel/ProgressCarousel';
-
+import Tag from "@/components/common/Tag";
+import { getDesigner } from "@/apis/designerAPI";
+import { useRouter } from "next/navigation";
+import ProgressCarousel from "@/components/common/carousel/ProgressCarousel";
 
 const DesignerPage = () => {
    const id = String(useParams().id);
@@ -443,10 +442,10 @@ const MainIntroContainer = styled.div`
 `
 
 const ProfileImage = styled.img`
-   height: 100%;
-   aspect-ratio: 1/1;
-   border-radius: 50%;
-`
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+`;
 
 const NameAndAddress = styled.div`
    height: 80%;
@@ -463,8 +462,8 @@ const Name = styled.div`
 `
 
 const Address = styled.div`
-   font-size: 14px;
-`
+  font-size: 14px;
+`;
 
 const HeartContainer = styled.div`
    height: 80%;
@@ -537,6 +536,7 @@ const ShareButton = styled.img`
    //남는 칸의 가운데에 배치
    margin-left: auto;
    margin-right: auto;
+
 `;
 
 const ReservationButton = styled.button`
