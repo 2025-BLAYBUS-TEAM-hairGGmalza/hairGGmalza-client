@@ -80,7 +80,7 @@ const HairDesignerDropdown: React.FC = () => {
 export default HairDesignerDropdown;
 
 const Container = styled.div`
-  width: 90%;
+  width: 100%;
   font-size: 12px;
 `;
 

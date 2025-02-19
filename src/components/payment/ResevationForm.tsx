@@ -254,8 +254,6 @@ const Container = styled.div`
 const SectionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 16px;
   gap: 15px;
 `;
@@ -443,11 +441,10 @@ const AccountInput = styled.input`
 `;
 
 const Notice = styled.div`
-  width: 90%;
   font-size: 1.5rem;
-  color: #6b6b6b;
+  color: #333;
   background-color: #f5f5f5;
-  padding: 1.7rem;
+  padding: 1.5rem;
   border-radius: 1rem;
   box-sizing: border-box;
 `;
