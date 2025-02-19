@@ -24,6 +24,7 @@ const DesignerPage = () => {
    const router = useRouter();
 
    // 디자이너 정보 상태
+   const [upPortfolios, setUpPortfolios] = useState<string[]>([]);
    const [designerImage, setDesignerImage] = useState<string | null>(null);
    const [designerName, setDesignerName] = useState<string | null>(null);
    const [designerAdress, setDesignerAdress] = useState<string | null>(null);
@@ -112,6 +113,8 @@ const DesignerPage = () => {
             console.log("API 응답 데이터:", designerData);
    
             // 상태 업데이트
+            //portfolio1, portolio2로 오는 걸 upPortfolios 하나의 문자열 배열에 합치기
+            setUpPortfolios(designerData.portfolio1.concat(designerData.portfolio2));
             setDesignerImage(designerData.profile);
             setDesignerName(designerData.name);
             setDesignerAdress(designerData.address);
@@ -402,6 +405,9 @@ const DesignerMainImage = styled.div`
    width: 100%;
    height: 350px;
    background-color: #f0f0f0;
+
+   //이미지 2개넣고 옆으로 슬라이드해서 넘길 수 있게
+   
 `
 
 const Content = styled.div`
