@@ -19,10 +19,7 @@ export const loginTest = async () => {
 export const sendCode = async (code: string|null) => {
    console.log("sendCode 호출");
    console.log(code);
-   // const response = await axios.post(`${BASE_URL}/login`, {
-   //       code : code
-   //    });
-   // console.log(response);
+
    try {
       const response = await axios.post(`${BASE_URL}/login`, {
          code : code
@@ -34,7 +31,7 @@ export const sendCode = async (code: string|null) => {
       console.log(localStorage.getItem("token"));
 
       //첫 로그인이면 signUp 호출
-      if (response.data.firstLogin) {
+      if (response.data.isFirstLogin) {
          //회원가입 페이지로 이동
          console.log("첫 로그인 입니다.")
          window.location.href = "/signup";
@@ -46,12 +43,12 @@ export const sendCode = async (code: string|null) => {
    }
 }
 
-export const signUp = async (nickname: string, gender: string, phoneNumber: string) => {
+export const signUp = async (name: string, gender: string, phoneNumber: string) => {
    try {
       const token = localStorage.getItem("token"); 
 
       const response = await axios.post(`${BASE_URL}/signup`, {
-         nickname: nickname,
+         name: name,
          gender: gender,
          phoneNumber: phoneNumber
       }, {
@@ -60,7 +57,7 @@ export const signUp = async (nickname: string, gender: string, phoneNumber: stri
             "Content-Type": "application/json"
          }
       });
-
+      console.log(response);
       console.log(response.data);
    } catch (error) {
       console.log(error);

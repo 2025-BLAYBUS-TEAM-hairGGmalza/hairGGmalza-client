@@ -1,4 +1,5 @@
 'use client';
+import { signUp } from "@/apis/loginAPI";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -54,6 +55,9 @@ const SignUpPage = () => {
       console.log("이름:", name);
       console.log("성별:", gender);
       console.log("전화번호:", phone);
+
+      //signUp API 호출
+      signUp(name, gender, phone);
    };
 
    useEffect(() => {
@@ -131,7 +135,7 @@ const SignUpPage = () => {
                </TermContainer>
             </FormContainer>
             <button 
-               style={{width: '100%', height: '55px', background: '#000', color: '#fff', fontSize: '18px', border: 'none', cursor: 'pointer'}}
+               style={{borderRadius:'4px', width: '100%', height: '55px', background: '#000', color: '#fff', fontSize: '18px', border: 'none', cursor: 'pointer'}}
                onClick={handleSubmit}
             >가입하기</button>
          </Main>
@@ -226,6 +230,7 @@ const InputSlot = styled.input`
    padding: 0 15px;
    box-sizing: border-box;
    border: none;
+   border-radius: 4px;
    background: rgba(217, 217, 217, 0.40);
    color: #000;
    //placeholder 색상
@@ -248,6 +253,7 @@ const DropDown = styled.select`
    padding: 0 15px;
    border: none;
    background: rgba(217, 217, 217, 0.40);
+   border-radius: 4px;
 `
 
 const PhoneForm = styled.div`
@@ -271,6 +277,7 @@ const TermContainer = styled.div`
    box-sizing: border-box;
    gap: 15px;
    margin-top: 10px;
+   border-radius: 4px;
 `
 
 const AgreeAll = styled.div`
