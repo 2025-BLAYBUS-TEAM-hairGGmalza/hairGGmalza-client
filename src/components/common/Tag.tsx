@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ModalProps {
-  type?: string;
+  type: string;
   text: string | undefined;
 }
 

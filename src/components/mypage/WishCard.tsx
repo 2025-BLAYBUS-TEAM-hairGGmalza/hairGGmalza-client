@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaHeart } from "react-icons/fa";
-import Tag from "../common/Tag";
+import Tag2 from "../common/Tag2";
 
 interface WishCardProps {
   imageUrl: string;
@@ -34,7 +33,7 @@ const WishCard = (data: WishCardProps) => {
         </Title>
         <Description>{data.description}</Description>
         <ButtonContainer>
-          <Tag
+          <Tag2
             type="consulting"
             text={
               data.meetingType === "BOTH"
@@ -44,7 +43,7 @@ const WishCard = (data: WishCardProps) => {
                 : "화상"
             }
           />
-          <Tag text={data.major[0]}></Tag>
+          <Tag2 text={data.major[0]}></Tag2>
         </ButtonContainer>
       </InfoContainer>
     </Wrapper>
@@ -93,25 +92,25 @@ const HeartIcon = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  /* padding: 12px; */
+  padding: 2px;
 `;
 
 const Title = styled.div`
   display: flex;
   gap: 1rem;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   color: #333;
   margin-top: 1rem;
 `;
 
 const Location = styled.div`
-  font-size: 14px;
+  font-size: 10px;
   color: #888;
 `;
 
 const Description = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   color: #989898;
   margin-top: 5px;
   margin-bottom: 10px;
@@ -119,19 +118,7 @@ const Description = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  width: 93%;
+  width: 95%;
   display: flex;
   gap: 8px;
-`;
-
-const TagButton = styled.button`
-  background: #e0e0e0;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 12px;
-  color: #333;
-  cursor: pointer;
-  font-weight: bold;
-  flex: 1;
 `;
