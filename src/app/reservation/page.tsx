@@ -5,19 +5,28 @@ import styled from "styled-components"
 import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
 import Navbar from "@/components/common/Navbar/Navbar";
+import { getReservations } from "@/apis/reservationAPI";
+
+export interface Reservation {
+   designerName: string;
+   address: string;
+   region: string;
+
+   consultingType: string;
+   consultingDate: string;
+   consultingTime: string;
+   meetingLink: string|null;
+
+   
+}
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
-   
-   // const router = useRouter();
-   
-   // const goTo = (path: string) => {
-   //    router.push(path);
-   // }
 
    useEffect(() => {
       setIsMounted(true);
       //토큰으로 예약 내역 요청
+      getReservations();
 
    }, []);
    if (!isMounted) return null;
@@ -261,4 +270,5 @@ const ConsultingRecordsWrapper = styled.div`
    justify-content: center;
    padding-top: 20px;
    gap: 20px;
+   padding-bottom: 70px;
 `
