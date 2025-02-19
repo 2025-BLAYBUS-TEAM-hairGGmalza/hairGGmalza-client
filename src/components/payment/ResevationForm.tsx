@@ -34,9 +34,6 @@ const banks: string[] = [
 ];
 
 const ReservationForm: React.FC = () => {
-  const [reservationName, setReservationName] = useState("");
-  const [gender, setGender] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("카카오페이");
@@ -62,7 +59,7 @@ const ReservationForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (reservationName && gender && phoneNumber && isChecked) {
+    if (isChecked) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -70,13 +67,9 @@ const ReservationForm: React.FC = () => {
 
     console.log(designerId);
     
-  }, [reservationName, gender, phoneNumber, isChecked, designerId]);
+  }, [isChecked, designerId]);
 
   const handleSubmit = () => {
-    if (!reservationName || !gender || !phoneNumber) {
-      alert("모든 필수 입력 항목을 작성해주세요.");
-      return;
-    }
 
     if (!isChecked) {
       alert("예약 안내 사항을 확인해주세요.");
@@ -85,9 +78,6 @@ const ReservationForm: React.FC = () => {
     if (isFormValid) {
       console.log("✅ 예약 정보");
       //기본으로 들어가는 정보들
-      console.log("예약자명:", reservationName);
-      console.log("성별:", gender);
-      console.log("전화번호:", phoneNumber);
       console.log("추가 정보:", extraInfo);
       console.log("결제 수단:", paymentMethod);
       console.log("선택한 은행:", selectedBank);
@@ -126,29 +116,14 @@ const ReservationForm: React.FC = () => {
           <InputRow>
             <NameWrapper>
               <div>예약자명</div>
-              <Input
-                placeholder="예약자 성함"
-                value={reservationName}
-                onChange={(e) => setReservationName(e.target.value)}
-              />
+              <GrayBox>박수빈</GrayBox>
             </NameWrapper>
             <SelectWrapper>
               <div>성별</div>
-              <Select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="">선택</option>
-                <option value="여">여</option>
-                <option value="남">남</option>
-              </Select>
+              <GrayBox>여</GrayBox>
             </SelectWrapper>
           </InputRow>
-          <Input
-            placeholder="010-0000-0000"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
+          <GrayBox>010-1234-5678</GrayBox>
         </SectionContainer>
 
         <Divider />
@@ -288,17 +263,17 @@ const TextArea = styled.textarea`
   border: none;
 `;
 
-const Input = styled.input`
-  flex: 1;
-  height: 48px;
-  padding: 14px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  background: #f5f5f5;
-  font-size: 16px;
-  color: #333;
-  border: none;
-`;
+// const Input = styled.input`
+//   flex: 1;
+//   height: 48px;
+//   padding: 14px;
+//   border-radius: 6px;
+//   border: 1px solid #ddd;
+//   background: #f5f5f5;
+//   font-size: 16px;
+//   color: #333;
+//   border: none;
+// `;
 
 const Select = styled.select`
   flex: 1;
@@ -447,4 +422,16 @@ const Notice = styled.div`
   padding: 1.5rem;
   border-radius: 1rem;
   box-sizing: border-box;
+`;
+
+const GrayBox = styled.div`
+  flex: 1;
+  height: 48px;
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  font-size: 16px;
+  color: #333;
+  border: none;
 `;
