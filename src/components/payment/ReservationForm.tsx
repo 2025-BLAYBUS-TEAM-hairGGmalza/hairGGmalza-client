@@ -42,11 +42,16 @@ const ReservationForm: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [isFormValid, setIsFormValid] = useState(false);
-  const designerId = useParams().id;
+  const designerId = parseInt(String(useParams().id));
 
   const accountNumber = "1002-858-1312312";
 
   const router = useRouter(); // useRouter 훅 사용
+
+  //쿼리스트링에서 정보 가져오기
+  const date = new URLSearchParams(window.location.search).get("date");
+  const time = new URLSearchParams(window.location.search).get("time");
+  const meetingType = new URLSearchParams(window.location.search).get("type");
 
   const handleBack = () => {
     router.back(); // 이전 페이지로 이동
@@ -75,6 +80,12 @@ const ReservationForm: React.FC = () => {
       alert("예약 안내 사항을 확인해주세요.");
       return;
     }
+      // 계좌이체 선택 시 환불 계좌 입력 필수 처리
+    if (paymentMethod === "계좌이체" && !refundAccount.trim()) {
+      alert("환불 계좌를 입력해주세요.");
+      return;
+    }
+    
     if (isFormValid) {
       console.log("✅ 예약 정보");
       //기본으로 들어가는 정보들
@@ -85,7 +96,16 @@ const ReservationForm: React.FC = () => {
       console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
       
 
-      postReservation(1, 1, "ONLINE", "2022-02-13");
+      postReservation(
+        1,
+        designerId,
+        meetingType,
+        `${date} ${time}`,
+        paymentMethod,
+        selectedBank,
+        refundAccount,
+        extraInfo
+      );
     }
   };
 

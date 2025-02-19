@@ -127,7 +127,7 @@ const DesignerPage = () => {
             setDesignerAdress(designerData.address);
             setDesignerRegion(designerData.region);
             setDesignerDescription(designerData.description);
-            setDesignerMajors(designerData.majors);
+            // setDesignerMajors(designerData.majors);
             //meetingtype을 "OFFLINE"이면 "대면", "ONLINE"이면 "화상", "BOTH"이면 "대면/화상"으로 변경
             setDesignerMeetingType(
                designerData.meetingType === "OFFLINE" 
@@ -239,7 +239,7 @@ const DesignerPage = () => {
                      onClick={() => handleConsultingTypeChange("대면")} 
                      selected={selectedConsultingType === "대면"}>
                      <span id='price_title'>대면</span>
-                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOnlinePrice}원</span>
+                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOfflinePrice}원</span>
                   </ChoiceButton>
                   <ChoiceButton 
                      onClick={() => handleConsultingTypeChange("화상")} 
