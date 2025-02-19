@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Navbar from "../common/Navbar/Navbar";
 import MyTab from "./MyTab";
+import { getMarked } from "@/apis/wishList";
 
 const MyPage = () => {
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
@@ -18,6 +19,14 @@ const MyPage = () => {
       [section]: !prev[section],
     }));
   };
+
+  useEffect(() => {
+    const getWish = async () => {
+      const response = await getMarked();
+      console.log(response);
+    };
+    getWish();
+  }, []);
 
   return (
     <>

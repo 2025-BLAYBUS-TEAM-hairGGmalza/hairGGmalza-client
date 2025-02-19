@@ -34,6 +34,7 @@ const CardWrapper = styled.div`
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 const Image = styled.img`

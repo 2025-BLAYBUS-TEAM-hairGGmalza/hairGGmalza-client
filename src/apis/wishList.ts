@@ -6,7 +6,7 @@ export const getMarked = async () => {
   const token = localStorage.getItem("access");
 
   try {
-    const response = await axios.get(`${API_URL}/designers`, {
+    const response = await axios.get(`${API_URL}/favorite`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(response.data);
