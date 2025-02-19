@@ -8,6 +8,8 @@ interface WishCardProps {
   title: string;
   location: string;
   description: string;
+  meetingType: string;
+  major: string[];
 }
 
 const WishCard = (data: WishCardProps) => {
@@ -32,8 +34,17 @@ const WishCard = (data: WishCardProps) => {
         </Title>
         <Description>{data.description}</Description>
         <ButtonContainer>
-          <Tag type={"consulting"} text={"대면 / 화상"}></Tag>
-          <Tag text={"탈염색"}></Tag>
+          <Tag
+            type="consulting"
+            text={
+              data.meetingType === "BOTH"
+                ? "대면 / 화상"
+                : data.meetingType === "OFFLINE"
+                ? "대면"
+                : "화상"
+            }
+          />
+          <Tag text={data.major[0]}></Tag>
         </ButtonContainer>
       </InfoContainer>
     </Wrapper>

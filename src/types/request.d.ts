@@ -29,3 +29,14 @@ export interface Review {
   text: string;
   point: number;
 }
+
+export interface WishProps {
+  designerId: number;
+  name: string;
+  region: string;
+  address: string;
+  profile: string;
+  description: string;
+  meetingType: string;
+  majors: string[];
+}
