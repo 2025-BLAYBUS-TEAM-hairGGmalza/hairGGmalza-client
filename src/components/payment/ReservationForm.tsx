@@ -63,6 +63,19 @@ const ReservationForm: React.FC = () => {
       .then(() => alert("복사되었습니다!"));
   };
 
+  // meetingType 변환 함수
+  const convertMeetingType = (type: string | null) => {
+    if (type === "대면") return "OFFLINE";
+    if (type === "화상") return "ONLINE";
+    return type;
+  };
+
+  const convertPaymentMethod = (method: string) => {
+    if (method === "카카오페이") return "KAKAO_PAY";
+    if (method === "계좌이체") return "TRANSFER";
+    return method;
+  };
+
   useEffect(() => {
     if (isChecked) {
       setIsFormValid(true);
@@ -74,40 +87,41 @@ const ReservationForm: React.FC = () => {
     
   }, [isChecked, designerId]);
 
-  const handleSubmit = () => {
 
+  ////  중요
+  const handleSubmit = () => {
     if (!isChecked) {
       alert("예약 안내 사항을 확인해주세요.");
       return;
     }
-      // 계좌이체 선택 시 환불 계좌 입력 필수 처리
+  
+    // 계좌이체 선택 시 환불 계좌 입력 필수 처리
     if (paymentMethod === "계좌이체" && !refundAccount.trim()) {
       alert("환불 계좌를 입력해주세요.");
       return;
     }
-    
+  
     if (isFormValid) {
       console.log("✅ 예약 정보");
-      //기본으로 들어가는 정보들
       console.log("추가 정보:", extraInfo);
       console.log("결제 수단:", paymentMethod);
       console.log("선택한 은행:", selectedBank);
       console.log("환불 계좌:", refundAccount);
       console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
-      
-
+  
       postReservation(
         1,
         designerId,
-        meetingType,
-        `${date} ${time}`,
-        paymentMethod,
-        selectedBank,
-        refundAccount,
+        convertMeetingType(meetingType), //날짜 형식 변환(표준 시간 형식)
+        `${date}T${time}:00`,
+        convertPaymentMethod(paymentMethod),
+        paymentMethod === "카카오페이" ? "" : selectedBank, // 카카오페이일 경우 빈 문자열
+        paymentMethod === "카카오페이" ? "" : refundAccount, // 카카오페이일 경우 빈 문자열
         extraInfo
       );
     }
   };
+  
 
   useEffect(() => {
     setIsMounted(true);
@@ -195,7 +209,7 @@ const ReservationForm: React.FC = () => {
             </BtnWrapper>
             <Label>입금계좌</Label>
             <AccountWrapper>
-              <SubText>{accountNumber}</SubText>
+              <SubText>우리은행 {accountNumber}</SubText>
               <div onClick={handleCopy}>복사</div>
             </AccountWrapper>
           </PaymentButtonRow>

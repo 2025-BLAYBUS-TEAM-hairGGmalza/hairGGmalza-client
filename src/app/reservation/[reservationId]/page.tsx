@@ -19,8 +19,9 @@ const ReservationDetailpage = () => {
 
    
    useEffect(() => {
+      console.log(reservationId);
       setIsMounted(true);
-      getReservationDetail(reservationId).then((res) => {
+      getReservationDetail(parseInt(reservationId)).then((res) => {
          console.log(res);
          setDesignerName(res.data.designerName);
          setAddress(res.data.address);

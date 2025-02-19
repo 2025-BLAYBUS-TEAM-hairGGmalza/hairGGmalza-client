@@ -29,6 +29,12 @@ export const postReservation = async (
          refundAccountBank,
          refundAccountNumber,
          message
+      },
+      {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+         }
       });
 
       console.log("✅ 예약 요청 성공:", response.data);

@@ -42,7 +42,7 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
             <ModalTitle>{title}</ModalTitle>
-            {login ? 
+            {!login ? 
             <ModalContent>
                <FirstRow>
                   {first}

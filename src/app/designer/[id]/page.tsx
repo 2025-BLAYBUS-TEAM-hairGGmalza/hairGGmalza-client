@@ -98,19 +98,29 @@ const DesignerPage = () => {
       return;
     }
 
-    /// 날짜를 YYYYMMDD 형식으로 변환
+    /// 날짜를 YYYY-MM-DD 형식으로 변환
     const formattedDate = selectedDate
       .toISOString()
-      .split("T")[0]
-      .replace(/-/g, "");
-    // 대면이면 offlinePrice, 화상이면 onlinePrice
+      .split("T")[0]; // 기존 replace(/-/g, "") 제거
+
+
+/// 시간을 24시간제로 변환
+const formattedTime = selectedTime
+  ? selectedTime.replace(/^(\d{1,2}):(\d{2})$/, (_, hour, minute) => {
+      const hourInt = parseInt(hour, 10);
+      return hourInt >= 1 && hourInt <= 7 // 1:00 ~ 7:30은 오후 시간이므로 변환
+        ? `${hourInt + 12}:${minute}`
+        : `${hour.padStart(2, "0")}:${minute}`; // 오전 시간은 그대로 유지
+    })
+  : null;  
 
     console.log("상담유형:", selectedConsultingType);
     console.log("선택한 날짜:", formattedDate);
     console.log("선택한 시간:", selectedTime);
+    console.log("선택한 시간(24시간제):", formattedTime);
 
     // 쿼리스트링 생성 후 이동
-    const url = `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
+    const url = `/designer/${id}/payment?date=${formattedDate}&time=${formattedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
     console.log(url);
     router.push(url);
   };
