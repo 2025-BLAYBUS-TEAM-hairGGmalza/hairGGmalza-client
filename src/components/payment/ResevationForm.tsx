@@ -216,7 +216,7 @@ const ReservationForm: React.FC = () => {
       </Container>
       <BottomButtonBar>
         <BackButton onClick={handleBack}>이전</BackButton>
-        <NextButton onClick={handleSubmit}>결제하기</NextButton>
+        <NextButton onClick={handleSubmit}>동의하고 결제하기</NextButton>
       </BottomButtonBar>
     </>
   );
@@ -288,7 +288,7 @@ const Select = styled.select`
   border-radius: 6px;
   border: 1px solid #ddd;
   background: #f5f5f5;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   border: none;
 `;
@@ -370,26 +370,26 @@ const AccountWrapper = styled.div`
 
 const BackButton = styled.button`
   flex: 1;
-  padding: 12px;
+  padding:  14px 12px;
   font-size: 1.6rem;
   font-weight: bold;
   border: none;
   background-color: #464646;
   color: white;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
   margin-right: 1rem;
 `;
 
 const NextButton = styled.button`
   flex: 3;
-  padding: 12px;
+  padding: 14px  12px;
   font-size: 1.6rem;
   font-weight: bold;
   border: none;
   background-color: white;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100%;
 `;
 
