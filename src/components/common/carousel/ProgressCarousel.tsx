@@ -54,7 +54,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 350px;
+  height: 350px; //suzzang: 이거 원래 300px 였다. 문제되면 수정
 `;
 
 const BannerSection = styled.div`

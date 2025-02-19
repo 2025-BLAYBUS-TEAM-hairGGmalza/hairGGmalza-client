@@ -164,7 +164,7 @@ const DesignerPage = () => {
 
          upPortfolios
       });
-   }, [designerName, designerAdress, designerRegion, designerDescription, designerMajors, designerMeetingType, designerOfflinePrice, designerOnlinePrice]); 
+   }, [upPortfolios, designerName, designerAdress, designerRegion, designerDescription, designerMajors, designerMeetingType, designerOfflinePrice, designerOnlinePrice]); 
    // ✅ 상태가 변경될 때만 로그를 찍음
    
    if (!isMounted) return null;
@@ -239,13 +239,13 @@ const DesignerPage = () => {
                      onClick={() => handleConsultingTypeChange("대면")} 
                      selected={selectedConsultingType === "대면"}>
                      <span id='price_title'>대면</span>
-                     <span id='price'>{designerOnlinePrice}원</span>
+                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOnlinePrice}원</span>
                   </ChoiceButton>
                   <ChoiceButton 
                      onClick={() => handleConsultingTypeChange("화상")} 
                      selected={selectedConsultingType === "화상"}>
                      <span id='price_title'>화상</span>
-                     <span id='price'>{designerOnlinePrice}원</span>
+                     <span id='price' style={{fontSize:'15px', fontWeight:'900'}}>{designerOnlinePrice}원</span>
                   </ChoiceButton>
                </ChoiceButtonContainer>
             </ChoiceContainer>
@@ -411,15 +411,6 @@ const DesignerPageWrapper = styled.div`
    padding-bottom: 70px;
 `
 
-const DesignerMainImage = styled.div`
-   width: 100%;
-   height: 350px;
-   background-color: #f0f0f0;
-
-   //이미지 2개넣고 옆으로 슬라이드해서 넘길 수 있게
-   
-`
-
 const Content = styled.div`
    width: 90%;
    display: flex;
@@ -456,7 +447,7 @@ const NameAndAddress = styled.div`
 `
 
 const Name = styled.div`
-   font-size: 21px;
+   font-size: 20px;
    font-weight: bold;   
 `
 
