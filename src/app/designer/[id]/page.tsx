@@ -405,7 +405,7 @@ const DesignerPage = () => {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         title={"\n\n로그인이 필요해요"}
-        login={true}
+        login={false}
       />
 
       {/* 하단 고정 예약 버튼 */}
