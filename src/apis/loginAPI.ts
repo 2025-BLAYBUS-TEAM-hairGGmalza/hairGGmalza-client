@@ -19,10 +19,7 @@ export const loginTest = async () => {
 export const sendCode = async (code: string|null) => {
    console.log("sendCode 호출");
    console.log(code);
-   // const response = await axios.post(`${BASE_URL}/login`, {
-   //       code : code
-   //    });
-   // console.log(response);
+
    try {
       const response = await axios.post(`${BASE_URL}/login`, {
          code : code

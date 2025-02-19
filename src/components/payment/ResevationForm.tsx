@@ -84,9 +84,11 @@ const ReservationForm: React.FC = () => {
     }
     if (isFormValid) {
       console.log("✅ 예약 정보");
+      //기본으로 들어가는 정보들
       console.log("예약자명:", reservationName);
       console.log("성별:", gender);
       console.log("전화번호:", phoneNumber);
+      
       console.log("추가 정보:", extraInfo);
       console.log("결제 수단:", paymentMethod);
       console.log("선택한 은행:", selectedBank);

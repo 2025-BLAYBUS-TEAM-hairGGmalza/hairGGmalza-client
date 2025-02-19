@@ -43,7 +43,8 @@ const HairDesignerDropdown: React.FC = () => {
       {isOpen && (
         <DropdownContent>
           <Profile>
-            <ProfileImage src="/profile.jpg" alt="헤어 디자이너" />
+          {/* todo - 사진 변경 */}
+            <ProfileImage src="/profile.jpg" alt="헤어 디자이너" /> 
             <ProfileInfo>
               <DesignerName>헤어 디자이너</DesignerName>
               <DesignerAddress>서울 강남구 압구정로79길</DesignerAddress>

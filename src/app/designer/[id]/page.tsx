@@ -17,24 +17,22 @@ import Tag from '@/components/common/Tag';
 import { getDesigner } from '@/apis/designerAPI';
 import { useRouter } from 'next/navigation';
 
-type DesignerType = {
-   id: string;
-   name: string;
-   region: string;
-   address: string;
-   profile: string;
-   description: string;
-   offlinePrice: number;
-   onlinePrice: number;
-   meetingType: string;
-   majors: string[];
-}
 
 const DesignerPage = () => {
    const id = String(useParams().id);
    const [isLiked, setIsLiked] = useState(false);
-   const [designer, setDesigner] = useState<DesignerType | null>(null);
    const router = useRouter();
+
+   // 디자이너 정보 상태
+   const [designerName, setDesignerName] = useState<string | null>(null);
+   const [designerAdress, setDesignerAdress] = useState<string | null>(null);
+   const [designerRegion, setDesignerRegion] = useState<string | null>(null);
+   const [designerDescription, setDesignerDescription] = useState<string | null>(null);
+   const [designerMajors, setDesignerMajors] = useState<string[] | null>(null);
+   const [designerMeetingType, setDesignerMeetingType] = useState<string | undefined>("");
+   const [designerOfflinePrice, setDesignerOfflinePrice] = useState<number | undefined>();
+   const [designerOnlinePrice, setDesignerOnlinePrice] = useState<number | undefined>();
+
 
    const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
@@ -47,7 +45,7 @@ const DesignerPage = () => {
    const handleConsultingTypeChange = (type: "대면" | "화상") => {
       setSelectedConsultingType(type);
       setIsCenterModalOpen(true); //  버튼을 누를 때 모달 열기
-      setSelectedPrice(type === "대면" ? designer?.offlinePrice : designer?.onlinePrice);
+      setSelectedPrice(type === "대면" ? designerOfflinePrice : designerOnlinePrice);
    };
    
 
@@ -88,8 +86,7 @@ const DesignerPage = () => {
       // 쿼리스트링 생성 후 이동
       const url = `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
       console.log(url);
-      router.push(`/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`);
-
+      router.push(url);
    };
    
    const handleHeartClick = () => {
@@ -105,18 +102,50 @@ const DesignerPage = () => {
 
    useEffect(() => {
       setIsMounted(true);
-
+   
       const fetchDesigner = async () => {
          try {
-            const designerData = await getDesigner(id); // ✅ API 호출 후 데이터 기다리기
-            setDesigner(designerData); // ✅ 상태 업데이트
+            const data = await getDesigner(id); // ✅ API 호출
+            const designerData = data.data;
+   
+            console.log("API 응답 데이터:", designerData);
+   
+            // 상태 업데이트
+            setDesignerName(designerData.name);
+            setDesignerAdress(designerData.address);
+            setDesignerRegion(designerData.region);
+            setDesignerDescription(designerData.description);
+            setDesignerMajors(designerData.majors);
+            setDesignerMeetingType(designerData.meetingType);
+            setDesignerOfflinePrice(designerData.offlinePrice);
+            setDesignerOnlinePrice(designerData.onlinePrice);
          } catch (error) {
             console.error("디자이너 정보를 가져오는 중 오류 발생:", error);
          }
       };
 
-      if (id) fetchDesigner(); // ✅ 비동기 함수 실행
-   }, [id]);
+      
+   
+      if (id) fetchDesigner(); // ✅ id가 있을 때만 실행
+   
+      // ❌ 여기서 상태를 로그 찍으면 이전 상태가 찍힘
+   }, [id]); // ✅ 상태를 의존성 배열에서 제거
+   
+
+   useEffect(() => {
+      console.log("업데이트된 디자이너 정보:", {
+         designerName,
+         designerAdress,
+         designerRegion,
+         designerDescription,
+         designerMajors,
+         designerMeetingType,
+         designerOfflinePrice,
+         designerOnlinePrice
+      });
+   }, [designerName, designerAdress, designerRegion, designerDescription, designerMajors, designerMeetingType, designerOfflinePrice, designerOnlinePrice]); 
+   // ✅ 상태가 변경될 때만 로그를 찍음
+   
    if (!isMounted) return null;
 
    return (
@@ -128,10 +157,10 @@ const DesignerPage = () => {
             <MainIntroContainer>
                <ProfileImage />
                <NameAndAddress>
-                  <Name>{designer?.name}</Name>
+                  <Name>{designerName}</Name>
                   <Address>
-                     <span id='address_detail' style={{marginRight:'10px'}}>{designer?.address}</span>
-                     <span id='address_category' style={{color: '#808080'}}>{designer?.region}</span>
+                     <span id='address_detail' style={{marginRight:'10px'}}>{designerAdress}</span>
+                     <span id='address_category' style={{color: '#808080'}}>{designerRegion}</span>
                   </Address>
                </NameAndAddress>
                <HeartContainer id='heart_container'>
@@ -142,29 +171,31 @@ const DesignerPage = () => {
                </HeartContainer>
             </MainIntroContainer>
             <OneLineIntro>
-               {designer?.description}
+               {designerDescription}
             </OneLineIntro>
             <TagsContainer>
                <div id='professional_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>전문분야</span>
                   {/* 할 수 있으면 tag 출력(api 잘 받아왔는지 검사) */}
-                  {designer?.majors.map((major, index) => (
-                     <Tag key={index} type='major' text={major} />
-                  ))}
+                  {Array.isArray(designerMajors) ? (
+                     designerMajors.map((major, index) => (
+                        <Tag key={index} type='major' text={major} />
+                     ))
+                  ) : null}
                </div>
                <div id='consulting_tag' style={{display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center'}}>
                   <span>컨설팅 유형</span>
-                  <Tag type='consulting' text={designer?.meetingType}/>
+                  <Tag type='consulting' text={designerMeetingType}/>
                </div>
             </TagsContainer>
             <PricesContainer>
                <PriceCard>
                   <span id='price_title'>대면</span>
-                  <span id='price'>{designer?.offlinePrice}</span>
+                  <span id='price'>{designerOfflinePrice}원</span>
                </PriceCard>
                <PriceCard>
                   <span id='price_title'>화상</span>
-                  <span id='price'>{designer?.onlinePrice}</span>
+                  <span id='price'>{designerOnlinePrice}원</span>
                </PriceCard>
             </PricesContainer>
 
@@ -186,13 +217,13 @@ const DesignerPage = () => {
                      onClick={() => handleConsultingTypeChange("대면")} 
                      selected={selectedConsultingType === "대면"}>
                      <span id='price_title'>대면</span>
-                     <span id='price'>{designer?.onlinePrice}원</span>
+                     <span id='price'>{designerOnlinePrice}원</span>
                   </ChoiceButton>
                   <ChoiceButton 
                      onClick={() => handleConsultingTypeChange("화상")} 
                      selected={selectedConsultingType === "화상"}>
                      <span id='price_title'>화상</span>
-                     <span id='price'>{designer?.onlinePrice}원</span>
+                     <span id='price'>{designerOnlinePrice}원</span>
                   </ChoiceButton>
                </ChoiceButtonContainer>
             </ChoiceContainer>
