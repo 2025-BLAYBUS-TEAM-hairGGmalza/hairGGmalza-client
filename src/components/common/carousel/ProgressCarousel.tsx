@@ -61,7 +61,7 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: fit-content;
+  height: 350px; //여기원래!!
 `;
 
 const BannerSection = styled.div`
@@ -84,10 +84,10 @@ const SlideContainer = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  /* img {
+  img {
     width: 100%;
     height: fit-content;
-  } */
+  }
 `;
 
 const ProgressBarContainer = styled.div`
