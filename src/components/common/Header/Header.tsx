@@ -49,6 +49,14 @@ const Header = ({ where }: { where: string }) => {
         </HeaderComponent>
       </HeaderWrapper>
     );
+  } else if (where === "alert") {
+    return (
+      <HeaderWrapper>
+        <HeaderComponent>
+          <DesignerHeader text="알림" />
+        </HeaderComponent>
+      </HeaderWrapper>
+    );
   }
 };
 

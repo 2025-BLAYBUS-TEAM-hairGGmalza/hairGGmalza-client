@@ -2,51 +2,94 @@
 
 import Header from '@/components/common/Header/Header';
 import { useParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
+import { getDesignerReviews } from '@/apis/reviewAPI';
+import { getDesigner } from '@/apis/designerAPI';
+
+// ✅ API 응답 데이터 타입 (Review 타입 제거, ReviewInfo만 사용)
+interface ReviewInfo {
+   reviewId: number;
+   reservationId: number;
+   review: string;
+   score: number;
+   imageUrls: string[];
+}
+
+interface DesignerInfo {
+   designerId: number;
+   name: string;
+   address: string;
+   region: string;
+   profile: string;
+}
 
 const Reviewpage = () => {
-   const [isMounted, setIsMounted] = React.useState(false);
-   const id = useParams().id; //파라미터에서 id 가져오기
+   const [isMounted, setIsMounted] = useState(false);
+   const id = String(useParams().id); // URL 파라미터에서 id 가져오기
+   const [reviews, setReviews] = useState<ReviewInfo[]>([]);
+   const [averageScore, setAverageScore] = useState<number | null>(null);
+   const [designerInfo, setDesignerInfo] = useState<DesignerInfo | null>(null);
 
    useEffect(() => {
-      console.log(id);
-   }, [id])
+      console.log(`디자이너 ID: ${id}`);
+
+      // 리뷰 API 호출
+      const fetchReviews = async () => {
+         try {
+            const response = await getDesignerReviews(id);
+            const data = response.data;
+            console.log("✅ 리뷰 데이터:", data);
+
+            const reviewInfos = data?.reviewInfos || [];
+            console.log("✅ 리뷰 리스트:", reviewInfos);
+
+            if (reviewInfos.length > 0) {
+               setReviews(reviewInfos);
+
+               // 평균 평점 계산
+               const totalScore = reviewInfos.reduce((sum: number, r:ReviewInfo) => sum + r.score, 0);
+               setAverageScore(parseFloat((totalScore / reviewInfos.length).toFixed(1)));
+            } else {
+               setReviews([]);
+               setAverageScore(null);
+            }
+         } catch (error) {
+            console.error("❌ 리뷰 데이터를 불러오는 중 오류 발생:", error);
+         }
+      };
+
+      //디자이너 API 호출
+      const fetchDesignerInfo = async () => {
+         try {
+            const response = await getDesigner(id);
+            const data = response.data;
+            console.log("✅ 디자이너 정보:", data);
+
+            //디자이너 정보 세팅
+            setDesignerInfo({
+               designerId: data.designerId,
+               name: data.name,
+               address: data.address,
+               region: data.region,
+               profile: data.profile
+            });
+         } catch (error) {
+            console.error("❌ 디자이너 정보를 불러오는 중 오류 발생:", error);
+         }
+      }
+
+      fetchReviews();
+      fetchDesignerInfo();
+   }, [id]);
 
    useEffect(() => {
       setIsMounted(true);
    }, []);
-   if (!isMounted) return null;
 
-   //리뷰카드 임시 더미데이터
-   const reviewData = [
-      {
-         id: 1,
-         name: '구글 닉네임',
-         email: 'sdfsdf@gmail.com',
-         score: 4.5,
-         review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
-         date: '2021.10.10'
-      },
-      {
-         id: 2,
-         name: '구글 닉네임',
-         email: 'sdfsdf@gmail.com',
-         score: 4.5,
-         review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다',
-         date: '2021.10.10'
-      },
-      {
-         id: 3,
-         name: '구글 닉네임',
-         email: 'sdfsdf@gmail.com',
-         score: 4.5,
-         review: '리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는 길게끝까지더보기없이계속들어간다리뷰가줄줄줄줄여기에들어가는데 여기에서는길게끝까지더보기없이계속들어간다',
-         date: '2021.10.10'
-      }
-   ]
+   if (!isMounted) return null;
 
    return (
       <Wrapper>
@@ -55,25 +98,23 @@ const Reviewpage = () => {
          <ProfileWrapper>
             <ProfileContainer>
                <TopProfile>
-                  <ProfileImage />
+                  <ProfileImage src={designerInfo?.profile}/>
                   <NameAndAddress>
-                     <Name>박수빈 디자이너({id}번)</Name>
+                     <Name>{designerInfo?.name}</Name>
                      <Address>
-                        <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
-                        <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
+                        <span id='address_detail' style={{marginRight:'10px'}}>{designerInfo?.address}</span>
+                        <span id='address_category' style={{color: '#808080'}}>{designerInfo?.region}</span>
                      </Address>
                   </NameAndAddress>
                </TopProfile>
                <BottomProfile>   
-                  <ScoreTitle>평균평점</ScoreTitle>
+                  <ScoreTitle>평균 평점</ScoreTitle>
                   <ScoreContainer>
-                     <ScoreNumber>4.5</ScoreNumber>
+                     <ScoreNumber>{averageScore !== null ? averageScore : "없음"}</ScoreNumber>
                      <ScoreStars>
-                        <GoStarFill/>
-                        <GoStarFill/>
-                        <GoStarFill/>
-                        <GoStarFill/>
-                        <GoStar/>
+                        {[...Array(5)].map((_, index) => (
+                           index < Math.round(averageScore ?? 0) ? <GoStarFill key={index}/> : <GoStar key={index}/>
+                        ))}
                      </ScoreStars>
                   </ScoreContainer>
                </BottomProfile>
@@ -82,42 +123,49 @@ const Reviewpage = () => {
 
          <ReviewsContainer>
             <ReviewTitleContainer>
-               <ReviewNumber>145개</ReviewNumber>
+               <ReviewNumber>{reviews.length}개</ReviewNumber>
                <ReviewOrder>최근 등록 순</ReviewOrder>
             </ReviewTitleContainer>
             <ReviewContents>
-               {reviewData.map((review) => (
-                  <ReviewCard key={review.id}>
-                     <TopProfile>
-                        <ProfileImage />
-                        <NameAndAddress>  
-                           <Name>{review.name}</Name>
-                           <Address>
-                              <span id='address_detail' style={{marginRight:'10px'}}>{review.email}</span>
-                           </Address>
-                        </NameAndAddress>
-                     </TopProfile>
-                     <RealReviewContainer>
-                        <ReviewScore>
-                           <ReviewScoreNumber>{review.score}</ReviewScoreNumber>
-                           <ReviewScoreStars>
-                              <GoStarFill/>
-                              <GoStarFill/>
-                              <GoStarFill/>
-                              <GoStarFill/>
-                              <GoStarFill/>
-                           </ReviewScoreStars>
-                        </ReviewScore>
-                        <ReviewContent>
-                           <ReviewText>{review.review}</ReviewText>
-                           <ReviewDateAndDelete>
-                              <span>{review.date}</span>
-                              <DeleteButton>삭제</DeleteButton>
-                           </ReviewDateAndDelete>
-                        </ReviewContent>
-                     </RealReviewContainer>
-                  </ReviewCard>
-               ))}
+               {reviews.length > 0 ? (
+                  reviews.map((review: ReviewInfo) => (
+                     <ReviewCard key={review.reviewId}>
+                        <TopProfile>
+                           <ProfileImage />
+                           <NameAndAddress>  
+                              <Name>{"익명"}</Name> {/* API에서 사용자 정보 없음 */}
+                              <Address>
+                                 <span id='address_detail' style={{marginRight:'10px'}}>이메일 없음</span>
+                              </Address>
+                           </NameAndAddress>
+                        </TopProfile>
+                        <RealReviewContainer>
+                           <ReviewScore>
+                              <ReviewScoreNumber>{review.score.toFixed(1)}</ReviewScoreNumber>
+                              <ReviewScoreStars>
+                                 {[...Array(5)].map((_, index) => (
+                                    index < Math.round(review.score) ? <GoStarFill key={index}/> : <GoStar key={index}/>
+                                 ))}
+                              </ReviewScoreStars>
+                           </ReviewScore>
+                           <ReviewImages>
+                              {review.imageUrls.map((url, index) => (
+                                 <ReviewImage key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
+                              ))}
+                           </ReviewImages>
+                           <ReviewContent>
+                              <ReviewText>{review.review}</ReviewText>
+                              <ReviewDateAndDelete>
+                                 <span>{"날짜 없음"}</span> {/* API에서 날짜 없음 */}
+                                 <DeleteButton>삭제</DeleteButton>
+                              </ReviewDateAndDelete>
+                           </ReviewContent>
+                        </RealReviewContainer>
+                     </ReviewCard>
+                  ))
+               ) : (
+                  <NoReviewMessage>아직 등록된 리뷰가 없어요.</NoReviewMessage>
+               )}
             </ReviewContents>
          </ReviewsContainer>
       </Wrapper>
@@ -125,6 +173,22 @@ const Reviewpage = () => {
 }
 
 export default Reviewpage
+
+const NoReviewMessage = styled.div`
+   text-align: center;
+   font-size: 14px;
+   color: #808080;
+   margin-top: 20px;
+`
+
+const ReviewImages = styled.div`
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 10px;
+`
 
 const Wrapper = styled.div`
    width: 100%;
@@ -162,6 +226,15 @@ const ProfileContainer = styled.div`
    background-color: #ffffff; 
 `
 
+const ReviewImage = styled.img`
+   height: auto;
+   border-radius: 6px;
+   width: 30%;
+   aspect-ratio: 1/1;
+   object-fit: cover;
+`
+
+
 const TopProfile = styled.div`
    width: 100%;
    display: flex;
@@ -173,7 +246,7 @@ const TopProfile = styled.div`
 `
 
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
    width: 55px;
    aspect-ratio: 1/1;
    border-radius: 50%;
@@ -340,6 +413,7 @@ const ReviewScoreStars = styled.div`
 `
 
 const ReviewContent = styled.div`
+   width: 100%;
    display: flex;
    flex-direction: column;
    align-items: flex-start;

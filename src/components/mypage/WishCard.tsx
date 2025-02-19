@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { FaHeart } from "react-icons/fa";
+import Tag from "../common/Tag";
 
 interface WishCardProps {
   imageUrl: string;
   title: string;
   location: string;
   description: string;
+  meetingType: string;
+  major: string[];
 }
 
 const WishCard = (data: WishCardProps) => {
@@ -31,8 +34,17 @@ const WishCard = (data: WishCardProps) => {
         </Title>
         <Description>{data.description}</Description>
         <ButtonContainer>
-          <TagButton>대면/화상</TagButton>
-          <TagButton>탈염색</TagButton>
+          <Tag
+            type="consulting"
+            text={
+              data.meetingType === "BOTH"
+                ? "대면 / 화상"
+                : data.meetingType === "OFFLINE"
+                ? "대면"
+                : "화상"
+            }
+          />
+          <Tag text={data.major[0]}></Tag>
         </ButtonContainer>
       </InfoContainer>
     </Wrapper>

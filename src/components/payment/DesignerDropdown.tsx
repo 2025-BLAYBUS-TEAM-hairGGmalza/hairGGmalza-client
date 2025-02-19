@@ -36,15 +36,16 @@ const HairDesignerDropdown: React.FC = () => {
   return (
     <Container>
       <DropdownHeader onClick={() => setIsOpen(!isOpen)}>
-        디자이너 성함
+        디자이너 정보
         <ToggleIcon isOpen={isOpen}>▲</ToggleIcon>
       </DropdownHeader>
 
       {isOpen && (
-        <DropdownContent>
-          <Profile>
-            <ProfileImage src="/profile.jpg" alt="헤어 디자이너" />
-            <ProfileInfo>
+        <DropdownContent id="dropdownContent">
+          <Profile id="profile">
+          {/* todo - 사진 변경 */}
+            <ProfileImage src="/profile.jpg" alt="헤어 디자이너" /> 
+            <ProfileInfo id="profileInfo">
               <DesignerName>헤어 디자이너</DesignerName>
               <DesignerAddress>서울 강남구 압구정로79길</DesignerAddress>
               <DesignerTags>홍대/연남/합정</DesignerTags>
@@ -53,7 +54,7 @@ const HairDesignerDropdown: React.FC = () => {
 
           <Divider />
 
-          <InfoSection>
+          <InfoSection id="infoSection1">
             <InfoTitle>상담유형</InfoTitle>
             <PriceContainer>
               <PriceBox>{consultingType}</PriceBox>
@@ -63,7 +64,7 @@ const HairDesignerDropdown: React.FC = () => {
 
           <Divider />
 
-          <InfoSection>
+          <InfoSection id="infoSection2">
             <InfoTitle>예약시간</InfoTitle>
             <DateTime>
               <Date>{date}</Date>
@@ -80,6 +81,7 @@ export default HairDesignerDropdown;
 
 const Container = styled.div`
   width: 100%;
+  font-size: 12px;
 `;
 
 const DropdownHeader = styled.div`
@@ -89,7 +91,7 @@ const DropdownHeader = styled.div`
   padding: 12px;
   background: black;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
@@ -102,7 +104,7 @@ const ToggleIcon = styled.span<{ isOpen: boolean }>`
 
 const DropdownContent = styled.div`
   background: white;
-  padding: 16px;
+  padding: 25px;
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-top: 8px;
@@ -127,12 +129,12 @@ const ProfileInfo = styled.div`
   gap: 4px;
 `;
 
-const DesignerName = styled.h3`
+const DesignerName = styled.div`
   font-size: 16px;
   font-weight: bold;
 `;
 
-const DesignerAddress = styled.p`
+const DesignerAddress = styled.div`
   font-size: 14px;
   color: #333;
 `;
@@ -154,9 +156,9 @@ const InfoSection = styled.div`
   gap: 8px;
 `;
 
-const InfoTitle = styled.p`
-  font-size: 14px;
-  color: #333;
+const InfoTitle = styled.div`
+  font-size: 13px;
+  color: #7b7b7b;
 `;
 
 const PriceContainer = styled.div`
@@ -183,11 +185,11 @@ const DateTime = styled.div`
 `;
 
 const Date = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
 const Time = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 `;

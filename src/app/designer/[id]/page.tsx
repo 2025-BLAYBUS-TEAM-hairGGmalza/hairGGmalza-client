@@ -16,27 +16,39 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Tag from "@/components/common/Tag";
 import { getDesigner } from "@/apis/designerAPI";
 import { useRouter } from "next/navigation";
-
-type DesignerType = {
-  id: string;
-  name: string;
-  region: string;
-  address: string;
-  profile: string;
-  description: string;
-  offlinePrice: number;
-  onlinePrice: number;
-  meetingType: string;
-  majors: string[];
-};
+import ProgressCarousel from "@/components/common/carousel/ProgressCarousel";
+import { postMarked } from "@/apis/wishList";
 
 const DesignerPage = () => {
   const id = String(useParams().id);
   const [isLiked, setIsLiked] = useState(false);
-  const [designer, setDesigner] = useState<DesignerType | null>(null);
   const router = useRouter();
 
-  const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
+  // 디자이너 정보 상태
+  const [upPortfolios, setUpPortfolios] = useState<
+    { src: string; alt: string }[]
+  >([]);
+  const [designerImage, setDesignerImage] = useState<string | null>(null);
+  const [designerName, setDesignerName] = useState<string | null>(null);
+  const [designerAdress, setDesignerAdress] = useState<string | null>(null);
+  const [designerRegion, setDesignerRegion] = useState<string | null>(null);
+  const [designerDescription, setDesignerDescription] = useState<string | null>(
+    null
+  );
+  const [designerMajors, setDesignerMajors] = useState<string[] | null>(null);
+  const [designerMeetingType, setDesignerMeetingType] = useState<
+    string | undefined
+  >("");
+  const [designerOfflinePrice, setDesignerOfflinePrice] = useState<
+    number | undefined
+  >();
+  const [designerOnlinePrice, setDesignerOnlinePrice] = useState<
+    number | undefined
+  >();
+
+  const [isReservationModalOpen, setIsReservationBottomModalOpen] =
+    useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedConsultingType, setSelectedConsultingType] = useState<
@@ -50,7 +62,7 @@ const DesignerPage = () => {
     setSelectedConsultingType(type);
     setIsCenterModalOpen(true); //  버튼을 누를 때 모달 열기
     setSelectedPrice(
-      type === "대면" ? designer?.offlinePrice : designer?.onlinePrice
+      type === "대면" ? designerOfflinePrice : designerOnlinePrice
     );
   };
 
@@ -59,8 +71,14 @@ const DesignerPage = () => {
   };
 
   const handleReservationButtonClick = () => {
-    if (!isBottomModalOpen) {
-      setIsBottomModalOpen(true);
+    //토큰이 없으면 로그인 하단 모달 뜨기
+    if (!localStorage.getItem("token")) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (!isReservationModalOpen) {
+      setIsReservationBottomModalOpen(true);
       return;
     }
 
@@ -94,13 +112,12 @@ const DesignerPage = () => {
     // 쿼리스트링 생성 후 이동
     const url = `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`;
     console.log(url);
-    router.push(
-      `/designer/${id}/payment?date=${formattedDate}&time=${selectedTime}&type=${selectedConsultingType}&price=${selectedPrice}`
-    );
+    router.push(url);
   };
 
-  const handleHeartClick = () => {
+  const handleHeartClick = async () => {
     setIsLiked((prev) => !prev); //  클릭할 때마다 상태 변경
+    await postMarked(Number(id));
   };
 
   const handleDateChange = (date: Value) => {
@@ -115,33 +132,94 @@ const DesignerPage = () => {
 
     const fetchDesigner = async () => {
       try {
-        const designerData = await getDesigner(id); // ✅ API 호출 후 데이터 기다리기
-        setDesigner(designerData); // ✅ 상태 업데이트
+        const data = await getDesigner(id); // ✅ API 호출
+        const designerData = data.data;
+
+        console.log("API 응답 데이터:", designerData);
+
+        // 상태 업데이트
+        //portfolio1, portolio2로 오는 걸 upPortfolios 하나의 문자열 배열에 합치기
+        // portfolio1, portfolio2를 객체 배열로 변환
+        const formattedPortfolios = [
+          { src: "/images/hairmodel.png", alt: "첫번째포폴" },
+          { src: "/images/review-example.jpeg", alt: "두번째포폴" },
+        ];
+        setUpPortfolios(formattedPortfolios);
+        setUpPortfolios(formattedPortfolios);
+        setDesignerImage(designerData.profile);
+        setDesignerName(designerData.name);
+        setDesignerAdress(designerData.address);
+        setDesignerRegion(designerData.region);
+        setDesignerDescription(designerData.description);
+        setDesignerMajors(designerData.majors);
+        //meetingtype을 "OFFLINE"이면 "대면", "ONLINE"이면 "화상", "BOTH"이면 "대면/화상"으로 변경
+        setDesignerMeetingType(
+          designerData.meetingType === "OFFLINE"
+            ? "대면"
+            : designerData.meetingType === "ONLINE"
+            ? "화상"
+            : "대면/화상"
+        );
+        setDesignerOfflinePrice(designerData.offlinePrice);
+        setDesignerOnlinePrice(designerData.onlinePrice);
       } catch (error) {
         console.error("디자이너 정보를 가져오는 중 오류 발생:", error);
       }
     };
 
-    if (id) fetchDesigner(); // ✅ 비동기 함수 실행
-  }, [id]);
+    if (id) fetchDesigner(); // ✅ id가 있을 때만 실행
+
+    // ❌ 여기서 상태를 로그 찍으면 이전 상태가 찍힘
+  }, [id]); // ✅ 상태를 의존성 배열에서 제거
+
+  useEffect(() => {
+    console.log("업데이트된 디자이너 정보:", {
+      designerName,
+      designerAdress,
+      designerRegion,
+      designerDescription,
+      designerMajors,
+      designerMeetingType,
+      designerOfflinePrice,
+      designerOnlinePrice,
+
+      upPortfolios,
+    });
+  }, [
+    upPortfolios,
+    designerName,
+    designerAdress,
+    designerRegion,
+    designerDescription,
+    designerMajors,
+    designerMeetingType,
+    designerOfflinePrice,
+    designerOnlinePrice,
+  ]);
+  // ✅ 상태가 변경될 때만 로그를 찍음
+
   if (!isMounted) return null;
 
   return (
     <DesignerPageWrapper>
       {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
       <Header where="designer" />
-      <DesignerMainImage />
+      {/* <DesignerMainImage /> */}
+      <ProgressCarousel images={upPortfolios} main={false} />
       <Content>
         <MainIntroContainer>
-          <ProfileImage />
+          <ProfileImage
+            src={designerImage || "/default-image.jpg"}
+            alt="디자이너 프로필 이미지"
+          />
           <NameAndAddress>
-            <Name>{designer?.name}</Name>
+            <Name>{designerName}</Name>
             <Address>
               <span id="address_detail" style={{ marginRight: "10px" }}>
-                {designer?.address}
+                {designerAdress}
               </span>
               <span id="address_category" style={{ color: "#808080" }}>
-                {designer?.region}
+                {designerRegion}
               </span>
             </Address>
           </NameAndAddress>
@@ -154,7 +232,7 @@ const DesignerPage = () => {
             <span style={{ fontSize: "10px" }}>32</span>
           </HeartContainer>
         </MainIntroContainer>
-        <OneLineIntro>{designer?.description}</OneLineIntro>
+        <OneLineIntro>{designerDescription}</OneLineIntro>
         <TagsContainer>
           <div
             id="professional_tag"
@@ -167,9 +245,11 @@ const DesignerPage = () => {
           >
             <span>전문분야</span>
             {/* 할 수 있으면 tag 출력(api 잘 받아왔는지 검사) */}
-            {designer?.majors.map((major, index) => (
-              <Tag key={index} type="major" text={major} />
-            ))}
+            {Array.isArray(designerMajors)
+              ? designerMajors.map((major, index) => (
+                  <Tag key={index} type="major" text={major} />
+                ))
+              : null}
           </div>
           <div
             id="consulting_tag"
@@ -181,27 +261,31 @@ const DesignerPage = () => {
             }}
           >
             <span>컨설팅 유형</span>
-            <Tag type="consulting" text={designer?.meetingType} />
+            <Tag type="consulting" text={designerMeetingType} />
           </div>
         </TagsContainer>
         <PricesContainer>
           <PriceCard>
             <span id="price_title">대면</span>
-            <span id="price">{designer?.offlinePrice}</span>
+            <span id="price" style={{ fontSize: "15px", fontWeight: "700" }}>
+              {designerOfflinePrice}원
+            </span>
           </PriceCard>
           <PriceCard>
             <span id="price_title">화상</span>
-            <span id="price">{designer?.onlinePrice}</span>
+            <span id="price" style={{ fontSize: "15px", fontWeight: "700" }}>
+              {designerOnlinePrice}원
+            </span>
           </PriceCard>
         </PricesContainer>
 
         <ReviewAndPortfolio />
       </Content>
 
-      {/* 하단 모달 */}
+      {/* 하단 모달 - 예약하기 */}
       <BottomModal
-        isOpen={isBottomModalOpen}
-        onClose={() => setIsBottomModalOpen(false)}
+        isOpen={isReservationModalOpen}
+        onClose={() => setIsReservationBottomModalOpen(false)}
         title="예약하기"
       >
         {/* <TabContainer>
@@ -217,14 +301,24 @@ const DesignerPage = () => {
                 selected={selectedConsultingType === "대면"}
               >
                 <span id="price_title">대면</span>
-                <span id="price">{designer?.onlinePrice}원</span>
+                <span
+                  id="price"
+                  style={{ fontSize: "15px", fontWeight: "900" }}
+                >
+                  {designerOfflinePrice}원
+                </span>
               </ChoiceButton>
               <ChoiceButton
                 onClick={() => handleConsultingTypeChange("화상")}
                 selected={selectedConsultingType === "화상"}
               >
                 <span id="price_title">화상</span>
-                <span id="price">{designer?.onlinePrice}원</span>
+                <span
+                  id="price"
+                  style={{ fontSize: "15px", fontWeight: "900" }}
+                >
+                  {designerOnlinePrice}원
+                </span>
               </ChoiceButton>
             </ChoiceButtonContainer>
           </ChoiceContainer>
@@ -301,9 +395,18 @@ const DesignerPage = () => {
               "컨설팅은 약 30분 소요되며\n종료 후 요약 리포트로 확인 가능해요."
             }
             third="*컨설팅 가격의 경우 디자이너마다 상이할 수 있습니다."
+            login={false}
           />
         </ModalWrapper>
       </BottomModal>
+
+      {/* 센터 모달 - 로그인하기 */}
+      <CenterModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        title={"\n\n로그인이 필요해요"}
+        login={true}
+      />
 
       {/* 하단 고정 예약 버튼 */}
       <BottomButtonBar>
@@ -408,12 +511,6 @@ const DesignerPageWrapper = styled.div`
   padding-bottom: 70px;
 `;
 
-const DesignerMainImage = styled.div`
-  width: 100%;
-  height: 350px;
-  background-color: #f0f0f0;
-`;
-
 const Content = styled.div`
   width: 90%;
   display: flex;
@@ -432,11 +529,10 @@ const MainIntroContainer = styled.div`
   justify-content: space-between;
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   height: 100%;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  background-color: #f0f0f0;
 `;
 
 const NameAndAddress = styled.div`
@@ -449,12 +545,12 @@ const NameAndAddress = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 19px;
+  font-size: 20px;
   font-weight: bold;
 `;
 
 const Address = styled.div`
-  font-size: 13px;
+  font-size: 14px;
 `;
 
 const HeartContainer = styled.div`
@@ -520,7 +616,9 @@ const ShareButton = styled.img`
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: 40px;
+  //남는 칸의 가운데에 배치
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const ReservationButton = styled.button`

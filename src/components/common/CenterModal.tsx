@@ -1,5 +1,6 @@
 "use client";
 
+import { loginTest } from "@/apis/loginAPI";
 import { useEffect } from "react";
 import styled from "styled-components";
 
@@ -11,9 +12,16 @@ interface ModalProps {
    second?: string;
    third?: string;
    children?: React.ReactNode;
+   login?: boolean;
 }
 
-const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third }) => {
+const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, second, third, login }) => {
+
+   const handleGoogleLogin = () => {
+      onClose();
+      loginTest();
+   }
+
    useEffect(() => {
       if (isOpen) {
          document.documentElement.style.overflow = "hidden";
@@ -32,9 +40,8 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
    return (
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
-            {/* 제목이 있으면 렌더링
-            {title && <ModalTitle>{title}</ModalTitle>} */}
             <ModalTitle>{title}</ModalTitle>
+            {login ? 
             <ModalContent>
                <FirstRow>
                   {first}
@@ -46,7 +53,12 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
                   {third}
                </ThirdRow>
             </ModalContent>
-            <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
+               : <div style={{paddingTop:'50px'}}></div>
+               }
+            {login ?
+               <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
+               : <ConfirmButton onClick={handleGoogleLogin}>Google 로그인</ConfirmButton>
+            }
          </ModalContainer>
       </ModalOverlay>
    );
@@ -97,6 +109,8 @@ const ModalTitle = styled.div`
    font-weight: 1000;
    margin-top: 35px;
    margin-bottom: 10px;
+   //개행문자 적용
+   white-space: pre-line;
 `;
 
 // 모달 내용

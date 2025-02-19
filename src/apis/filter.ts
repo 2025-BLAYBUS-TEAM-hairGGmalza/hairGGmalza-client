@@ -7,7 +7,7 @@ const API_URL = "https://hairgg.duckdns.org";
 export const filterDesigner = async (body: MeetingRequest) => {
   try {
     const response = await axios.post(`${API_URL}/designers`, body);
-    console.log(response.data);
+    console.log(response.data.designerInfo);
     return response.data;
   } catch (error) {
     console.error(error);

@@ -34,9 +34,6 @@ const banks: string[] = [
 ];
 
 const ReservationForm: React.FC = () => {
-  const [reservationName, setReservationName] = useState("");
-  const [gender, setGender] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("카카오페이");
@@ -45,11 +42,16 @@ const ReservationForm: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [isFormValid, setIsFormValid] = useState(false);
-  const designerId = useParams().id;
+  const designerId = parseInt(String(useParams().id));
 
   const accountNumber = "1002-858-1312312";
 
   const router = useRouter(); // useRouter 훅 사용
+
+  //쿼리스트링에서 정보 가져오기
+  const date = new URLSearchParams(window.location.search).get("date");
+  const time = new URLSearchParams(window.location.search).get("time");
+  const meetingType = new URLSearchParams(window.location.search).get("type");
 
   const handleBack = () => {
     router.back(); // 이전 페이지로 이동
@@ -62,7 +64,7 @@ const ReservationForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (reservationName && gender && phoneNumber && isChecked) {
+    if (isChecked) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -70,23 +72,23 @@ const ReservationForm: React.FC = () => {
 
     console.log(designerId);
     
-  }, [reservationName, gender, phoneNumber, isChecked, designerId]);
+  }, [isChecked, designerId]);
 
   const handleSubmit = () => {
-    if (!reservationName || !gender || !phoneNumber) {
-      alert("모든 필수 입력 항목을 작성해주세요.");
-      return;
-    }
 
     if (!isChecked) {
       alert("예약 안내 사항을 확인해주세요.");
       return;
     }
+      // 계좌이체 선택 시 환불 계좌 입력 필수 처리
+    if (paymentMethod === "계좌이체" && !refundAccount.trim()) {
+      alert("환불 계좌를 입력해주세요.");
+      return;
+    }
+    
     if (isFormValid) {
       console.log("✅ 예약 정보");
-      console.log("예약자명:", reservationName);
-      console.log("성별:", gender);
-      console.log("전화번호:", phoneNumber);
+      //기본으로 들어가는 정보들
       console.log("추가 정보:", extraInfo);
       console.log("결제 수단:", paymentMethod);
       console.log("선택한 은행:", selectedBank);
@@ -94,7 +96,16 @@ const ReservationForm: React.FC = () => {
       console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
       
 
-      postReservation(1, 1, "ONLINE", "2022-02-13");
+      postReservation(
+        1,
+        designerId,
+        meetingType,
+        `${date} ${time}`,
+        paymentMethod,
+        selectedBank,
+        refundAccount,
+        extraInfo
+      );
     }
   };
 
@@ -124,30 +135,16 @@ const ReservationForm: React.FC = () => {
           <SectionTitle>예약자 정보</SectionTitle>
           <InputRow>
             <NameWrapper>
-              <div>예약자명</div>
-              <Input
-                placeholder="예약자 성함"
-                value={reservationName}
-                onChange={(e) => setReservationName(e.target.value)}
-              />
+              <div>이름</div>
+              <GrayBox>박수빈</GrayBox>
             </NameWrapper>
             <SelectWrapper>
               <div>성별</div>
-              <Select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="">선택</option>
-                <option value="여">여</option>
-                <option value="남">남</option>
-              </Select>
+              <GrayBox>여</GrayBox>
             </SelectWrapper>
           </InputRow>
-          <Input
-            placeholder="010-0000-0000"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
+          <div style={{fontSize:'1.5rem'}}>전화번호</div>
+          <GrayBox>010-1234-5678</GrayBox>
         </SectionContainer>
 
         <Divider />
@@ -165,7 +162,7 @@ const ReservationForm: React.FC = () => {
               checked={isChecked}
               onChange={() => setIsChecked(!isChecked)}
             />
-            <div>확인했습니다.</div>
+            <div style={{fontSize:'12px'}}>확인했습니다.</div>
           </CheckboxContainer>
           <SubText>
             헤어 고민이 있으신가요? <Optional>(선택)</Optional>
@@ -204,29 +201,33 @@ const ReservationForm: React.FC = () => {
           </PaymentButtonRow>
         </SectionContainer>
 
-        <Divider />
+        {paymentMethod === "계좌이체" && (
+        <>
+          <Divider />
 
-        <SectionContainer>
-          <SectionTitle>환불 계좌 입력</SectionTitle>
-          <BtnWrapper>
-            <Select
-              onChange={(e) => setSelectedBank(e.target.value)}
-              value={selectedBank}
-            >
-              {banks.map((bank) => (
-                <option key={bank} value={bank}>
-                  {bank}
-                </option>
-              ))}
-            </Select>
-            <AccountInput
-              type="text"
-              placeholder="000-0000-000000"
-              value={refundAccount}
-              onChange={(e) => setRefundAccount(e.target.value)}
-            />
-          </BtnWrapper>
-        </SectionContainer>
+          <SectionContainer>
+            <SectionTitle>환불 계좌 입력</SectionTitle>
+            <BtnWrapper>
+              <Select
+                onChange={(e) => setSelectedBank(e.target.value)}
+                value={selectedBank}
+              >
+                {banks.map((bank) => (
+                  <option key={bank} value={bank}>
+                    {bank}
+                  </option>
+                ))}
+              </Select>
+              <AccountInput
+                type="text"
+                placeholder="000-0000-000000"
+                value={refundAccount}
+                onChange={(e) => setRefundAccount(e.target.value)}
+              />
+            </BtnWrapper>
+          </SectionContainer>
+        </>
+      )}
         <Divider />
         <SectionContainer>
           <SectionTitle>개인정보 처리</SectionTitle>
@@ -235,7 +236,7 @@ const ReservationForm: React.FC = () => {
       </Container>
       <BottomButtonBar>
         <BackButton onClick={handleBack}>이전</BackButton>
-        <NextButton onClick={handleSubmit}>결제하기</NextButton>
+        <NextButton onClick={handleSubmit}>동의하고 결제하기</NextButton>
       </BottomButtonBar>
     </>
   );
@@ -258,7 +259,7 @@ const SectionContainer = styled.div`
 `;
 
 const SectionTitle = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `;
 
@@ -285,19 +286,20 @@ const TextArea = styled.textarea`
   font-size: 12px;
   color: #333;
   border: none;
+  font-family: "Apple SD Gothic Neo", "Nanum Gothic", sans-serif;
 `;
 
-const Input = styled.input`
-  flex: 1;
-  height: 48px;
-  padding: 14px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  background: #f5f5f5;
-  font-size: 16px;
-  color: #333;
-  border: none;
-`;
+// const Input = styled.input`
+//   flex: 1;
+//   height: 48px;
+//   padding: 14px;
+//   border-radius: 6px;
+//   border: 1px solid #ddd;
+//   background: #f5f5f5;
+//   font-size: 16px;
+//   color: #333;
+//   border: none;
+// `;
 
 const Select = styled.select`
   flex: 1;
@@ -306,13 +308,13 @@ const Select = styled.select`
   border-radius: 6px;
   border: 1px solid #ddd;
   background: #f5f5f5;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   border: none;
 `;
 
 const SubText = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
   display: flex;
   gap: 1rem;
@@ -374,7 +376,7 @@ const AccountWrapper = styled.div`
   border: 1px solid #ddd;
   background: #f5f5f5;
   border-radius: 6px;
-  padding: 2px 14px;
+  padding: 2px 18px;
   align-items: center;
   resize: none;
   font-size: 16px;
@@ -388,26 +390,26 @@ const AccountWrapper = styled.div`
 
 const BackButton = styled.button`
   flex: 1;
-  padding: 12px;
+  padding:  14px 12px;
   font-size: 1.6rem;
   font-weight: bold;
   border: none;
   background-color: #464646;
   color: white;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
   margin-right: 1rem;
 `;
 
 const NextButton = styled.button`
   flex: 3;
-  padding: 12px;
+  padding: 14px  12px;
   font-size: 1.6rem;
   font-weight: bold;
   border: none;
   background-color: white;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100%;
 `;
 
@@ -420,12 +422,12 @@ const PaymentButtonRow = styled.div`
 const PaymentButton = styled.button<{ selected: boolean }>`
   flex: 1;
   padding: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   border: none;
   border-radius: 8px;
-  background-color: ${({ selected }) => (selected ? "#ff6b6b" : "#ccc")};
-  color: white;
+  background-color: ${({ selected }) => (selected ? "#1E1E1E" : "#ccc")};
+  color: ${({ selected }) => (selected ? "#F3D7E5" : "white")};
   cursor: pointer;
 `;
 
@@ -446,4 +448,16 @@ const Notice = styled.div`
   padding: 1.5rem;
   border-radius: 1rem;
   box-sizing: border-box;
+`;
+
+const GrayBox = styled.div`
+  flex: 1;
+  height: 48px;
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  font-size: 16px;
+  color: #333;
+  border: none;
 `;

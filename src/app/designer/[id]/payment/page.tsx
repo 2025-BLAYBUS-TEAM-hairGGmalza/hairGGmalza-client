@@ -1,4 +1,4 @@
-import ReservationForm from "@/components/payment/ResevationForm";
+import ReservationForm from "@/components/payment/ReservationForm";
 import React from "react";
 
 const page = () => {
