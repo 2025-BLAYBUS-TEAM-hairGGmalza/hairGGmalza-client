@@ -58,7 +58,7 @@ const Search = () => {
         ))}
       </BtnWrapper>
 
-      {designers && designers.length > 0 && (
+      {designers && designers.length > 0 ? (
         <SearchWrapper>
           <span>{designers.length.toLocaleString()}건</span>
           <CardList>
@@ -67,6 +67,11 @@ const Search = () => {
             ))}
           </CardList>
         </SearchWrapper>
+      ) : (
+        <NoneWrapper>
+          <img src="/images/empty.png" />
+          <Text>검색 결과가 없습니다.</Text>
+        </NoneWrapper>
       )}
 
       <FilterModal
@@ -126,4 +131,27 @@ const Button = styled.div`
 
   background-color: #eeeeee;
   color: #989898;
+`;
+
+const NoneWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 15rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  img {
+    width: 200px;
+  }
+`;
+
+const Text = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
 `;
