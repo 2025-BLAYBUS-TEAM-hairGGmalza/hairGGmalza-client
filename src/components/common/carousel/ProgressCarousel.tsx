@@ -10,7 +10,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 interface CarouselProps {
-  images: { src: string; alt: string }[];
+  images: { src: string; alt: string; height: number }[];
 }
 
 const ProgressCarousel = ({ images }: CarouselProps) => {
@@ -28,7 +28,7 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
           loop={true}
           onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
         >
-          {images.map(({ src, alt }, index) => (
+          {images.map(({ src, alt, height }, index) => (
             <SwiperSlide key={index}>
               <SlideContainer>
                 <ImageWrapper>
@@ -36,7 +36,7 @@ const ProgressCarousel = ({ images }: CarouselProps) => {
                     src={src}
                     alt={alt}
                     width={470}
-                    height={300}
+                    height={height}
                     priority={true}
                     style={{ display: "block" }}
                   />
@@ -61,7 +61,6 @@ const CarouselContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: fit-content;
 `;
 
 const BannerSection = styled.div`
