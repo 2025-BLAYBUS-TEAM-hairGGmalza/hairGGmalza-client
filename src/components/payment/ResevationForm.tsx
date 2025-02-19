@@ -7,7 +7,8 @@ import Divider from "../common/Divider";
 import HairDesignerDropdown from "./DesignerDropdown";
 import BottomButtonBar from "../common/BottomButtonBar";
 import ToggleSection from "./ToggleSection";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { postReservation } from "@/apis/payAPI";
 
 const banks: string[] = [
   "NH농협",
@@ -36,7 +37,6 @@ const ReservationForm: React.FC = () => {
   const [reservationName, setReservationName] = useState("");
   const [gender, setGender] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [notes, setNotes] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("카카오페이");
@@ -45,6 +45,7 @@ const ReservationForm: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const designerId = useParams().id;
 
   const accountNumber = "1002-858-1312312";
 
@@ -66,7 +67,10 @@ const ReservationForm: React.FC = () => {
     } else {
       setIsFormValid(false);
     }
-  }, [reservationName, gender, phoneNumber, isChecked]);
+
+    console.log(designerId);
+    
+  }, [reservationName, gender, phoneNumber, isChecked, designerId]);
 
   const handleSubmit = () => {
     if (!reservationName || !gender || !phoneNumber) {
@@ -79,7 +83,18 @@ const ReservationForm: React.FC = () => {
       return;
     }
     if (isFormValid) {
-      console.log("성공");
+      console.log("✅ 예약 정보");
+      console.log("예약자명:", reservationName);
+      console.log("성별:", gender);
+      console.log("전화번호:", phoneNumber);
+      console.log("추가 정보:", extraInfo);
+      console.log("결제 수단:", paymentMethod);
+      console.log("선택한 은행:", selectedBank);
+      console.log("환불 계좌:", refundAccount);
+      console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
+      
+
+      postReservation(1, 1, "ONLINE", "2022-02-13");
     }
   };
 
