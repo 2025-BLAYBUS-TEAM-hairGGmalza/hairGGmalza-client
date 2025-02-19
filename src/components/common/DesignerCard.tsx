@@ -3,12 +3,20 @@
 import React from "react";
 import styled from "styled-components";
 
-const DesignerCard = ({ src, name }: { src: string; name: string }) => {
+const DesignerCard = ({
+  src,
+  name,
+  onClick,
+}: {
+  src: string;
+  name: string;
+  onClick?: () => void;
+}) => {
   return (
-    <CardWrapper>
+    <CardWrapper onClick={onClick}>
       <Image src={src} alt={name} />
       <InfoWrapper>
-        <Icon>👜</Icon>
+        <Icon src="/images/de_ic.png" alt="아이콘" />
         <Name>{name}</Name>
       </InfoWrapper>
     </CardWrapper>
@@ -40,18 +48,21 @@ const InfoWrapper = styled.div`
   left: 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: white;
+  gap: 15px;
+  /* background: white; */
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: bold;
+  text-align: center;
 `;
 
-const Icon = styled.span`
-  font-size: 16px;
+const Icon = styled.img`
+  width: 25px;
+  height: 25px;
 `;
 
 const Name = styled.span`
   color: black;
+  font-size: 15px;
 `;

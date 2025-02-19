@@ -10,8 +10,8 @@ const options = [
 ];
 
 interface RegionFilterProps {
-  selected: string[] | null;
-  onChange: (regions: string[] | null) => void;
+  selected: string | null;
+  onChange: (regions: string | null) => void;
 }
 
 export default function RegionFilter({
@@ -19,15 +19,12 @@ export default function RegionFilter({
   onChange,
 }: RegionFilterProps) {
   const toggleSelection = (region: string) => {
-    let updatedRegions;
-
-    if (selected?.includes(region)) {
-      updatedRegions = selected.filter((r) => r !== region);
+    if (selected === region) {
+      onChange(null);
     } else {
-      updatedRegions = [...(selected || []), region];
+      onChange(region);
+      console.log(region);
     }
-
-    onChange(updatedRegions.length > 0 ? updatedRegions : null);
   };
 
   return (
