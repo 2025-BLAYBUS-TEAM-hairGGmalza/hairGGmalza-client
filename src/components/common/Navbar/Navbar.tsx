@@ -44,8 +44,11 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #f5f5f5;
-  border-top: 1px solid #ddd;
+
+  background: transparent;
+  backdrop-filter: blur(15px);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const NavItem = styled.div<{ isActive: boolean }>`

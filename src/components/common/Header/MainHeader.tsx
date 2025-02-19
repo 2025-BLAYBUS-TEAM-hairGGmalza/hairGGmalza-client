@@ -4,13 +4,20 @@ import React from "react";
 import styled from "styled-components";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlineSearch } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const MainHeader = () => {
+  const router = useRouter();
+
   return (
     <MainWrapper>
       <LogoImg src="/Logo.png" onClick={() => console.log("d")} />
       <SearchAndAlarm>
-        <MdOutlineSearch cursor="pointer" size="3.2rem" />
+        <MdOutlineSearch
+          cursor="pointer"
+          size="3.2rem"
+          onClick={() => router.push("/search")}
+        />
         <FaRegBell cursor="pointer" size="2.8rem" />
       </SearchAndAlarm>
     </MainWrapper>

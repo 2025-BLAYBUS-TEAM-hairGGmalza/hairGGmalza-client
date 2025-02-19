@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 
@@ -23,9 +24,12 @@ const SearchCard: React.FC<SearchCardProps> = ({
   onlinePrice,
   meetingType,
   majors,
+  designerId,
 }) => {
+  const router = useRouter();
+
   return (
-    <CardContainer>
+    <CardContainer onClick={() => router.push(`/designer/${designerId}`)}>
       <ImageWrapper>
         <ProfileImage
           src={profile !== "null" ? profile : "/images/hairmodel.png"}
@@ -73,7 +77,7 @@ const CardContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 10px;
-  width: 85%;
+  width: 95%;
   height: fit-content;
 `;
 
@@ -137,11 +141,12 @@ const Description = styled.div`
 
 const TagContainer = styled.div`
   display: flex;
+  width: 110%;
   gap: 10px;
 `;
 
 const Tag = styled.div`
-  width: 90px;
+  width: 100px;
   font-size: 16px;
   background: black;
   color: #f3d7e5;

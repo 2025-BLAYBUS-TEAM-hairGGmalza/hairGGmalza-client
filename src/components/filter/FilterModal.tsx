@@ -8,11 +8,14 @@ import TabBar from "./TabBar";
 import styled from "styled-components";
 import BottomModal from "../common/BottomModal";
 import BottomButtonBar from "../common/BottomButtonBar";
+import { filterDesigner } from "@/apis/filter";
+import { Designer, MeetingRequest } from "@/types/request";
 
 interface FilterModalProps {
   isBottomOpen: boolean;
   setIsBottomOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onApplyFilters: (filters: string[]) => void;
+  setDesigners: (designers: Designer[]) => void;
 }
 
 interface HairInfo {
@@ -27,11 +30,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
   isBottomOpen,
   setIsBottomOpen,
   onApplyFilters,
+  setDesigners,
 }) => {
   const [activeTab, setActiveTab] = useState<string>("consulting");
 
   const [consultingType, setConsultingType] = useState<string | null>(null);
-  const [region, setRegion] = useState<string[] | null>(null);
+  const [region, setRegion] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [expertise, setExpertise] = useState<string[] | null>(null);
@@ -46,7 +50,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setMaxPrice(max);
   };
 
-  // ✅ 각 필터의 ref 생성
   const consultingRef = useRef<HTMLDivElement | null>(null);
   const regionRef = useRef<HTMLDivElement | null>(null);
   const priceRef = useRef<HTMLDivElement | null>(null);
@@ -62,7 +65,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     hair: hairRef,
   };
 
-  const handleResetFilters = () => {
+  const handleResetFilters = async () => {
     setConsultingType(null);
     setRegion(null);
     setMinPrice(null);
@@ -76,33 +79,41 @@ const FilterModal: React.FC<FilterModalProps> = ({
   };
 
   const handleApplyFilters = async () => {
-    const filterData = {
-      consultingType,
-      region,
-      minPrice,
+    const filterData: MeetingRequest = {
+      meetingType:
+        consultingType === "대면"
+          ? 0
+          : consultingType === "화상"
+          ? 1
+          : consultingType === "대면/화상"
+          ? 2
+          : null,
+      region:
+        region === "서울 전체"
+          ? 0
+          : region === "홍대/연남/합정"
+          ? 1
+          : region === "강남/청담/압구정"
+          ? 2
+          : region === "성수/건대"
+          ? 3
+          : null,
+      minPrice: minPrice === 0 ? null : minPrice,
       maxPrice,
+      majors: expertise,
     };
 
-    console.log("📡 필터 데이터:", filterData);
-
-    // try {
-    //   const response = await fetch("/api/filter", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(filterData),
-    //   });
-
-    //   if (!response.ok) throw new Error("API 요청 실패");
-
-    //   console.log("✅ 필터 적용 성공!");
-    // } catch (error) {
-    //   console.error("❌ 필터 적용 실패:", error);
-    // }
+    try {
+      const response = await filterDesigner(filterData);
+      setDesigners(response.data.designerInfos);
+    } catch (error) {
+      console.error("❌ 필터 API 호출 실패:", error);
+    }
 
     const filters: string[] = [];
 
     if (consultingType) filters.push(consultingType);
-    if (region && region.length > 0) filters.push(...region);
+    if (region && region.length > 0) filters.push(region);
     if (minPrice !== null || maxPrice !== null) {
       filters.push(`₩${minPrice || 0} - ₩${maxPrice || "무제한"}`);
     }
@@ -114,6 +125,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     }
 
     onApplyFilters(filters);
+    await filterDesigner(filterData);
   };
 
   const handleTabSelect = (id: string) => {
