@@ -2,49 +2,30 @@
 
 import styled from "styled-components";
 import { GoStarFill } from "react-icons/go";
+import { Review } from "@/types/request";
 
-const ReviewsCarousel = () => {
+interface ReviewsCarouselProps {
+  reviews: Review[];
+}
+
+const ReviewsCarousel = ({ reviews }: ReviewsCarouselProps) => {
   return (
     <Wrapper>
-      <ReviewCard>
-        {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-        <ReviewBottom>
-          <ReviewStars>
-            <GoStarFill style={{ color: "#ECBDD3", fontSize: "18px" }} />
-            <Score>5.0</Score>
-          </ReviewStars>
-          <ReviewText>
-            예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서
-            했냐고 맨날 물어봐요 ㅋ
-          </ReviewText>
-        </ReviewBottom>
-      </ReviewCard>
-      <ReviewCard>
-        {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-        <ReviewBottom>
-          <ReviewStars>
-            <GoStarFill style={{ color: "#ECBDD3", fontSize: "18px" }} />
-            <Score>5.0</Score>
-          </ReviewStars>{" "}
-          <ReviewText>
-            예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서
-            했냐고 맨날 물어봐요 ㅋ
-          </ReviewText>
-        </ReviewBottom>
-      </ReviewCard>
-      <ReviewCard>
-        {/* <ReviewImg src="/images/review-example.jpeg" alt="review-example"/> */}
-        <ReviewBottom>
-          <ReviewStars>
-            <GoStarFill style={{ color: "#ECBDD3", fontSize: "18px" }} />
-            <Score>5.0</Score>
-          </ReviewStars>{" "}
-          <ReviewText>
-            예쁘게 잘라주셔서 감사합니다! 완전 맘에 들어요 친구들이 머리 어디서
-            했냐고 맨날 물어봐요 ㅋ
-          </ReviewText>
-        </ReviewBottom>
-      </ReviewCard>
+      {reviews ? (
+        reviews.map((review, index) => (
+          <ReviewCard key={index} $backgroundImage={review.image}>
+            <ReviewBottom>
+              <ReviewStars>
+                <GoStarFill style={{ color: "#ECBDD3", fontSize: "18px" }} />
+                <Score>{review.point.toFixed(1)}</Score>
+              </ReviewStars>
+              <ReviewText>{review.text}</ReviewText>
+            </ReviewBottom>
+          </ReviewCard>
+        ))
+      ) : (
+        <div></div>
+      )}
     </Wrapper>
   );
 };
@@ -52,36 +33,33 @@ const ReviewsCarousel = () => {
 export default ReviewsCarousel;
 
 const Wrapper = styled.div`
-  transition: opacity 0.5s ease-in-out; //애니메이션
+  transition: opacity 0.5s ease-in-out;
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   overflow-x: auto;
   white-space: nowrap;
   padding-bottom: 5px;
-  /* scroll-snap-type: x mandatory;
-   -webkit-overflow-scrolling: touch; */
 `;
 
-const ReviewCard = styled.div`
+const ReviewCard = styled.div<{ $backgroundImage: string }>`
   width: 190px;
   height: 190px;
-  flex-shrink: 0; /* ✅ 카드가 찌그러지지 않도록 설정 */
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   border-radius: 8px;
-  background-image: url("/images/hairmodel.png");
+  background-image: ${({ $backgroundImage }) => `url(${$backgroundImage})`};
   background-size: cover;
   background-position: center;
   background-color: #f0f0f0;
-
-  scroll-snap-align: start; /* 스크롤 시 카드가 정렬됨 */
+  scroll-snap-align: start;
 `;
 
 const ReviewBottom = styled.div`
@@ -96,7 +74,6 @@ const ReviewBottom = styled.div`
   box-sizing: border-box;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  //투명도
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 90%);
 `;
 
@@ -107,9 +84,8 @@ const ReviewText = styled.div`
   color: white;
   line-height: 1.4;
   white-space: normal;
-
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* 두 줄까지만 표시 */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -123,6 +99,7 @@ const ReviewStars = styled.div`
   justify-content: flex-start;
 `;
 
+// ✅ 별점 숫자
 const Score = styled.div`
   font-size: 16px;
   color: white;
