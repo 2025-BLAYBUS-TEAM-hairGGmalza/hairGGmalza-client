@@ -43,13 +43,13 @@ const SearchCard: React.FC<SearchCardProps> = ({
         </Header>
         <Description>{description.trim() || "설명이 없습니다."}</Description>
         <TagContainer>
-          <Tag>
+          <Tag2>
             {meetingType === "BOTH"
-              ? "💬 대면/화상"
+              ? "💬대면/화상"
               : meetingType === "OFFLINE"
-              ? "🏢 대면"
-              : "💻 화상"}
-          </Tag>
+              ? "💬대면"
+              : "💬화상"}
+          </Tag2>
           {majors.length > 0 ? (
             majors.map((major, index) => <Tag key={index}>✂ {major}</Tag>)
           ) : (
@@ -95,16 +95,6 @@ const ProfileImage = styled.img`
   background: #ccc;
 `;
 
-// const Badge = styled.div`
-//   position: absolute;
-//   bottom: 4px;
-//   right: 4px;
-//   width: 14px;
-//   height: 14px;
-//   background: white;
-//   border-radius: 50%;
-// `;
-
 const Content = styled.div`
   flex: 1;
   margin-left: 15px;
@@ -146,6 +136,18 @@ const TagContainer = styled.div`
 `;
 
 const Tag = styled.div`
+  width: 100px;
+  font-size: 16px;
+  background: #eeeeee;
+  color: #989898;
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+`;
+
+const Tag2 = styled.div`
   width: 100px;
   font-size: 16px;
   background: black;

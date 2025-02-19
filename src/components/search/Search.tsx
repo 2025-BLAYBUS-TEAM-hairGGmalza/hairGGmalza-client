@@ -8,12 +8,16 @@ import FilterBtn from "./FilterBtn";
 import FilterModal from "../filter/FilterModal";
 import SearchCard from "./SearchCard";
 import { Designer } from "@/types/request";
+import { useSearchParams } from "next/navigation";
+import { filterDesigner } from "@/apis/filter";
 
 const Search = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [designers, setDesigners] = useState<Designer[]>([]); // 디자이너 리스트 상태
+  const [designers, setDesigners] = useState<Designer[]>([]);
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter");
 
   const handleApplyFilters = (filters: string[]) => {
     setSelectedFilters(filters);
@@ -21,9 +25,28 @@ const Search = () => {
   };
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  if (!isMounted) return null;
+    if (!isMounted && !filter) return;
+
+    const getDesigner = async () => {
+      try {
+        const response = await filterDesigner({
+          meetingType: filter === "online" ? 1 : 0,
+          region: null,
+          minPrice: null,
+          maxPrice: null,
+          majors: null,
+        });
+
+        setDesigners(response.data.designerInfos);
+        console.log(response.data.designerInfos);
+        console.log(designers);
+      } catch (error) {
+        console.error("디자이너 필터링 실패:", error);
+      }
+    };
+
+    getDesigner();
+  }, [filter, isMounted]);
 
   return (
     <Wrapper>
@@ -35,7 +58,6 @@ const Search = () => {
         ))}
       </BtnWrapper>
 
-      {/* ✅ designers가 존재할 때만 렌더링 */}
       {designers && designers.length > 0 && (
         <SearchWrapper>
           <span>{designers.length.toLocaleString()}건</span>

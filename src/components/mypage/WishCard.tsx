@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaHeart } from "react-icons/fa";
+import Tag from "../common/Tag";
 
 interface WishCardProps {
   imageUrl: string;
@@ -31,8 +32,8 @@ const WishCard = (data: WishCardProps) => {
         </Title>
         <Description>{data.description}</Description>
         <ButtonContainer>
-          <TagButton>대면/화상</TagButton>
-          <TagButton>탈염색</TagButton>
+          <Tag type={"consulting"} text={"대면 / 화상"}></Tag>
+          <Tag text={"탈염색"}></Tag>
         </ButtonContainer>
       </InfoContainer>
     </Wrapper>
