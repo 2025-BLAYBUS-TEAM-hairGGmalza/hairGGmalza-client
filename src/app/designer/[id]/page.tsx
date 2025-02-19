@@ -16,6 +16,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Tag from '@/components/common/Tag';
 import { getDesigner } from '@/apis/designerAPI';
 import { useRouter } from 'next/navigation';
+import ProgressCarousel from '@/components/common/carousel/ProgressCarousel';
 
 
 const DesignerPage = () => {
@@ -24,7 +25,7 @@ const DesignerPage = () => {
    const router = useRouter();
 
    // 디자이너 정보 상태
-   const [upPortfolios, setUpPortfolios] = useState<string[]>([]);
+   const [upPortfolios, setUpPortfolios] = useState<{ src: string; alt: string }[]>([]);
    const [designerImage, setDesignerImage] = useState<string | null>(null);
    const [designerName, setDesignerName] = useState<string | null>(null);
    const [designerAdress, setDesignerAdress] = useState<string | null>(null);
@@ -114,7 +115,13 @@ const DesignerPage = () => {
    
             // 상태 업데이트
             //portfolio1, portolio2로 오는 걸 upPortfolios 하나의 문자열 배열에 합치기
-            setUpPortfolios(designerData.portfolio1.concat(designerData.portfolio2));
+            // portfolio1, portfolio2를 객체 배열로 변환
+            const formattedPortfolios = [
+               { src: '/images/hairmodel.png', alt: "첫번째포폴" },
+               { src: '/images/review-example.jpeg', alt: "두번째포폴" }
+            ]
+            setUpPortfolios(formattedPortfolios);
+            setUpPortfolios(formattedPortfolios);
             setDesignerImage(designerData.profile);
             setDesignerName(designerData.name);
             setDesignerAdress(designerData.address);
@@ -153,7 +160,9 @@ const DesignerPage = () => {
          designerMajors,
          designerMeetingType,
          designerOfflinePrice,
-         designerOnlinePrice
+         designerOnlinePrice,
+
+         upPortfolios
       });
    }, [designerName, designerAdress, designerRegion, designerDescription, designerMajors, designerMeetingType, designerOfflinePrice, designerOnlinePrice]); 
    // ✅ 상태가 변경될 때만 로그를 찍음
@@ -164,7 +173,8 @@ const DesignerPage = () => {
       <DesignerPageWrapper>
          {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
          <Header where='designer' />
-         <DesignerMainImage />
+         {/* <DesignerMainImage /> */}
+         <ProgressCarousel images={upPortfolios} />
          <Content>
             <MainIntroContainer>
             <ProfileImage src={designerImage || "/default-image.jpg"} alt="디자이너 프로필 이미지" />
