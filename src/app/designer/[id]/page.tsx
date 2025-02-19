@@ -37,7 +37,8 @@ const DesignerPage = () => {
    const [designerOnlinePrice, setDesignerOnlinePrice] = useState<number | undefined>();
 
 
-   const [isBottomModalOpen, setIsBottomModalOpen] = useState(false);
+   const [isReservationModalOpen, setIsReservationBottomModalOpen] = useState(false);
+   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
    const [isCenterModalOpen, setIsCenterModalOpen] = useState(false);
    const [selectedDate, setSelectedDate] = useState(new Date());
    const [selectedConsultingType, setSelectedConsultingType] = useState<"대면" | "화상" | null>(null);
@@ -57,8 +58,14 @@ const DesignerPage = () => {
    };
 
    const handleReservationButtonClick = () => {
-      if (!isBottomModalOpen) {
-         setIsBottomModalOpen(true);
+      //토큰이 없으면 로그인 하단 모달 뜨기
+      if (!localStorage.getItem("accessToken")) {
+         setIsLoginModalOpen(true);
+         return;
+      }
+
+      if (!isReservationModalOpen) {
+         setIsReservationBottomModalOpen(true);
          return;
       }
    
@@ -127,7 +134,7 @@ const DesignerPage = () => {
             setDesignerAdress(designerData.address);
             setDesignerRegion(designerData.region);
             setDesignerDescription(designerData.description);
-            // setDesignerMajors(designerData.majors);
+            setDesignerMajors(designerData.majors);
             //meetingtype을 "OFFLINE"이면 "대면", "ONLINE"이면 "화상", "BOTH"이면 "대면/화상"으로 변경
             setDesignerMeetingType(
                designerData.meetingType === "OFFLINE" 
@@ -225,8 +232,8 @@ const DesignerPage = () => {
          </Content>
 
 
-         {/* 하단 모달 */}
-         <BottomModal isOpen={isBottomModalOpen} onClose={() => setIsBottomModalOpen(false)} title="예약하기">
+         {/* 하단 모달 - 예약하기 */}
+         <BottomModal isOpen={isReservationModalOpen} onClose={() => setIsReservationBottomModalOpen(false)} title="예약하기">
             {/* <TabContainer>
                <TabButton>상담유형</TabButton>
                <TabButton>일정</TabButton>
@@ -304,6 +311,10 @@ const DesignerPage = () => {
 
          </ModalWrapper>
          </BottomModal>
+
+         {/* 센터 모달 - 로그인하기 */}
+         <CenterModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} title={"\n\n로그인이 필요해요"} first="" />
+
 
           {/* 하단 고정 예약 버튼 */}
          <BottomButtonBar>
