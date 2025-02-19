@@ -25,6 +25,20 @@ const Search = () => {
   };
 
   useEffect(() => {
+    const getDesigner = async () => {
+      const response = await filterDesigner({
+        meetingType: null,
+        region: null,
+        minPrice: null,
+        maxPrice: null,
+        majors: null,
+      });
+      setDesigners(response.data.designerInfos);
+    };
+    getDesigner();
+  }, []);
+
+  useEffect(() => {
     if (!isMounted && !filter) return;
 
     const getDesigner = async () => {
@@ -38,8 +52,6 @@ const Search = () => {
         });
 
         setDesigners(response.data.designerInfos);
-        console.log(response.data.designerInfos);
-        console.log(designers);
       } catch (error) {
         console.error("디자이너 필터링 실패:", error);
       }
