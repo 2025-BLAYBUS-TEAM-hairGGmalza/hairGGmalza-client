@@ -131,11 +131,11 @@ const DesignerPage = () => {
         //portfolio1, portolio2로 오는 걸 upPortfolios 하나의 문자열 배열에 합치기
         // portfolio1, portfolio2를 객체 배열로 변환
         const formattedPortfolios = [
-          { src: "/images/hairmodel.png", alt: "첫번째포폴", height: 400 },
+          { src: "/images/hairmodel.png", alt: "첫번째포폴", height: 350 },
           {
             src: "/images/review-example.jpeg",
             alt: "두번째포폴",
-            height: 400,
+            height: 350,
           },
         ];
         setUpPortfolios(formattedPortfolios);
@@ -199,7 +199,7 @@ const DesignerPage = () => {
       {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
       <Header where="designer" />
       {/* <DesignerMainImage /> */}
-      <ProgressCarousel images={upPortfolios} />
+      <ProgressCarousel images={upPortfolios} main={false} />
       <Content>
         <MainIntroContainer>
           <ProfileImage

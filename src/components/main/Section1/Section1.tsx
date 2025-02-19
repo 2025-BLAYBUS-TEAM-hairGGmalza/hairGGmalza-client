@@ -15,7 +15,7 @@ const Section1 = () => {
   return (
     <>
       <MarqueeText />
-      <ProgressCarousel images={images} />
+      <ProgressCarousel images={images} main={true} />
     </>
   );
 };
