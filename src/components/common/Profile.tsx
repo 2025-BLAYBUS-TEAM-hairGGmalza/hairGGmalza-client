@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getDesigner } from "@/apis/designerAPI";
 import { getReservationDetail } from "@/apis/reservationAPI";
 import { useRouter } from "next/navigation";
+import { formatDateTime } from "@/utils/formatDate";
 
 interface ProfileProps {
    designerId: string;
@@ -49,7 +50,7 @@ const Profile: React.FC<ProfileProps> = ({ designerId, reservationId }) => {
             const res = await getReservationDetail(reservationId);
             const reservationData = res.data;
             setConsultingType(reservationData.meetingType === "OFFLINE" ? "대면" : "화상");
-            setDateTime(reservationData.reservationDate);
+            setDateTime(formatDateTime(reservationData.reservationDate));
 
             // console.log("✅ 예약 정보:", {
             //    meetingType: reservationData.meetingType,

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Tag from './common/Tag';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { formatDateTime } from '@/utils/formatDate';
 
 interface FutureReservationProps {
    designerProfile: string;
@@ -20,6 +21,7 @@ interface FutureReservationProps {
 const FutureReservation: React.FC<FutureReservationProps> = ({ designerProfile, designerName, address, region, meetingType, reservationDate, meetUrl="", reservationId }) => {
    const [isConsultingMeet, setIsConsultingMeet] = useState(false); //화상 미팅인지 대면 미팅인지
    const router = useRouter();
+   const [formattedDate, setFormattedDate] = useState<string>("");
 
    const handleReservationDetail = (reservationId: string) => {
       console.log("예약 상세 페이지로 이동");
@@ -30,9 +32,10 @@ const FutureReservation: React.FC<FutureReservationProps> = ({ designerProfile, 
       if(meetingType === "ONLINE") {
          setIsConsultingMeet(true);
       }
+      setFormattedDate(formatDateTime(reservationDate));
       console.log("address:", address);
       console.log("region:", region);
-   }, [meetingType, address, region])
+   }, [meetingType, address, region, reservationDate])
 
    return (
       <ProfileContainer>
@@ -55,7 +58,7 @@ const FutureReservation: React.FC<FutureReservationProps> = ({ designerProfile, 
                </Consulting>
                <Time>
                   <SmallTitle>예약 시간</SmallTitle>
-                  <span style={{fontSize:'16px'}}>{reservationDate}</span>
+                  <span style={{fontSize:'16px'}}>{formattedDate}</span>
                </Time>
             </ConsultingAndTime>
             {/* 화상일때만 출력 */}
