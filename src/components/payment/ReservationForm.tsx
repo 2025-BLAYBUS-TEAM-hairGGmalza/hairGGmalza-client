@@ -9,6 +9,7 @@ import BottomButtonBar from "../common/BottomButtonBar";
 import ToggleSection from "./ToggleSection";
 import { useParams, useRouter } from "next/navigation";
 import { postReservation } from "@/apis/payAPI";
+import { getMember } from "@/apis/getMember";
 
 const banks: string[] = [
   "NH농협",
@@ -40,6 +41,10 @@ const ReservationForm: React.FC = () => {
   const [refundAccount, setRefundAccount] = useState("");
   const [selectedBank, setSelectedBank] = useState(banks[0]);
   const [isMounted, setIsMounted] = useState(false);
+
+  const [name, setName] = useState("알 수 없음");
+  const [phoneNumber, setPhoneNumber] = useState("알 수 없음");
+  const [gender, setGender] = useState("알 수 없음");
 
   const [isFormValid, setIsFormValid] = useState(false);
   const designerId = parseInt(String(useParams().id));
@@ -125,6 +130,22 @@ const ReservationForm: React.FC = () => {
 
   useEffect(() => {
     setIsMounted(true);
+
+    // 멤버 정보 API 호출
+    const fetchMember = async () => {
+      try {
+        const memberData = await getMember();
+        console.log("멤버 정보:", memberData);
+        setName(memberData.name);
+        setPhoneNumber(memberData.phoneNumber);
+        setGender(memberData.gender === "female" ? "여성" : "남성");
+      } catch (error) {
+        console.error("멤버 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchMember();
+
   }, []);
   if (!isMounted) return null;
 
@@ -150,15 +171,15 @@ const ReservationForm: React.FC = () => {
           <InputRow>
             <NameWrapper>
               <div>이름</div>
-              <GrayBox>박수빈</GrayBox>
+              <GrayBox>{name}</GrayBox>
             </NameWrapper>
             <SelectWrapper>
               <div>성별</div>
-              <GrayBox>여</GrayBox>
+              <GrayBox>{gender}</GrayBox>
             </SelectWrapper>
           </InputRow>
           <div style={{fontSize:'1.5rem'}}>전화번호</div>
-          <GrayBox>010-1234-5678</GrayBox>
+          <GrayBox>{phoneNumber}</GrayBox>
         </SectionContainer>
 
         <Divider />
@@ -328,28 +349,30 @@ const Select = styled.select`
 `;
 
 const SubText = styled.div`
-  font-size: 16px;
+  font-size: 15px;
   color: #333;
   display: flex;
   gap: 1rem;
 `;
 
 const NameWrapper = styled.div`
+  flex: 1;  // ✅ 각 요소가 같은 비율을 가지도록 설정
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-weight: bold;
+
   div {
     font-size: 1.5rem;
   }
 `;
-
 const SelectWrapper = styled.div`
-  width: 100%;
+  flex: 1;  // ✅ 각 요소가 같은 비율을 가지도록 설정
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-weight: bold;
+
   div {
     font-size: 1.5rem;
   }
