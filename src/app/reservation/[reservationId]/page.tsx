@@ -1,37 +1,90 @@
 "use client";
+import { getDesigner } from "@/apis/designerAPI";
 import { getReservationDetail } from "@/apis/reservationAPI";
+import BottomButtonBar from "@/components/common/BottomButtonBar";
 import Tag from "@/components/common/Tag";
-import { useParams } from "next/navigation";
+import { formatDateTime } from "@/utils/formatDate";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 
-
 const ReservationDetailpage = () => {
-   const [isMounted, setIsMounted] = useState(false);
-   const [designerName, setDesignerName] = useState('');
-   const [address, setAddress] = useState('');
-   const [region, setRegion] = useState('');
-   const [consultingType, setConsultingType] = useState('대면');
-   const [time, setTime] = useState('');
-   const [status, setStatus] = useState('');
-   const [price, setPrice] = useState('');
+   const [isLoading, setIsLoading] = useState(true); // 데이터 로딩 상태
+   const [designerName, setDesignerName] = useState<string | null>(null);
+   const [address, setAddress] = useState<string | null>(null);
+   const [region, setRegion] = useState<string | null>(null);
+   const [consultingType, setConsultingType] = useState<string | null>(null);
+   const [time, setTime] = useState<string | null>(null);
+   const [status, setStatus] = useState<string | null>(null);
+   const [price, setPrice] = useState<string | null>(null);
    const reservationId = String(useParams().reservationId);
+   const router = useRouter();
 
-   
+
+
+  const formatStatus = (status: string): string => {
+      switch (status) {
+         case "WAITING":
+            return "입금 확인 중";
+         case "PAYMENT_COMPLETED":
+            return "예약 확정";
+         case "CANCELED":
+            return "예약 취소";
+         case "COMPLETED":
+            return "이용 완료";
+         default:
+            return "알 수 없음";
+      }
+   };
+
+  const handleCopy = () => {
+      const address = document.getElementById('address_detail')?.textContent;
+      navigator.clipboard.writeText(address || '');
+      alert('주소가 복사되었습니다.');
+   }
+
+   const handleGotoReservations = () => {
+      router.push('/reservation');
+   }
+
    useEffect(() => {
-      setIsMounted(true);
-      getReservationDetail(reservationId).then((res) => {
-         console.log(res);
-         setDesignerName(res.data.designerName);
-         setAddress(res.data.address);
-         setRegion(res.data.region);
-         setConsultingType(res.data.consultingType);
-         setTime(res.data.time);
-         setStatus(res.data.status);
-         setPrice(res.data.price);
-      });
+      const fetchReservationDetail = async () => {
+         try {
+            const res = await getReservationDetail(reservationId);
+
+            //여기서 받은 designerId를 이용해서 디자이너 정보도 받아와야 함
+            const designerId = res.data.designerId;
+            const designerRes = await getDesigner(designerId);
+            const designerData = designerRes.data;
+            setDesignerName(designerData.name);
+            setAddress(designerData.address);
+            setRegion(designerData.region);
+
+            //OFFLINE이면 대면, ONLINE이면 화상
+            setConsultingType(res.data.meetingType === "OFFLINE" ? "대면" : "화상");
+            //예약 시간 파싱해서 변경
+            setTime(formatDateTime(res.data.reservationDate));
+            setStatus(formatStatus(res.data.state));
+            setPrice(res.data.price);
+         } catch (error) {
+            console.error("예약 상세 정보를 불러오는 중 오류 발생:", error);
+         } finally {
+            setIsLoading(false); // 데이터 로드 완료
+         }
+      };
+
+      if (reservationId) {
+         fetchReservationDetail();
+      }
+
    }, [reservationId]);
-   if (!isMounted) return null;
+
+   // 데이터가 아직 로딩 중이면 로딩 화면 표시
+   if (isLoading) {
+      return <Wrapper>
+               <div style={{fontSize:'20px', justifySelf:'center', marginTop:'50px'}}>잠시만 기다려주세요...</div>;
+            </Wrapper>
+   }
 
    return (
       <Wrapper>
@@ -41,7 +94,7 @@ const ReservationDetailpage = () => {
          <TopProfile>
             <ProfileImage />
             <NameAndAddress>
-               <Name>{designerName} 디자이너</Name>
+               <Name>{designerName}</Name>
                <Address>
                   <span id='address_detail' style={{marginRight:'10px'}}>{address}</span>
                   <span id='address_category' style={{color: '#808080'}}>{region}</span>
@@ -53,7 +106,7 @@ const ReservationDetailpage = () => {
             <ConsultingAndTime>
                <Consulting>
                   <SmallTitle>컨설팅 유형</SmallTitle>
-                  <Tag type='consulting' text={consultingType} />
+                  <Tag type='consulting' text={consultingType || "대면"} />
                </Consulting>
                <Time>
                   <SmallTitle>예약 시간</SmallTitle>
@@ -64,7 +117,7 @@ const ReservationDetailpage = () => {
                <SmallTitle>샵주소</SmallTitle>
                <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
                   <span style={{fontSize:'16px' }}>{address}</span>
-                  <span style={{fontSize:'16px', color:'#989898', textDecoration:'underline', cursor:'pointer' }}>복사</span>
+                  <span onClick={handleCopy} style={{fontSize:'16px', color:'#989898', textDecoration:'underline', cursor:'pointer' }}>복사</span>
                </div>
             </AdressRow>
             <StatusRow>
@@ -90,11 +143,19 @@ const ReservationDetailpage = () => {
                               · 예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, 소정의 수수료가 부과될 수 있습니다. <br/>
                               · 예약 변경을 원하시는 경우, 예약 취소 후 재예약 해주시기 바랍니다.</RequestInput>
          </RequestCard>}
+
+         <BottomButtonBar>
+            <button 
+               style={{width:'100%', backgroundColor:'#000000', padding:'15px', fontSize:'16px', border:'none', cursor:'pointer', color:'#F3D7E5'}}
+               onClick={handleGotoReservations}
+            >예약 목록으로</button>
+         </BottomButtonBar>
       </Wrapper>
-   )
+   );
 }
 
-export default ReservationDetailpage
+export default ReservationDetailpage;
+
 
 const Wrapper = styled.div`
    width: 100%;

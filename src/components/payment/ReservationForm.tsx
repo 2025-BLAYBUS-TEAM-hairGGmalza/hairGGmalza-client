@@ -9,6 +9,7 @@ import BottomButtonBar from "../common/BottomButtonBar";
 import ToggleSection from "./ToggleSection";
 import { useParams, useRouter } from "next/navigation";
 import { postReservation } from "@/apis/payAPI";
+import { getMember } from "@/apis/getMember";
 
 const banks: string[] = [
   "NH농협",
@@ -41,6 +42,10 @@ const ReservationForm: React.FC = () => {
   const [selectedBank, setSelectedBank] = useState(banks[0]);
   const [isMounted, setIsMounted] = useState(false);
 
+  const [name, setName] = useState("알 수 없음");
+  const [phoneNumber, setPhoneNumber] = useState("알 수 없음");
+  const [gender, setGender] = useState("알 수 없음");
+
   const [isFormValid, setIsFormValid] = useState(false);
   const designerId = parseInt(String(useParams().id));
 
@@ -63,6 +68,19 @@ const ReservationForm: React.FC = () => {
       .then(() => alert("복사되었습니다!"));
   };
 
+  // meetingType 변환 함수
+  const convertMeetingType = (type: string | null) => {
+    if (type === "대면") return "OFFLINE";
+    if (type === "화상") return "ONLINE";
+    return type;
+  };
+
+  const convertPaymentMethod = (method: string) => {
+    if (method === "카카오페이") return "KAKAO_PAY";
+    if (method === "계좌이체") return "TRANSFER";
+    return method;
+  };
+
   useEffect(() => {
     if (isChecked) {
       setIsFormValid(true);
@@ -74,43 +92,60 @@ const ReservationForm: React.FC = () => {
     
   }, [isChecked, designerId]);
 
-  const handleSubmit = () => {
 
+  ////  중요
+  const handleSubmit = () => {
     if (!isChecked) {
       alert("예약 안내 사항을 확인해주세요.");
       return;
     }
-      // 계좌이체 선택 시 환불 계좌 입력 필수 처리
+  
+    // 계좌이체 선택 시 환불 계좌 입력 필수 처리
     if (paymentMethod === "계좌이체" && !refundAccount.trim()) {
       alert("환불 계좌를 입력해주세요.");
       return;
     }
-    
+  
     if (isFormValid) {
       console.log("✅ 예약 정보");
-      //기본으로 들어가는 정보들
       console.log("추가 정보:", extraInfo);
       console.log("결제 수단:", paymentMethod);
       console.log("선택한 은행:", selectedBank);
       console.log("환불 계좌:", refundAccount);
       console.log("이용 약관 동의:", isChecked ? "동의함" : "동의하지 않음");
-      
-
+  
       postReservation(
         1,
         designerId,
-        meetingType,
-        `${date} ${time}`,
-        paymentMethod,
-        selectedBank,
-        refundAccount,
+        convertMeetingType(meetingType), //날짜 형식 변환(표준 시간 형식)
+        `${date}T${time}:00`,
+        convertPaymentMethod(paymentMethod),
+        paymentMethod === "카카오페이" ? "" : selectedBank, // 카카오페이일 경우 빈 문자열
+        paymentMethod === "카카오페이" ? "" : refundAccount, // 카카오페이일 경우 빈 문자열
         extraInfo
       );
     }
   };
+  
 
   useEffect(() => {
     setIsMounted(true);
+
+    // 멤버 정보 API 호출
+    const fetchMember = async () => {
+      try {
+        const memberData = await getMember();
+        console.log("멤버 정보:", memberData);
+        setName(memberData.name);
+        setPhoneNumber(memberData.phoneNumber);
+        setGender(memberData.gender === "female" ? "여성" : "남성");
+      } catch (error) {
+        console.error("멤버 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchMember();
+
   }, []);
   if (!isMounted) return null;
 
@@ -136,15 +171,15 @@ const ReservationForm: React.FC = () => {
           <InputRow>
             <NameWrapper>
               <div>이름</div>
-              <GrayBox>박수빈</GrayBox>
+              <GrayBox>{name}</GrayBox>
             </NameWrapper>
             <SelectWrapper>
               <div>성별</div>
-              <GrayBox>여</GrayBox>
+              <GrayBox>{gender}</GrayBox>
             </SelectWrapper>
           </InputRow>
           <div style={{fontSize:'1.5rem'}}>전화번호</div>
-          <GrayBox>010-1234-5678</GrayBox>
+          <GrayBox>{phoneNumber}</GrayBox>
         </SectionContainer>
 
         <Divider />
@@ -195,7 +230,7 @@ const ReservationForm: React.FC = () => {
             </BtnWrapper>
             <Label>입금계좌</Label>
             <AccountWrapper>
-              <SubText>{accountNumber}</SubText>
+              <SubText>우리은행 {accountNumber}</SubText>
               <div onClick={handleCopy}>복사</div>
             </AccountWrapper>
           </PaymentButtonRow>
@@ -314,28 +349,30 @@ const Select = styled.select`
 `;
 
 const SubText = styled.div`
-  font-size: 16px;
+  font-size: 15px;
   color: #333;
   display: flex;
   gap: 1rem;
 `;
 
 const NameWrapper = styled.div`
+  flex: 1;  // ✅ 각 요소가 같은 비율을 가지도록 설정
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-weight: bold;
+
   div {
     font-size: 1.5rem;
   }
 `;
-
 const SelectWrapper = styled.div`
-  width: 100%;
+  flex: 1;  // ✅ 각 요소가 같은 비율을 가지도록 설정
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-weight: bold;
+
   div {
     font-size: 1.5rem;
   }
