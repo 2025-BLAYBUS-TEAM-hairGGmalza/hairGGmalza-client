@@ -33,6 +33,7 @@ const ReservationPage = () => {
    // const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
    const [futureReservations, setFutureReservations] = useState<FutureReservation[]>([]);
    const [pastReservations, setPastReservations] = useState<PastReservation[]>([]);
+   const [isLoading, setIsLoading] = useState(true); // ✅ 로딩 상태 추가
 
    useEffect(() => {
       setIsMounted(true);
@@ -74,12 +75,17 @@ const ReservationPage = () => {
 
          } catch (error) {
             console.error("❌ 예약 내역 불러오기 실패:", error);
+         } finally {
+            setIsLoading(false); // ✅ 데이터 로드 완료
          }
       };
 
       fetchData();
    }, []);
 
+   // 데이터가 아직 로딩 중이면 로딩 화면 표시
+   if (isLoading) {
+      return <LoadingWrapper>로딩중...</LoadingWrapper>;   }
 
 
    if (!isMounted) return null;
@@ -162,3 +168,12 @@ const ConsultingRecordsWrapper = styled.div`
    gap: 20px;
    padding-bottom: 70px;
 `
+
+const LoadingWrapper = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   font-size: 20px;
+   font-weight: bold;
+`;

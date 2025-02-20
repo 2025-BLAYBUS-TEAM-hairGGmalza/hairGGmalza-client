@@ -43,8 +43,8 @@ const ReservationDetailpage = () => {
       alert('주소가 복사되었습니다.');
    }
 
-   const handleBack = () => {
-      router.back();
+   const handleGotoReservations = () => {
+      router.push('/reservation');
    }
 
    useEffect(() => {
@@ -147,8 +147,8 @@ const ReservationDetailpage = () => {
          <BottomButtonBar>
             <button 
                style={{width:'100%', backgroundColor:'#000000', padding:'15px', fontSize:'16px', border:'none', cursor:'pointer', color:'#F3D7E5'}}
-               onClick={handleBack}
-            >뒤로 가기</button>
+               onClick={handleGotoReservations}
+            >예약 목록으로</button>
          </BottomButtonBar>
       </Wrapper>
    );
