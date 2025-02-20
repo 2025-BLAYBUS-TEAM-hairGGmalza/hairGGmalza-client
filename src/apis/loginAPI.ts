@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://hairgg.duckdns.org";
-const REDIRECT_URI = "http://localhost:3000/main";
+const REDIRECT_URI = "https://haertz.vercel.app";
 const CLIENT_ID =
   "541500219001-ftaggvf5pl3u4cbmr8fe0dq4rdm2bnv4.apps.googleusercontent.com";
 const GOOGLE_LOGIN_LINK = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=email%20profile`;
