@@ -20,6 +20,7 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
    const handleGoogleLogin = () => {
       onClose();
       loginTest();
+      console.log("login:",login);
    }
 
    useEffect(() => {
@@ -41,7 +42,7 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
       <ModalOverlay onClick={onClose}>
          <ModalContainer onClick={(e) => e.stopPropagation()}>
             <ModalTitle>{title}</ModalTitle>
-            {login ? 
+            {!login ? 
             <ModalContent>
                <FirstRow>
                   {first}
@@ -55,7 +56,7 @@ const CenterModal: React.FC<ModalProps> = ({ isOpen, onClose, title, first, seco
             </ModalContent>
                : <div style={{paddingTop:'50px'}}></div>
                }
-            {login ?
+            {!login ?
                <ConfirmButton onClick={onClose}>확인했어요</ConfirmButton>
                : <ConfirmButton onClick={handleGoogleLogin}>Google 로그인</ConfirmButton>
             }
