@@ -59,6 +59,9 @@ export const postReservation = async (
          //status가 200이면 성공
          else if (response.data.status === 200) {
             console.log("✅ 계좌이체 성공");
+            console.log(response.data);
+            console.log(response.data.data);
+            console.log(response.data.data.reservationId);
             //결제 상세 내역 페이지로 이동
             // window.location.href=`/reservation/${response.data.data.reservationId}`//
          }
