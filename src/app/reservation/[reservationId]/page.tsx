@@ -35,7 +35,7 @@ const ReservationDetailpage = () => {
       return `${month}월 ${day}일 ${period} ${hours}:${minutes}`;
   };
     
-//   const formatStatus
+//   const formatStatus todo- 한글로 변환
 
   const handleCopy = () => {
       const address = document.getElementById('address_detail')?.textContent;
@@ -46,7 +46,7 @@ const ReservationDetailpage = () => {
    useEffect(() => {
       const fetchReservationDetail = async () => {
          try {
-            const res = await getReservationDetail(parseInt(reservationId));
+            const res = await getReservationDetail(reservationId);
 
             //여기서 받은 designerId를 이용해서 디자이너 정보도 받아와야 함
             const designerId = res.data.designerId;

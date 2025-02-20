@@ -8,27 +8,74 @@ import Navbar from "@/components/common/Navbar/Navbar";
 import { getReservations } from "@/apis/reservationAPI";
 
 export interface Reservation {
+   designerId: string;
+   reservationId: string;
    designerName: string;
    address: string;
    region: string;
 
    consultingType: string;
-   consultingDate: string;
-   consultingTime: string;
+   consultingDateTime: string;
    meetingLink: string|null;
-
    
+
 }
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
+   const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
+   const [futureReservations, setFutureReservations] = useState<Reservation[]>([]);
+
+   // useEffect(() => {
+   //    setIsMounted(true);
+   //    //토큰으로 예약 내역 요청
+   //    const fetchData = async () => {
+   //       const reservations = await getReservations();
+   //       console.log(reservations);
+
+      
+   //    }
+   //    fetchData();
+
+   // }, []);
 
    useEffect(() => {
       setIsMounted(true);
-      //토큰으로 예약 내역 요청
-      getReservations();
+      
+      // 예약 데이터 불러오기
+      const fetchData = async () => {
+         try {
+            const reservations = await getReservations();
+            console.log("✅ 전체 예약 내역:", reservations);
 
+            // 현재 날짜 가져오기
+            const now = new Date();
+
+            // 예약 내역을 과거 / 미래로 분류
+            const past: Reservation[] = [];
+            const future: Reservation[] = [];
+
+            reservations.forEach((reservation: Reservation) => {
+               const reservationDate = new Date(reservation.consultingDateTime);
+
+               if (reservationDate < now) {
+                  past.push(reservation);
+               } else {
+                  future.push(reservation);
+               }
+            });
+
+            setPastReservations(past);
+            setFutureReservations(future);
+         } catch (error) {
+            console.error("❌ 예약 내역 불러오기 실패:", error);
+         }
+      };
+
+      fetchData();
    }, []);
+
+
    if (!isMounted) return null;
 
    return (
@@ -78,9 +125,7 @@ const ReservationPage = () => {
          <ConsultingRecordsWrapper>
             <span style={{fontWeight:'bold', fontSize:'18px', width:'100%', textAlign:'start'}}>컨설팅 기록</span>
 
-            <Profile />
-            <Profile />
-            <Profile />
+            <Profile designerId="9" reservationId="172"/>
          </ConsultingRecordsWrapper>
          <Navbar />
       </Wrapper>

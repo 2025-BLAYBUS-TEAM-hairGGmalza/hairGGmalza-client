@@ -22,7 +22,7 @@ export const getReservations = async () => {
    }
 }  
 
-export const getReservationDetail = async (reservationId: number) => {
+export const getReservationDetail = async (reservationId: string) => {
    console.log("getReservationDetail 호출");
    try {
       const response = await axios.get(`${API_URL}/reservation/${reservationId}`);
