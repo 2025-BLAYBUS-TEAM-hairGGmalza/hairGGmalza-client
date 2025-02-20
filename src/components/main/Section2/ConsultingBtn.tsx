@@ -58,12 +58,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 2.3rem;
+  font-size: 20px;
   font-weight: bold;
 `;
 
 const Subtitle = styled.div`
-  font-size: 1.8rem;
+  font-size: 16px;
   color: #b5b5b5;
 `;
 

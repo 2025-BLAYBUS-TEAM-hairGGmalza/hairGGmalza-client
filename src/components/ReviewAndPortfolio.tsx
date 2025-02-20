@@ -43,7 +43,7 @@ const ReviewAndPortfolio = () => {
                console.log("리뷰 데이터 있음 ✅", data.reviewInfos);
                // API 응답 데이터를 Review[] 형태로 변환
                const formattedReviews = reviewInfos.map((review: ReviewInfo) => ({
-                  image: review.imageUrls.length > 0 ? review.imageUrls[0] : "/default-image.jpg", // 첫 번째 이미지 사용, 없으면 기본 이미지
+                  image: review.imageUrls.length > 0 ? review.imageUrls[0] : "", // 첫 번째 이미지 사용, 없으면 기본 이미지
                   text: review.review,
                   point: review.score
                }));

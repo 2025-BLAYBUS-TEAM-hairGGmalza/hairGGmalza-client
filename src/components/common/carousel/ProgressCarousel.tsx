@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import styled from "styled-components";
-import { useState } from "react";
+import { use, useState } from "react";
 import Image from "next/image";
 
 interface CarouselProps {

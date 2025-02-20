@@ -28,7 +28,10 @@ const DesignerPage = () => {
   const [upPortfolios, setUpPortfolios] = useState<
     { src: string; alt: string }[]
   >([]);
-  const [designerImage, setDesignerImage] = useState<string | null>(null);
+  const [designerMainImage, setDesignerMainImage] = useState<string | undefined>(
+    undefined
+  );
+  const [designerImage, setDesignerImage] = useState<string | undefined>(undefined);
   const [designerName, setDesignerName] = useState<string | null>(null);
   const [designerAdress, setDesignerAdress] = useState<string | null>(null);
   const [designerRegion, setDesignerRegion] = useState<string | null>(null);
@@ -138,75 +141,50 @@ const formattedTime = selectedTime
   };
 
   useEffect(() => {
-    setIsMounted(true);
-
     const fetchDesigner = async () => {
       try {
-        const data = await getDesigner(id); // ✅ API 호출
+        const data = await getDesigner(id);
         const designerData = data.data;
-
+  
         console.log("API 응답 데이터:", designerData);
-
-        // 상태 업데이트
-        //portfolio1, portolio2로 오는 걸 upPortfolios 하나의 문자열 배열에 합치기
-        // portfolio1, portfolio2를 객체 배열로 변환
-        const formattedPortfolios = [
-          { src: "/images/hairmodel.png", alt: "첫번째포폴" },
-          { src: "/images/review-example.jpeg", alt: "두번째포폴" },
-        ];
-        setUpPortfolios(formattedPortfolios);
-        setUpPortfolios(formattedPortfolios);
+  
+        // ✅ 상태를 한 번에 설정해서 불필요한 리렌더링 방지
+        setUpPortfolios([
+          { src: designerData.portfolio1, alt: "첫번째포폴" },
+          { src: designerData.portfolio2, alt: "두번째포폴" },
+        ]);
+  
+        setDesignerMainImage(designerData.portfolio1);
         setDesignerImage(designerData.profile);
         setDesignerName(designerData.name);
         setDesignerAdress(designerData.address);
         setDesignerRegion(designerData.region);
         setDesignerDescription(designerData.description);
         setDesignerMajors(designerData.majors);
-        //meetingtype을 "OFFLINE"이면 "대면", "ONLINE"이면 "화상", "BOTH"이면 "대면/화상"으로 변경
-        setDesignerMeetingType(
+  
+        // meetingType 변환 로직 간결화
+        const meetingType =
           designerData.meetingType === "OFFLINE"
             ? "대면"
             : designerData.meetingType === "ONLINE"
             ? "화상"
-            : "대면/화상"
-        );
+            : "대면/화상";
+        setDesignerMeetingType(meetingType);
+  
         setDesignerOfflinePrice(designerData.offlinePrice);
         setDesignerOnlinePrice(designerData.onlinePrice);
       } catch (error) {
         console.error("디자이너 정보를 가져오는 중 오류 발생:", error);
       }
     };
-
-    if (id) fetchDesigner(); // ✅ id가 있을 때만 실행
-
-    // ❌ 여기서 상태를 로그 찍으면 이전 상태가 찍힘
-  }, [id]); // ✅ 상태를 의존성 배열에서 제거
-
+  
+    if (id) fetchDesigner();
+  }, [id]); // ✅ id 변경될 때만 실행
+  
   useEffect(() => {
-    console.log("업데이트된 디자이너 정보:", {
-      designerName,
-      designerAdress,
-      designerRegion,
-      designerDescription,
-      designerMajors,
-      designerMeetingType,
-      designerOfflinePrice,
-      designerOnlinePrice,
-
-      upPortfolios,
-    });
-  }, [
-    upPortfolios,
-    designerName,
-    designerAdress,
-    designerRegion,
-    designerDescription,
-    designerMajors,
-    designerMeetingType,
-    designerOfflinePrice,
-    designerOnlinePrice,
-  ]);
-  // ✅ 상태가 변경될 때만 로그를 찍음
+    setIsMounted(true);
+  }, []); // ✅ 최초 마운트될 때 한 번만 실행
+  
 
   if (!isMounted) return null;
 
@@ -214,12 +192,12 @@ const formattedTime = selectedTime
     <DesignerPageWrapper>
       {/* <DesignerPageHeader>디자이너 정보</DesignerPageHeader> */}
       <Header where="designer" />
-      {/* <DesignerMainImage /> */}
-      <ProgressCarousel images={upPortfolios} main={false} />
+      <DesignerMainImage src={designerMainImage}/>
+      {/* <ProgressCarousel images={upPortfolios} main={false} /> */}
       <Content>
         <MainIntroContainer>
           <ProfileImage
-            src={designerImage || "/default-image.jpg"}
+            src={designerImage}
             alt="디자이너 프로필 이미지"
           />
           <NameAndAddress>
@@ -298,10 +276,6 @@ const formattedTime = selectedTime
         onClose={() => setIsReservationBottomModalOpen(false)}
         title="예약하기"
       >
-        {/* <TabContainer>
-               <TabButton>상담유형</TabButton>
-               <TabButton>일정</TabButton>
-            </TabContainer> */}
         <ModalWrapper>
           <ChoiceContainer id="consulting_type">
             <ChoiceTitle>컨설팅 유형</ChoiceTitle>
@@ -415,7 +389,7 @@ const formattedTime = selectedTime
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         title={"\n\n로그인이 필요해요"}
-        login={false}
+        login={true}
       />
 
       {/* 하단 고정 예약 버튼 */}
@@ -645,4 +619,14 @@ const ReservationButton = styled.button`
   &:hover {
     background: #f0f0f0;
   }
+`;
+
+
+const DesignerMainImage = styled.img`
+  width: 100%;
+  height: 370px;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+  object-position: center;
 `;

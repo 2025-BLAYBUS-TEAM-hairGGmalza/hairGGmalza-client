@@ -5,12 +5,24 @@ import { useRouter, usePathname } from "next/navigation";
 import { FiHome } from "react-icons/fi";
 import { BsPeople, BsCardChecklist } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
-import React from "react";
+import React, { useState } from "react";
+import CenterModal from "../CenterModal";
 
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
-
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  
+    const handleNavigation = (path: string, requiresAuth?: boolean) => {
+      const token = localStorage.getItem("token");
+    
+      if (requiresAuth && !token) {
+        setIsLoginModalOpen(true); // 로그인 모달 열기
+      } else {
+        router.push(path); // 정상적으로 이동
+      }
+    };
+    
   const menuItems = [
     {
       name: "홈",
@@ -29,6 +41,7 @@ const Navbar = () => {
         </svg>
       ),
       path: "/",
+      
     },
     {
       name: "예약조회",
@@ -49,6 +62,7 @@ const Navbar = () => {
         </svg>
       ),
       path: "/reservation",
+      requiresAuth: true 
     },
     {
       name: "리포트",
@@ -69,6 +83,7 @@ const Navbar = () => {
         </svg>
       ),
       path: "/report",
+      requiresAuth: true 
     },
     {
       name: "마이페이지",
@@ -91,15 +106,17 @@ const Navbar = () => {
         </svg>
       ),
       path: "/mypage",
+      requiresAuth: true 
     },
   ];
 
   return (
+    <>
     <NavContainer>
       {menuItems.map((item) => (
         <NavItem
           key={item.name}
-          onClick={() => router.push(item.path)}
+          onClick={() => handleNavigation(item.path, item.requiresAuth)}          
           isActive={pathname === item.path}
         >
           {React.cloneElement(item.icon, {
@@ -108,7 +125,17 @@ const Navbar = () => {
           <span>{item.name}</span>
         </NavItem>
       ))}
+
     </NavContainer>
+
+                {/* 센터 모달 - 로그인하기 */}
+                <CenterModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+                title={"\n\n로그인이 필요해요"}
+                login={true}
+              />
+              </>
   );
 };
 
