@@ -67,7 +67,7 @@ export const signUp = async (
     console.log(response);
     console.log(response.data);
 
-    localStorage.setItem("token", response.data.data.token);
+    localStorage.setItem("token", response.data.token);
     //다시 main 페이지로 이동 todo: main 페이지로 이동하는 방법 수정, 지금 갖고있는 토큰이 어떤 토큰인지 검증하는 로직 추가...
     console.log("회원가입 성공!!");
      window.location.href = "/";
