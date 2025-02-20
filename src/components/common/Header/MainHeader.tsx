@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlineSearch } from "react-icons/md";
 import useNavigateTo from "@/hooks/useNavigateTo";
+import { MdLogout } from "react-icons/md";
 
 const MainHeader = () => {
   const navigate1 = useNavigateTo("/search");
@@ -16,6 +17,8 @@ const MainHeader = () => {
       <SearchAndAlarm>
         <MdOutlineSearch cursor="pointer" size="3.2rem" onClick={navigate1} />
         <FaRegBell cursor="pointer" size="2.8rem" onClick={navigate2} />
+        <MdLogout cursor="pointer" size="2.8rem" />
+
       </SearchAndAlarm>
     </MainWrapper>
   );
@@ -39,4 +42,5 @@ const SearchAndAlarm = styled.div`
   width: 8rem;
   display: flex;
   justify-content: space-between;
-`;
+  width: 100px;
+  gap: 10px;`;

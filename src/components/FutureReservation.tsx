@@ -67,7 +67,7 @@ const FutureReservation: React.FC<FutureReservationProps> = ({ designerProfile, 
                   <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
                   <GrayBox>
                      <IoShareSocialOutline style={{fontSize:'20px'}} />
-                     <span onClick={()=>window.open(meetUrl)} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
+                     <span onClick={()=>window.open('https://meet.google.com/rqb-uemg-eeh')} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
                   </GrayBox>
                </MeetingLink>
             }

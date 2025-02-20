@@ -107,7 +107,7 @@ const ReservationPage = () => {
                            region={futureReservation.designer.region}
                            meetingType={futureReservation.meetingType}
                            reservationDate={futureReservation.reservationDate}
-                           meetUrl={futureReservation.meetUrl}
+                           meetUrl='https://meet.google.com/rqb-uemg-eeh'
                            reservationId={futureReservation.id}
                         />
             })}
