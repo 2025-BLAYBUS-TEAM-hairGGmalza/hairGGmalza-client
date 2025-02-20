@@ -33,7 +33,8 @@ const MarqueeContent = styled.div`
   display: inline-block;
   white-space: nowrap;
   animation: marquee 20s linear infinite;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  padding: 5px 0;
   @keyframes marquee {
     from {
       transform: translateX(100%);
