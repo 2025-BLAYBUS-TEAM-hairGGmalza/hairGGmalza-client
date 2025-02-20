@@ -7,24 +7,33 @@ import Profile from "@/components/common/Profile";
 import Navbar from "@/components/common/Navbar/Navbar";
 import { getReservations } from "@/apis/reservationAPI";
 
-export interface Reservation {
+export interface FutureReservation {
+   designer: {
+      designerId: string;
+      adrress: string;
+      description: string;
+      name: string;
+      profile: string;
+      region: string;
+   }
+   id: string;
+   meetUrl: string | null;
+   meetingType: string;
+   price: number;
+   reservationDate: string;
+   state: string;
+}
+
+interface PastReservation {
    designerId: string;
    reservationId: string;
-   designerName: string;
-   address: string;
-   region: string;
-
-   consultingType: string;
-   consultingDateTime: string;
-   meetingLink: string|null;
-   
-
 }
 
 const ReservationPage = () => {
    const [isMounted, setIsMounted] = useState(false);
-   const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
-   const [futureReservations, setFutureReservations] = useState<Reservation[]>([]);
+   // const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
+   const [futureReservations, setFutureReservations] = useState<FutureReservation[]>([]);
+   const [pastReservations, setPastReservations] = useState<PastReservation[]>([]);
 
    // useEffect(() => {
    //    setIsMounted(true);
@@ -45,28 +54,35 @@ const ReservationPage = () => {
       // 예약 데이터 불러오기
       const fetchData = async () => {
          try {
-            const reservations = await getReservations();
+            const res = await getReservations();
+            const reservations = res.data;
             console.log("✅ 전체 예약 내역:", reservations);
 
             // 현재 날짜 가져오기
             const now = new Date();
 
-            // 예약 내역을 과거 / 미래로 분류
-            const past: Reservation[] = [];
-            const future: Reservation[] = [];
+            //reservation 객체 배열을 돌면서, 'reservationDate'가 현재 날짜보다 이전이면 'pastReservations'에 추가
+            // 그렇지 않으면 'futureReservations'에 추가
+            const pastReservations: PastReservation[] = [];
+            const futureReservations: FutureReservation[] = [];
 
-            reservations.forEach((reservation: Reservation) => {
-               const reservationDate = new Date(reservation.consultingDateTime);
-
+            reservations.forEach((reservation: FutureReservation) => {
+               const reservationDate = new Date(reservation.reservationDate);
                if (reservationDate < now) {
-                  past.push(reservation);
+                  pastReservations.push({
+                     designerId: reservation.designer.designerId,
+                     reservationId: reservation.id
+                  });
                } else {
-                  future.push(reservation);
+                  futureReservations.push(reservation);
                }
             });
 
-            setPastReservations(past);
-            setFutureReservations(future);
+            //세팅 잘 됐는지 콘솔에 출력
+            console.log("✅ 과거 예약 내역:", pastReservations);
+            console.log("✅ 미래 예약 내역:", futureReservations);
+
+            
          } catch (error) {
             console.error("❌ 예약 내역 불러오기 실패:", error);
          }
