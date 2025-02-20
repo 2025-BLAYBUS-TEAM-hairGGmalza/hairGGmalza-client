@@ -60,7 +60,7 @@ export const postReservation = async (
          else if (response.data.status === 200) {
             console.log("✅ 계좌이체 성공");
             //결제 상세 내역 페이지로 이동
-            window.location.href=`/reservation/${response.data.data.reservationId}`//
+            // window.location.href=`/reservation/${response.data.data.reservationId}`//
          }
       }
 
