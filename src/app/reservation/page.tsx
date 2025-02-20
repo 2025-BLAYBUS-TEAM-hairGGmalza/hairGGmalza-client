@@ -6,6 +6,7 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
 import Navbar from "@/components/common/Navbar/Navbar";
 import { getReservations } from "@/apis/reservationAPI";
+import FutureReservation from "@/components/FutureReservation";
 
 export interface FutureReservation {
    designer: {
@@ -17,7 +18,7 @@ export interface FutureReservation {
       region: string;
    }
    id: string;
-   meetUrl: string | null;
+   meetUrl: string;
    meetingType: string;
    price: number;
    reservationDate: string;
@@ -34,19 +35,6 @@ const ReservationPage = () => {
    // const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
    const [futureReservations, setFutureReservations] = useState<FutureReservation[]>([]);
    const [pastReservations, setPastReservations] = useState<PastReservation[]>([]);
-
-   // useEffect(() => {
-   //    setIsMounted(true);
-   //    //토큰으로 예약 내역 요청
-   //    const fetchData = async () => {
-   //       const reservations = await getReservations();
-   //       console.log(reservations);
-
-      
-   //    }
-   //    fetchData();
-
-   // }, []);
 
    useEffect(() => {
       setIsMounted(true);
@@ -103,44 +91,21 @@ const ReservationPage = () => {
          <ProfileWrapper>
             <Title>
                <span style={{color:'white', fontWeight:'1000', fontSize:'20px'}}>확정된 컨설팅 예약</span>
-               <DDay>D-3</DDay>
+               {/* <DDay>D-3</DDay> */}
             </Title>
-            <ProfileContainer>
-               <TopProfile>
-                  <ProfileImage />
-                  <NameAndAddress>
-                     <Name>박수빈 디자이너</Name>
-                     <Address>
-                        <span id='address_detail' style={{marginRight:'10px'}}>서울 강남구 압구정로79길</span>
-                        <span id='address_category' style={{color: '#808080'}}>홍대/연남/합정</span>
-                     </Address>
-                  </NameAndAddress>
-               </TopProfile> 
-               {/* 여기까지 공통 */}
-               <BottomProfile>   
-                  <ConsultingAndTime>
-                     <Consulting>
-                        <SmallTitle>컨설팅 유형</SmallTitle>
-                        <Tag type='consulting' text='대면' />
-                     </Consulting>
-                     <Time>
-                        <SmallTitle>예약 시간</SmallTitle>
-                        <span style={{fontSize:'16px'}}>2월 12일 (수) | 오후 18:00</span>
-                     </Time>
-                  </ConsultingAndTime>
-                  <MeetingLink>
-                     <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
-                     <GrayBox>
-                        <IoShareSocialOutline style={{fontSize:'20px'}} />
-                        <span onClick={()=>window.open('https://meet.google.com/ebb-iurh-gyc')} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
-                     </GrayBox>
-                  </MeetingLink>
-                  <Informations>
-                     <GrayBox>예약정보</GrayBox>
-                     <GrayBox>결제정보</GrayBox>
-                  </Informations>
-               </BottomProfile>
-            </ProfileContainer>
+            {/* FutureReservation 돌면서 'FutureReservation' 렌더링 */}
+            {futureReservations.map((futureReservation, index) => {
+               return <FutureReservation 
+                           key={index} 
+                           designerName={futureReservation.designer.name}
+                           address={futureReservation.designer.adrress}
+                           region={futureReservation.designer.region}
+                           meetingType={futureReservation.meetingType}
+                           reservationDate={futureReservation.reservationDate}
+                           meetUrl={futureReservation.meetUrl}
+                           reservationId={futureReservation.id}
+                        />
+            })}
          </ProfileWrapper>
          <ConsultingRecordsWrapper>
             <span style={{fontWeight:'bold', fontSize:'18px', width:'100%', textAlign:'start'}}>컨설팅 기록</span>
@@ -175,6 +140,7 @@ const ProfileWrapper = styled.div`
    background-color: #000000;
    padding: 20px;
    box-sizing: border-box;
+   gap: 20px;
 `
 
 const ProfileContainer = styled.div`
@@ -248,14 +214,6 @@ const Title = styled.div`
    justify-content: space-between;
    margin-bottom: 20px;
 `
-
-const DDay = styled.div`
-   font-size: 14px;
-   font-weight: bold;
-   background-color: #F3D7E5;
-   padding: 10px 25px;
-   border-radius: 6px;
-`  
 
 const ConsultingAndTime = styled.div`
    width: 100%;
