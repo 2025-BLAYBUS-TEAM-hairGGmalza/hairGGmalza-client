@@ -63,26 +63,29 @@ const ReservationPage = () => {
 
             //reservation 객체 배열을 돌면서, 'reservationDate'가 현재 날짜보다 이전이면 'pastReservations'에 추가
             // 그렇지 않으면 'futureReservations'에 추가
-            const pastReservations: PastReservation[] = [];
-            const futureReservations: FutureReservation[] = [];
+            const pastReservationsArray: PastReservation[] = [];
+            const futureReservationsArray: FutureReservation[] = [];
 
             reservations.forEach((reservation: FutureReservation) => {
                const reservationDate = new Date(reservation.reservationDate);
                if (reservationDate < now) {
-                  pastReservations.push({
+                  pastReservationsArray.push({
                      designerId: reservation.designer.designerId,
                      reservationId: reservation.id
                   });
                } else {
-                  futureReservations.push(reservation);
+                  futureReservationsArray.push(reservation);
                }
             });
 
-            //세팅 잘 됐는지 콘솔에 출력
-            console.log("✅ 과거 예약 내역:", pastReservations);
-            console.log("✅ 미래 예약 내역:", futureReservations);
+            // ✅ React 상태 업데이트
+            setPastReservations(pastReservationsArray);
+            setFutureReservations(futureReservationsArray);
 
-            
+            // 세팅 잘 됐는지 콘솔에 출력
+            console.log("✅ 과거 예약 내역:", pastReservationsArray);
+            console.log("✅ 미래 예약 내역:", futureReservationsArray);
+
          } catch (error) {
             console.error("❌ 예약 내역 불러오기 실패:", error);
          }
@@ -90,6 +93,7 @@ const ReservationPage = () => {
 
       fetchData();
    }, []);
+
 
 
    if (!isMounted) return null;
@@ -141,7 +145,10 @@ const ReservationPage = () => {
          <ConsultingRecordsWrapper>
             <span style={{fontWeight:'bold', fontSize:'18px', width:'100%', textAlign:'start'}}>컨설팅 기록</span>
 
-            <Profile designerId="9" reservationId="172"/>
+            {/* PastReservation 돌면서 'Profile' 렌더링 */}
+            {pastReservations.map((pastReservation, index) => {
+               return <Profile key={index} designerId={pastReservation.designerId} reservationId={pastReservation.reservationId} />
+            })}
          </ConsultingRecordsWrapper>
          <Navbar />
       </Wrapper>
