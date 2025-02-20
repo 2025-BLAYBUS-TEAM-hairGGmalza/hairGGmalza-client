@@ -1,38 +1,86 @@
 "use client";
+import { getDesigner } from "@/apis/designerAPI";
 import { getReservationDetail } from "@/apis/reservationAPI";
 import Tag from "@/components/common/Tag";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 
-
 const ReservationDetailpage = () => {
-   const [isMounted, setIsMounted] = useState(false);
-   const [designerName, setDesignerName] = useState('');
-   const [address, setAddress] = useState('');
-   const [region, setRegion] = useState('');
-   const [consultingType, setConsultingType] = useState('대면');
-   const [time, setTime] = useState('');
-   const [status, setStatus] = useState('');
-   const [price, setPrice] = useState('');
+   const [isLoading, setIsLoading] = useState(true); // 데이터 로딩 상태
+   const [designerName, setDesignerName] = useState<string | null>(null);
+   const [address, setAddress] = useState<string | null>(null);
+   const [region, setRegion] = useState<string | null>(null);
+   const [consultingType, setConsultingType] = useState<string | null>(null);
+   const [time, setTime] = useState<string | null>(null);
+   const [status, setStatus] = useState<string | null>(null);
+   const [price, setPrice] = useState<string | null>(null);
    const reservationId = String(useParams().reservationId);
 
-   
+   const formatDateTime = (dateTimeString: string): string => {
+      const date = new Date(dateTimeString);
+  
+      // 월, 일 추출
+      const month = date.getMonth() + 1; // 월 (0부터 시작하므로 +1)
+      const day = date.getDate(); // 일
+  
+      // 시간, 분 추출
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0'); // 00 형식 유지
+  
+      // 오전/오후 판별 및 변환
+      const period = hours >= 12 ? "오후" : "오전";
+      if (hours > 12) hours -= 12; // 12시간제로 변환
+  
+      return `${month}월 ${day}일 ${period} ${hours}:${minutes}`;
+  };
+    
+//   const formatStatus
+
+  const handleCopy = () => {
+      const address = document.getElementById('address_detail')?.textContent;
+      navigator.clipboard.writeText(address || '');
+      alert('주소가 복사되었습니다.');
+   }
+
    useEffect(() => {
-      console.log(reservationId);
-      setIsMounted(true);
-      getReservationDetail(parseInt(reservationId)).then((res) => {
-         console.log(res);
-         setDesignerName(res.data.designerName);
-         setAddress(res.data.address);
-         setRegion(res.data.region);
-         setConsultingType(res.data.consultingType);
-         setTime(res.data.time);
-         setStatus(res.data.status);
-         setPrice(res.data.price);
-      });
+      const fetchReservationDetail = async () => {
+         try {
+            const res = await getReservationDetail(parseInt(reservationId));
+
+            //여기서 받은 designerId를 이용해서 디자이너 정보도 받아와야 함
+            const designerId = res.data.designerId;
+            const designerRes = await getDesigner(designerId);
+            const designerData = designerRes.data;
+            setDesignerName(designerData.name);
+            setAddress(designerData.address);
+            setRegion(designerData.region);
+
+            //OFFLINE이면 대면, ONLINE이면 화상
+            setConsultingType(res.data.meetingType === "OFFLINE" ? "대면" : "화상");
+            //예약 시간 파싱해서 변경
+            setTime(formatDateTime(res.data.reservationDate));
+            setStatus(res.data.state);
+            setPrice(res.data.price);
+         } catch (error) {
+            console.error("예약 상세 정보를 불러오는 중 오류 발생:", error);
+         } finally {
+            setIsLoading(false); // 데이터 로드 완료
+         }
+      };
+
+      if (reservationId) {
+         fetchReservationDetail();
+      }
+
    }, [reservationId]);
-   if (!isMounted) return null;
+
+   // 데이터가 아직 로딩 중이면 로딩 화면 표시
+   if (isLoading) {
+      return <Wrapper>
+               <div style={{fontSize:'20px', justifySelf:'center', marginTop:'50px'}}>잠시만 기다려주세요...</div>;
+            </Wrapper>
+   }
 
    return (
       <Wrapper>
@@ -42,7 +90,7 @@ const ReservationDetailpage = () => {
          <TopProfile>
             <ProfileImage />
             <NameAndAddress>
-               <Name>{designerName} 디자이너</Name>
+               <Name>{designerName}</Name>
                <Address>
                   <span id='address_detail' style={{marginRight:'10px'}}>{address}</span>
                   <span id='address_category' style={{color: '#808080'}}>{region}</span>
@@ -54,7 +102,7 @@ const ReservationDetailpage = () => {
             <ConsultingAndTime>
                <Consulting>
                   <SmallTitle>컨설팅 유형</SmallTitle>
-                  <Tag type='consulting' text={consultingType} />
+                  <Tag type='consulting' text={consultingType || "대면"} />
                </Consulting>
                <Time>
                   <SmallTitle>예약 시간</SmallTitle>
@@ -65,7 +113,7 @@ const ReservationDetailpage = () => {
                <SmallTitle>샵주소</SmallTitle>
                <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
                   <span style={{fontSize:'16px' }}>{address}</span>
-                  <span style={{fontSize:'16px', color:'#989898', textDecoration:'underline', cursor:'pointer' }}>복사</span>
+                  <span onClick={handleCopy} style={{fontSize:'16px', color:'#989898', textDecoration:'underline', cursor:'pointer' }}>복사</span>
                </div>
             </AdressRow>
             <StatusRow>
@@ -92,10 +140,11 @@ const ReservationDetailpage = () => {
                               · 예약 변경을 원하시는 경우, 예약 취소 후 재예약 해주시기 바랍니다.</RequestInput>
          </RequestCard>}
       </Wrapper>
-   )
+   );
 }
 
-export default ReservationDetailpage
+export default ReservationDetailpage;
+
 
 const Wrapper = styled.div`
    width: 100%;
