@@ -1,8 +1,9 @@
 "use client";
 import { getDesigner } from "@/apis/designerAPI";
 import { getReservationDetail } from "@/apis/reservationAPI";
+import BottomButtonBar from "@/components/common/BottomButtonBar";
 import Tag from "@/components/common/Tag";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 
@@ -16,6 +17,7 @@ const ReservationDetailpage = () => {
    const [status, setStatus] = useState<string | null>(null);
    const [price, setPrice] = useState<string | null>(null);
    const reservationId = String(useParams().reservationId);
+   const router = useRouter();
 
    const formatDateTime = (dateTimeString: string): string => {
       const date = new Date(dateTimeString);
@@ -35,12 +37,30 @@ const ReservationDetailpage = () => {
       return `${month}월 ${day}일 ${period} ${hours}:${minutes}`;
   };
     
-//   const formatStatus todo- 한글로 변환
+
+  const formatStatus = (status: string): string => {
+      switch (status) {
+         case "WAITING":
+            return "입금 확인 중";
+         case "PAYMENT_COMPLETED":
+            return "예약 확정";
+         case "CANCELED":
+            return "예약 취소";
+         case "COMPLETED":
+            return "이용 완료";
+         default:
+            return "알 수 없음";
+      }
+   };
 
   const handleCopy = () => {
       const address = document.getElementById('address_detail')?.textContent;
       navigator.clipboard.writeText(address || '');
       alert('주소가 복사되었습니다.');
+   }
+
+   const handleBack = () => {
+      router.back();
    }
 
    useEffect(() => {
@@ -60,7 +80,7 @@ const ReservationDetailpage = () => {
             setConsultingType(res.data.meetingType === "OFFLINE" ? "대면" : "화상");
             //예약 시간 파싱해서 변경
             setTime(formatDateTime(res.data.reservationDate));
-            setStatus(res.data.state);
+            setStatus(formatStatus(res.data.state));
             setPrice(res.data.price);
          } catch (error) {
             console.error("예약 상세 정보를 불러오는 중 오류 발생:", error);
@@ -139,6 +159,13 @@ const ReservationDetailpage = () => {
                               · 예약 당일 10분 이상 지각 시 노쇼로 처리될 수 있으며, 소정의 수수료가 부과될 수 있습니다. <br/>
                               · 예약 변경을 원하시는 경우, 예약 취소 후 재예약 해주시기 바랍니다.</RequestInput>
          </RequestCard>}
+
+         <BottomButtonBar>
+            <button 
+               style={{width:'100%', backgroundColor:'#000000', padding:'15px', fontSize:'16px', border:'none', cursor:'pointer', color:'#F3D7E5'}}
+               onClick={handleBack}
+            >뒤로 가기</button>
+         </BottomButtonBar>
       </Wrapper>
    );
 }

@@ -1,8 +1,6 @@
 "use client";
-import Tag from "@/components/common/Tag";
 import { useEffect, useState } from "react";
 import styled from "styled-components"
-import { IoShareSocialOutline } from "react-icons/io5";
 import Profile from "@/components/common/Profile";
 import Navbar from "@/components/common/Navbar/Navbar";
 import { getReservations } from "@/apis/reservationAPI";
@@ -11,7 +9,7 @@ import FutureReservation from "@/components/FutureReservation";
 export interface FutureReservation {
    designer: {
       designerId: string;
-      adrress: string;
+      address: string;
       description: string;
       name: string;
       profile: string;
@@ -97,8 +95,9 @@ const ReservationPage = () => {
             {futureReservations.map((futureReservation, index) => {
                return <FutureReservation 
                            key={index} 
+                           designerProfile={futureReservation.designer.profile}
                            designerName={futureReservation.designer.name}
-                           address={futureReservation.designer.adrress}
+                           address={futureReservation.designer.address}
                            region={futureReservation.designer.region}
                            meetingType={futureReservation.meetingType}
                            reservationDate={futureReservation.reservationDate}
@@ -143,69 +142,6 @@ const ProfileWrapper = styled.div`
    gap: 20px;
 `
 
-const ProfileContainer = styled.div`
-   width: 95%;
-   padding: 25px;
-   box-sizing: border-box;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: space-between;
-   border-radius: 6px;
-   background-color: #ffffff; 
-`
-
-const TopProfile = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-
-   align-self: flex-start;
-`
-
-
-const ProfileImage = styled.div`
-   width: 55px;
-   aspect-ratio: 1/1;
-   border-radius: 50%;
-   background-color: #f0f0f0;
-`
-
-const NameAndAddress = styled.div`
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: space-between;
-   margin-left: 20px;
-   padding: 5px 0;
-   box-sizing: border-box;
-   gap: 5px;
-`
-
-const Name = styled.div`
-   font-size: 18px;
-   font-weight: bold;   
-`
-
-const Address = styled.div`
-   font-size: 13px;
-`
-
-
-//////
-const BottomProfile = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: flex-start;
-   margin-top: 18px;
-
-`
-
 const Title = styled.div`
    width: 95%;
    display: flex;
@@ -213,78 +149,6 @@ const Title = styled.div`
    align-items: center;
    justify-content: space-between;
    margin-bottom: 20px;
-`
-
-const ConsultingAndTime = styled.div`
-   width: 100%;
-   height: 60px;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-   gap: 20px;
-`
-
-const Consulting = styled.div`
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: space-between;
-`
-
-const Time = styled.div`
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: space-between;
-`
-
-const SmallTitle = styled.div`
-   font-size: 13px;
-   font-weight: bold;
-   margin-bottom: 10px;
-   color: #5f5f5f;
-`
-
-const MeetingLink = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: center;
-   margin-top: 20px;
-`
-
-const Informations = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
-   gap: 10px;
-   margin-top: 20px;
-`
-
-const GrayBox = styled.div`
-   width: 100%;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-   gap: 10px;
-   padding: 15px 10px;
-   border-radius: 6px;
-   box-sizing: border-box;
-   background-color: #f0f0f0;
-   font-size: 15px;
-   cursor:pointer;
-
-   //hover
-   &:hover {
-      background-color: #e0e0e0;
-   }
 `
 
 //////consulting records 

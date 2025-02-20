@@ -3,6 +3,7 @@ import Tag from "./Tag"
 import { useEffect, useState } from "react";
 import { getDesigner } from "@/apis/designerAPI";
 import { getReservationDetail } from "@/apis/reservationAPI";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
    designerId: string;
@@ -18,6 +19,12 @@ const Profile: React.FC<ProfileProps> = ({ designerId, reservationId }) => {
    const [region, setRegion] = useState<string | null>(null);
    const [consultingType, setConsultingType] = useState<string | null>(null);
    const [dateTime, setDateTime] = useState<string | null>(null);
+   const router = useRouter();
+
+   const handleReservationDetail = (reservationId: string) => {
+      console.log("예약 상세 페이지로 이동");
+      router.push(`/reservation/${reservationId}`);
+   }
 
    useEffect(() => {
       //designerId로 디자이너 정보 받아오기
@@ -104,7 +111,7 @@ const Profile: React.FC<ProfileProps> = ({ designerId, reservationId }) => {
             </ReviewContainer> */}
             <Buttons>
                <GrayBox className="reviewBtn">리뷰작성</GrayBox>
-               <GrayBox>예약정보</GrayBox>
+               <GrayBox onClick={()=>handleReservationDetail(reservationId)}>예약정보</GrayBox>
                <GrayBox>리포트 확인</GrayBox>
             </Buttons>
          </BottomProfile>

@@ -1,10 +1,11 @@
-import React from 'react'
 import { IoShareSocialOutline } from 'react-icons/io5'
 import styled from 'styled-components'
 import Tag from './common/Tag';
-import { Url } from 'next/dist/shared/lib/router/router';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface FutureReservationProps {
+   designerProfile: string;
    designerName: string;
    address: string;
    region: string;
@@ -16,11 +17,27 @@ interface FutureReservationProps {
 }
 
 
-const FutureReservation: React.FC<FutureReservationProps> = ({ designerName, address, region, meetingType, reservationDate, meetUrl="", reservationId }) => {
+const FutureReservation: React.FC<FutureReservationProps> = ({ designerProfile, designerName, address, region, meetingType, reservationDate, meetUrl="", reservationId }) => {
+   const [isConsultingMeet, setIsConsultingMeet] = useState(false); //화상 미팅인지 대면 미팅인지
+   const router = useRouter();
+
+   const handleReservationDetail = (reservationId: string) => {
+      console.log("예약 상세 페이지로 이동");
+      router.push(`/reservation/${reservationId}`);
+   }
+
+   useEffect(() => {
+      if(meetingType === "ONLINE") {
+         setIsConsultingMeet(true);
+      }
+      console.log("address:", address);
+      console.log("region:", region);
+   }, [meetingType, address, region])
+
    return (
       <ProfileContainer>
          <TopProfile>
-            <ProfileImage />
+            <ProfileImage src={designerProfile}/>
             <NameAndAddress>
                <Name>{designerName}</Name>
                <Address>
@@ -41,15 +58,18 @@ const FutureReservation: React.FC<FutureReservationProps> = ({ designerName, add
                   <span style={{fontSize:'16px'}}>{reservationDate}</span>
                </Time>
             </ConsultingAndTime>
-            <MeetingLink>
-               <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
-               <GrayBox>
-                  <IoShareSocialOutline style={{fontSize:'20px'}} />
-                  <span onClick={()=>window.open(meetUrl)} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
-               </GrayBox>
-            </MeetingLink>
+            {/* 화상일때만 출력 */}
+            {isConsultingMeet && 
+               <MeetingLink>
+                  <SmallTitle>미팅 링크(시간에 맞춰 접속해주세요)</SmallTitle>
+                  <GrayBox>
+                     <IoShareSocialOutline style={{fontSize:'20px'}} />
+                     <span onClick={()=>window.open(meetUrl)} style={{textDecoration:'underline', color:'#333'}}>화상 컨설팅 바로가기</span>
+                  </GrayBox>
+               </MeetingLink>
+            }
             <Informations>
-               <GrayBox key={reservationId}>예약정보</GrayBox>
+               <GrayBox onClick={()=>handleReservationDetail(reservationId)}>예약정보</GrayBox>
                {/* <GrayBox>결제정보</GrayBox> */}
             </Informations>
          </BottomProfile>
@@ -82,11 +102,12 @@ const TopProfile = styled.div`
 `
 
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
    width: 55px;
    aspect-ratio: 1/1;
    border-radius: 50%;
-   background-color: #f0f0f0;
+   object-fit: cover;
+   object-position: center ;
 `
 
 const NameAndAddress = styled.div`
@@ -188,6 +209,7 @@ const GrayBox = styled.div`
    background-color: #f0f0f0;
    font-size: 15px;
    cursor:pointer;
+   font-weight: bold;
 
    //hover
    &:hover {
