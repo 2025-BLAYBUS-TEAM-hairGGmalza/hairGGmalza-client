@@ -69,7 +69,7 @@ export const signUp = async (
 
     localStorage.setItem("access", response.data.data.token);
     //다시 main 페이지로 이동 todo: main 페이지로 이동하는 방법 수정, 지금 갖고있는 토큰이 어떤 토큰인지 검증하는 로직 추가...
-    //  window.location.href = "/";
+     window.location.href = "/";
   } catch (error) {
     console.log(error);
   }
