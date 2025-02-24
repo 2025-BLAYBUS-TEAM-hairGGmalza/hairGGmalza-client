@@ -4,7 +4,7 @@
 
 <div align="center">
 
-<img width="1920" alt="Heartz소개" src="https://github.com/user-attachments/assets/5c7cdbeb-9b1e-4117-bb2c-0bbd0d073890" />
+<img width="1920" alt="Heartz소개" src="https://github.com/user-attachments/assets/5c7cdbeb-9b1e-4117-bb2c-0bbd0d073890" />
 
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F2025-BLAYBUS-TEAM-hairGGmalza%2FhairGGmalza-client&count_bg=%23FFC8DC&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
@@ -69,9 +69,11 @@ For building and running the application you need:
 ## 화면 구성
 |   |   |   |   |   |
 | :--: | :--: |:--: |:--: | :--: |
-| <img width="150px" src="https://github.com/user-attachments/assets/6b98a0ea-83ce-4f98-816f-060c416f74e9"> | <img width="150px" src="https://github.com/user-attachments/assets/1d0b5532-3db3-4d85-92bf-e21c8d1951df"> | <img width="150px" src="https://github.com/user-attachments/assets/940c3c37-44b7-4569-a5d5-5927ad21c095"> | <img width="150px" src="https://github.com/user-attachments/assets/77e4e587-fc8a-4c41-996d-1789af37040e"> |  <img width="150px" src="https://github.com/user-attachments/assets/e7f0b2e1-1555-46d0-a73b-ada2c2383d34"> |  
-| <img width="150px" src="https://github.com/user-attachments/assets/623a2aa4-006d-4479-9a87-e65fc1845793"> | <img width="150px" src="https://github.com/user-attachments/assets/712fa577-61f9-4461-a92c-7c7509478ebd"> | <img width="150px" src="https://github.com/user-attachments/assets/13126bcf-305c-4090-aa8f-9fc2b309d2bb"> | <img width="150px" src="https://github.com/user-attachments/assets/ba047cb2-68b1-4134-81c8-026d615e7843"> | <img width="150px" src="https://github.com/user-attachments/assets/28c594d8-62a7-4855-b4ad-db7fdd8feeaa"> | 
-| <img width="150px" src="https://github.com/user-attachments/assets/111379e5-099e-4c43-9b7d-5d759a41e6d3"> | <img width="150px" src="https://github.com/user-attachments/assets/735527e0-af73-4b90-ac89-b3ca2bed6772"> | <img width="150px" src="https://github.com/user-attachments/assets/de55a275-1ad1-4dc7-b459-4bb6ceaf4711"> | <img width="150px" src="https://github.com/user-attachments/assets/992c16cc-1fa4-46ac-b419-516ce955f814"> | <img width="150px" src="https://github.com/user-attachments/assets/c48ed570-01c5-43ba-bc07-47c38114b66c"> |
+| <img width="150px" alt="2 1 ~ 2 4 __" src="https://github.com/user-attachments/assets/f1b6d6fd-9324-4cb4-863d-0bc2721222c0" /> | <img width="150px" alt="1 1 2 __" src="https://github.com/user-attachments/assets/e6d3fd2b-e176-4203-85b4-3cc6a4d26ad8" /> | <img width="150px" alt="2 5 1 __" src="https://github.com/user-attachments/assets/486484f6-cf1d-45b0-b6f3-68e1ee3d3f3f" /> | <img width="150px" alt="2 5 2 __ 정보 불러오기 체크" src="https://github.com/user-attachments/assets/1fa47673-7de3-4269-a238-8322a95d055e" /> | <img width="150px" alt="3 1 1 __" src="https://github.com/user-attachments/assets/7fed579a-b228-441f-b4c9-7929a0850dfe" /> |
+| <img width="150px" alt="3 1 2 __" src="https://github.com/user-attachments/assets/5d252fad-abd6-406f-bafe-f32b83d05788" /> | <img width="150px" alt="3 2 __" src="https://github.com/user-attachments/assets/77126334-bc2c-41eb-ba97-3c3033bfcbc5" /> | <img width="150px" alt="3 2 대면 __" src="https://github.com/user-attachments/assets/106eb3b4-4ebb-4ea8-b09c-c2945efb590b" /> | <img width="150px" alt="3 4 1 __ 토글 열었을 때" src="https://github.com/user-attachments/assets/38096087-ad32-42a3-be2c-b758a43061b1" /> | <img width="150px" alt="3 4 4 __ 대면" src="https://github.com/user-attachments/assets/42ec47c2-ddb4-4171-8107-b3639bf48ab4" /> |
+| <img width="150px" alt="4 1 1 __" src="https://github.com/user-attachments/assets/e2bfd0be-f69e-4c18-a23b-bea4d8040f0f" /> | <img width="150px" alt="4 1 4 __" src="https://github.com/user-attachments/assets/fd095284-78d8-4ed8-911f-a2874fa47395" /> | <img width="150px" alt="6 1 __" src="https://github.com/user-attachments/assets/6f2be36a-4d76-4fc6-9759-046a77fc3d1d" /> | <img width="150px" alt="6 3 1 __" src="https://github.com/user-attachments/assets/0ca4b3f8-d8a0-4117-8ae8-7031c5845f8a" /> | <img width="150px" alt="6 3 1 __-1" src="https://github.com/user-attachments/assets/cd2b599f-3725-456b-ad9f-cb08743200b3" /> |
+| <img width="150px" alt="6 4 __" src="https://github.com/user-attachments/assets/68bf8b2d-50c0-4d2a-8fff-147db2738801" /> |  |  |  |  |
+
 
 
 
