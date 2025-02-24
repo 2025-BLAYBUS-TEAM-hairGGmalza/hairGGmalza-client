@@ -66,13 +66,164 @@
 ---
 ## 주요 기능
 
-(채우기)
+### 1. 디자이너 검색
+- 전문분야, 지역, 가격 등으로 필터링 후 검색
+- 하단 모달에서 필터 지정
+
+### 2. 컨설팅 예약
+- 디자이너 페이지에서 하단 모달로 옵션 선택
+- 결제 페이지에서 요청 사항 등 추가 정보 입력
+- 카카오페이 or 계좌이체를 통한 결제
+
+### 3. 예약 내역 조회
+- 본인의 과거/미래 예약 내역 조회
+
+### 4. 마이페이지
+- 계정 정보 확인
+- 계정 정보 수정
+- 헤어 정보 등록
+
+### 5. 리뷰
+- 별점, 텍스트로 리뷰 작성
 
 ---
 ## 아키텍쳐
 
+<img width="853" alt="image" src="https://github.com/user-attachments/assets/9c96b681-c358-4c7d-bbf1-876205039235" />
+
+
 ### 디렉토리 구조
 ```bash
-
+📦src
+ ┣ 📂apis
+ ┃ ┣ 📜designerAPI.ts
+ ┃ ┣ 📜filter.ts
+ ┃ ┣ 📜getMember.ts
+ ┃ ┣ 📜loginAPI.ts
+ ┃ ┣ 📜payAPI.ts
+ ┃ ┣ 📜reservationAPI.ts
+ ┃ ┣ 📜reviewAPI.ts
+ ┃ ┣ 📜signUp.ts
+ ┃ ┗ 📜wishList.ts
+ ┣ 📂app
+ ┃ ┣ 📂alert
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂designer
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┃ ┣ 📂review
+ ┃ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┃ ┣ 📜Calendar.css
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂main
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂mypage
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂report
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂reservation
+ ┃ ┃ ┣ 📂[reservationId]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂search
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂signup
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂test
+ ┃ ┃ ┣ 📂[reservationId]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂fail
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📜favicon.ico
+ ┃ ┣ 📜globals.css
+ ┃ ┣ 📜layout.tsx
+ ┃ ┣ 📜page.module.css
+ ┃ ┗ 📜page.tsx
+ ┣ 📂components
+ ┃ ┣ 📂alert
+ ┃ ┃ ┗ 📜Alert.tsx
+ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📂Header
+ ┃ ┃ ┃ ┣ 📜DesignerHeader.tsx
+ ┃ ┃ ┃ ┣ 📜Header.tsx
+ ┃ ┃ ┃ ┣ 📜MainHeader.tsx
+ ┃ ┃ ┃ ┣ 📜PaymentHeader.tsx
+ ┃ ┃ ┃ ┣ 📜ReviewHeader.tsx
+ ┃ ┃ ┃ ┣ 📜SearchHeader.tsx
+ ┃ ┃ ┃ ┗ 📜StyledFichevronLeft.tsx
+ ┃ ┃ ┣ 📂Navbar
+ ┃ ┃ ┃ ┗ 📜Navbar.tsx
+ ┃ ┃ ┣ 📂carousel
+ ┃ ┃ ┃ ┣ 📜DesignerCarousel.tsx
+ ┃ ┃ ┃ ┣ 📜ProgressCarousel.tsx
+ ┃ ┃ ┃ ┗ 📜ReviewsCarousel.tsx
+ ┃ ┃ ┣ 📜BottomButtonBar.tsx
+ ┃ ┃ ┣ 📜BottomModal.tsx
+ ┃ ┃ ┣ 📜CategoryBtn.tsx
+ ┃ ┃ ┣ 📜CenterModal.tsx
+ ┃ ┃ ┣ 📜DesignerCard.tsx
+ ┃ ┃ ┣ 📜Divider.tsx
+ ┃ ┃ ┣ 📜Profile.tsx
+ ┃ ┃ ┣ 📜Tag.tsx
+ ┃ ┃ ┗ 📜Tag2.tsx
+ ┃ ┣ 📂filter
+ ┃ ┃ ┣ 📜ConsultingFilter.tsx
+ ┃ ┃ ┣ 📜ExpertiseFilter.tsx
+ ┃ ┃ ┣ 📜FilterModal.tsx
+ ┃ ┃ ┣ 📜HairInfoFilter.tsx
+ ┃ ┃ ┣ 📜PriceFilter.tsx
+ ┃ ┃ ┣ 📜RegionFilter.tsx
+ ┃ ┃ ┗ 📜TabBar.tsx
+ ┃ ┣ 📂main
+ ┃ ┃ ┣ 📂Footer
+ ┃ ┃ ┃ ┗ 📜Footer.tsx
+ ┃ ┃ ┣ 📂Section1
+ ┃ ┃ ┃ ┣ 📜MarqueeText.tsx
+ ┃ ┃ ┃ ┗ 📜Section1.tsx
+ ┃ ┃ ┣ 📂Section2
+ ┃ ┃ ┃ ┣ 📜ConsultingBtn.tsx
+ ┃ ┃ ┃ ┗ 📜Section2.tsx
+ ┃ ┃ ┣ 📂Section3
+ ┃ ┃ ┃ ┗ 📜Section3.tsx
+ ┃ ┃ ┣ 📂Section4
+ ┃ ┃ ┃ ┗ 📜Section4.tsx
+ ┃ ┃ ┣ 📂Section5
+ ┃ ┃ ┃ ┗ 📜Section5.tsx
+ ┃ ┃ ┣ 📜CarouselWrapper.tsx
+ ┃ ┃ ┣ 📜CategorySelector.tsx
+ ┃ ┃ ┣ 📜Explain.tsx
+ ┃ ┃ ┗ 📜Main.tsx
+ ┃ ┣ 📂mypage
+ ┃ ┃ ┣ 📜MyReviewCard.tsx
+ ┃ ┃ ┣ 📜MyReviewList.tsx
+ ┃ ┃ ┣ 📜MyTab.tsx
+ ┃ ┃ ┣ 📜MyWishList.tsx
+ ┃ ┃ ┣ 📜Mypage.tsx
+ ┃ ┃ ┗ 📜WishCard.tsx
+ ┃ ┣ 📂payment
+ ┃ ┃ ┣ 📜DesignerDropdown.tsx
+ ┃ ┃ ┣ 📜Payment.tsx
+ ┃ ┃ ┣ 📜ReservationForm.tsx
+ ┃ ┃ ┗ 📜ToggleSection.tsx
+ ┃ ┣ 📂search
+ ┃ ┃ ┣ 📜EmptyList.tsx
+ ┃ ┃ ┣ 📜FilterBtn.tsx
+ ┃ ┃ ┣ 📜Search.tsx
+ ┃ ┃ ┗ 📜SearchCard.tsx
+ ┃ ┣ 📜Button.tsx
+ ┃ ┣ 📜FutureReservation.tsx
+ ┃ ┗ 📜ReviewAndPortfolio.tsx
+ ┣ 📂hooks
+ ┃ ┣ 📜useBackNavigation.ts
+ ┃ ┣ 📜useInput.ts
+ ┃ ┗ 📜useNavigateTo.ts
+ ┣ 📂stores
+ ┣ 📂types
+ ┃ ┗ 📜request.d.ts
+ ┗ 📂utils
+ ┃ ┣ 📜formatDate.ts
+ ┃ ┗ 📜validate.ts
 
 ```
