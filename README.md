@@ -1,5 +1,5 @@
 # Haertz
-> **헤어 컨설팅 예약 플랫폼** <br/>
+> **퍼스널 헤어컨설팅 예약 서비스** <br/>
 > 개발기간: 2025.02.13 ~ 2024.20(약 일주일)
 
 <div align="center">
@@ -28,42 +28,28 @@
 
 
 ## About Project
-2025 Blaybus Hackathon 참여 프로젝트로 개발하였습니다. <br/>
-{어쩌구저쩌구}
+[2025 Blaybus Hackathon](https://www.blaybus.com/activities/420/landing) 참여 프로젝트로 개발하였습니다. 초기 창업 팀의 아이디어로 MVP를 구현하여 실질적인 비즈니스 가치를 함께 창출하는 해커톤입니다. <br/>
+시술 전 디자이너가 직접 헤어 컨설팅을 진행해 실패 없는 헤어스타일 변화를 이뤄내기 위해 만든 서비스입니다.
+컨설팅 유형/가격/지역/전문 분야 등으로 디자이너를 필터링하여 검색할 수 있어 검색의 편의성을 높였으며, 예약하기 페이지 등에서 하단 모달을 사용하여 빈번한 페이지 전환으로 인한 피로함을 줄였습니다. 
+카카오페이 API를 이용해 결제 기능을 구현하였습니다.
 
-## Starting Guide
-### Requirements
-For building and running the application you need:
-(채우기)
-
-### Installation
-``` bash
-(채우기)
-```
-
-```
-(채우기)
-```
-
----
 
 ## Stacks 
 
-
 ### Environment
-![Android Studio](https://img.shields.io/badge/android%20studio-3DDC84?style=for-the-badge&logo=androidstudio&logoColor=white)
 ![Github](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)                  
 
 ### Development
-![Kotlin](https://img.shields.io/badge/kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
-![Firebase](https://img.shields.io/badge/firebase-DD2C00?style=for-the-badge&logo=firebase&logoColor=white)
-![Google Map API](https://img.shields.io/badge/Google%20Map%20API-4285F4?style=for-the-badge&logo=googlemaps&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Kakao pay API](https://img.shields.io/badge/Kakao%20pay%20API-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=white)
 
 ### Design
 ![Figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
 
 ### Communication
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white)
 
 ---
 ## 화면 구성
